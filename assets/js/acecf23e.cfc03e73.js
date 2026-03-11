@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunksynapsekit_docs=globalThis.webpackChunksynapsekit_docs||[]).push([[1903],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/synapsekit-docs/blog","blogTitle":"Blog","authorsListPath":"/synapsekit-docs/blog/authors"}')}}]);
