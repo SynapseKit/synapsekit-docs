@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'SynapseKit',
   tagline: 'Async-first Python framework for building LLM applications.',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   future: { v4: true },
 
@@ -46,7 +46,7 @@ const config: Config = {
       {name: 'twitter:card', content: 'summary_large_image'},
     ],
     colorMode: {
-      defaultMode: 'dark',
+      defaultMode: 'light',
       respectPrefersColorScheme: true,
     },
     announcementBar: {
