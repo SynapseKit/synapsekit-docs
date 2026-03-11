@@ -1,41 +1,39 @@
-# Website
+# SynapseKit Docs
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Documentation site for [SynapseKit](https://github.com/SynapseKit/SynapseKit) — async-first Python framework for building LLM applications.
 
-## Installation
+**Live site:** https://synapsekit.github.io/synapsekit-docs/
 
-```bash
-yarn
-```
+---
 
-## Local Development
+## Local development
 
 ```bash
-yarn start
+npm install
+npm start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Opens http://localhost:3000. Changes hot-reload without a restart.
 
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Generates static output to `build/`.
 
-## Deployment
+## Deploy
 
-Using SSH:
+The site auto-deploys to GitHub Pages on every push to `main` via GitHub Actions.
 
-```bash
-USE_SSH=true yarn deploy
-```
+---
 
-Not using SSH:
+## Stack
 
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
+- [Docusaurus 3](https://docusaurus.io/) — static site generator
+- Hosted on GitHub Pages
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## Contributing
+
+Found a docs error or want to improve an example? Open an issue or PR in this repo. For library bugs/features, use the [main repo](https://github.com/SynapseKit/SynapseKit/issues).
