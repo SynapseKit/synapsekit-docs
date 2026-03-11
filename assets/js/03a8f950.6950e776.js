@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunksynapsekit_docs=globalThis.webpackChunksynapsekit_docs||[]).push([[2903],{7999(s){s.exports=JSON.parse('{"metadata":{"permalink":"/synapsekit-docs/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
