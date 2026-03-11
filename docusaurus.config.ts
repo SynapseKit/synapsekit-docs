@@ -129,7 +129,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} SynapseKit. Released under the MIT License.`,
     },
     prism: {
-      theme: prismThemes.oneDark,
+      theme: prismThemes.oneLight,
       darkTheme: prismThemes.oneDark,
       additionalLanguages: ['python', 'bash', 'toml'],
     },

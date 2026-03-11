@@ -202,15 +202,46 @@ div[class*='announcementBar'] a:hover { text-decoration: underline; }
   font-size: 13.5px !important;
   line-height: 1.65 !important;
 }
+
+/* Light theme: clean white with blue-tinted header strip */
+[data-theme='light'] .prism-code {
+  background: #f8fafd !important;
+  border: 1px solid #c8d8ef !important;
+}
+[data-theme='light'] div[class*='codeBlockContainer'] {
+  border: 1px solid #c8d8ef;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(9, 105, 218, 0.06);
+}
+[data-theme='light'] div[class*='codeBlockTitle'] {
+  background: #edf2fb;
+  border-bottom: 1px solid #c8d8ef;
+  color: #0969da;
+}
+/* token color boosts for oneLight on light bg */
+[data-theme='light'] .token.keyword   { color: #7c3aed !important; font-weight: 600; }
+[data-theme='light'] .token.function  { color: #0550ae !important; }
+[data-theme='light'] .token.string    { color: #0a7bbd !important; }
+[data-theme='light'] .token.comment   { color: #6e7f96 !important; font-style: italic; }
+[data-theme='light'] .token.number    { color: #1a7f37 !important; }
+[data-theme='light'] .token.operator  { color: #953800 !important; }
+[data-theme='light'] .token.class-name { color: #953800 !important; font-weight: 600; }
+[data-theme='light'] .token.builtin   { color: #7c3aed !important; }
+
+/* Dark theme */
 [data-theme='dark'] .prism-code {
   background: #161b22 !important;
-  border: 1px solid #30363d;
+  border: 1px solid #30363d !important;
 }
-[data-theme='light'] .prism-code {
-  border: 1px solid #d0d7de;
+[data-theme='dark'] div[class*='codeBlockContainer'] {
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: none;
 }
 
-div[class*='codeBlockContainer'] { box-shadow: none; border-radius: 10px; }
+div[class*='codeBlockContainer'] { border-radius: 10px; }
 div[class*='codeBlockTitle'] {
   font-family: var(--ifm-font-family-monospace);
   font-size: 12px;
@@ -219,6 +250,10 @@ div[class*='codeBlockTitle'] {
   padding: 8px 16px;
   color: var(--sk-muted);
 }
+
+/* Copy button */
+button[class*='copyButton'] { color: var(--sk-muted) !important; }
+button[class*='copyButton']:hover { color: var(--ifm-color-content) !important; }
 
 /* ─── Admonitions ──────────────────────────────────── */
 .admonition { border-radius: 8px; border: none; font-size: 14px; }
