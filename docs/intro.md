@@ -4,55 +4,84 @@ sidebar_position: 1
 
 # Introduction
 
-**SynapseKit** is a lightweight, async-first RAG framework for Python.
+**SynapseKit** is an async-first Python framework for building LLM applications — RAG pipelines, tool-using agents, and async graph workflows — with a clean, minimal API.
 
-> What FastAPI did to Flask/Django — SynapseKit does to LangChain.
+It is designed from the ground up to be **async-native** and **streaming-first**. Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state.
 
-## Why SynapseKit?
-
-| | LangChain | LlamaIndex | **SynapseKit** |
-|---|---|---|---|
-| Streaming-native | ✗ | ✗ | **✓** |
-| Async-native | Partial | Partial | **✓** |
-| Install size | ~500MB | ~400MB | **~50MB** |
-| No magic / no callbacks | ✗ | ✗ | **✓** |
-| Hard dependencies | Many | Many | **2** (`numpy` + `rank-bm25`) |
-
-## Three-line quickstart
-
-```python
-from synapsekit import RAG
-
-rag = RAG(model="gpt-4o-mini", api_key="sk-...")
-rag.add("Your document text here")
-
-# Streaming
-async for token in rag.stream("What is the main topic?"):
-    print(token, end="", flush=True)
-
-# Non-streaming
-answer = await rag.ask("What is the main topic?")
-
-# Sync (notebooks / scripts)
-answer = rag.ask_sync("What is the main topic?")
-```
-
-## What's included
-
-**Phase 2 is complete.** SynapseKit now ships:
-
-- **7 LLM providers** — OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock
-- **8 document loaders** — Text, String, PDF, HTML, CSV, JSON, Directory, Web
-- **3 output parsers** — JSON, Pydantic, List
-- **3 prompt templates** — PromptTemplate, ChatPromptTemplate, FewShotPromptTemplate
-- **5 vector store backends** — InMemory, Chroma, FAISS, Qdrant, Pinecone
-- **Full RAG pipeline** — chunking, embedding, retrieval, BM25 rerank, streaming, memory, tracing
+---
 
 ## Design principles
 
-1. `stream()` is always primary — `generate()` is just `"".join([...async for...])`
-2. All I/O is `async`. Sync wrappers use `asyncio.run()`.
-3. Every external import is lazy with clear error messages
-4. No global state — every class is independently instantiable
-5. Hard deps: `numpy` + `rank-bm25` only. Everything else optional.
-6. No chains, no callbacks, no magic — just async functions and plain classes
+These are not aspirational goals. They are hard constraints baked into every API decision.
+
+**1. `stream()` is always primary.**
+`ask()` and `run()` are implemented as `"".join(stream(...))`. Streaming is never a bolt-on.
+
+**2. All I/O is async.**
+Every method that does I/O — embedding, retrieval, LLM calls, tool execution — is a coroutine. Sync wrappers (`ask_sync`, `run_sync`) are provided for convenience but call into the async layer.
+
+**3. Lazy external imports with clear errors.**
+`import openai` only happens when you use OpenAI. Every optional import raises a helpful `ImportError` that tells you exactly what to install.
+
+**4. No global state.**
+Every class is independently instantiable. Two `RAG` instances with different models work without interference.
+
+**5. 2 hard dependencies.**
+`numpy` (vector math) and `rank-bm25` (BM25 retrieval) are the only required packages. Everything else — LLM providers, vector stores, PDF parsing, web fetching — is behind an optional install extra.
+
+**6. Transparent, plain Python.**
+No chains. No declarative pipelines. No YAML. Just async functions and plain Python classes you can read, subclass, and override.
+
+---
+
+## What's in the box
+
+### RAG Pipelines
+
+Full retrieval-augmented generation with chunking, embedding, vector search, BM25 reranking, conversation memory, token tracing, and streaming.
+
+→ [RAG Pipeline docs](/docs/rag/pipeline)
+
+### 9 LLM providers
+
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock — all behind `BaseLLM`. Auto-detected from the model name.
+
+→ [LLM Provider docs](/docs/llms/overview)
+
+### 4 vector store backends
+
+InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone — all behind `VectorStore`.
+
+→ [Vector store docs](/docs/rag/vector-stores)
+
+### 8 document loaders
+
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `DirectoryLoader`, `WebLoader`.
+
+→ [Loader docs](/docs/rag/loaders)
+
+### Agents
+
+`ReActAgent` — Thought → Action → Observation loop, works with any LLM.
+`FunctionCallingAgent` — native `tool_calls` / `tool_use` for OpenAI and Anthropic.
+`AgentExecutor` — unified runner, picks the right agent from config.
+5 built-in tools: Calculator, PythonREPL, FileRead, WebSearch, SQL.
+
+→ [Agent docs](/docs/agents/overview)
+
+### Graph Workflows
+
+`StateGraph` — fluent DAG builder with compile-time validation and cycle detection.
+`CompiledGraph` — wave-based async executor. Parallel nodes via `asyncio.gather`. Conditional routing. Mermaid export.
+
+→ [Graph docs](/docs/graph/overview)
+
+### Utilities
+
+Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-shot), `ConversationMemory`, `TokenTracer`.
+
+---
+
+## Version
+
+Current version: **0.4.0** — see the [Changelog](https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md) and [Roadmap](/docs/roadmap).

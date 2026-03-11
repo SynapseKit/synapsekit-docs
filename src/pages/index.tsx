@@ -1,104 +1,163 @@
 import type {ReactNode} from 'react';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
-import Heading from '@theme/Heading';
-
 import styles from './index.module.css';
 
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="docs/intro">
-            Get Started →
-          </Link>
-          <Link
-            className="button button--outline button--secondary button--lg"
-            style={{marginLeft: '1rem'}}
-            href="https://github.com/SynapseKit/SynapseKit">
-            GitHub
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function Feature({title, description}: {title: string; description: string}) {
-  return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center padding-horiz--md padding-vert--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
-      </div>
-    </div>
-  );
-}
-
-const features = [
+const FEATURES = [
   {
+    icon: '⚡',
     title: 'Async-native',
-    description:
-      'Built async from day one. stream() is primary — not an afterthought bolted onto a sync API.',
+    desc: 'Every API is async/await first. No sync-first retrofit. Sync wrappers included for scripts and notebooks.',
   },
   {
-    title: '~50MB install',
-    description:
-      'Two hard dependencies: numpy and rank-bm25. Everything else is optional. Compare to LangChain\'s ~500MB.',
+    icon: '🌊',
+    title: 'Streaming-first',
+    desc: 'Token-level streaming is the default, not an afterthought. Works identically across all 9 LLM providers.',
   },
   {
+    icon: '🪶',
+    title: '2 hard dependencies',
+    desc: 'numpy and rank-bm25 only. Every other capability is behind an optional extra. Install what you need.',
+  },
+  {
+    icon: '🔌',
+    title: 'One interface',
+    desc: '9 LLM providers and 4 vector stores behind the same API. Swap providers without rewriting a single line.',
+  },
+  {
+    icon: '🧩',
+    title: 'Fully composable',
+    desc: 'RAG pipelines, agents, and graph nodes are interchangeable. Wrap anything as anything.',
+  },
+  {
+    icon: '🔍',
     title: 'No magic',
-    description:
-      'No chains, no callbacks, no hidden state. Just async functions and plain Python classes you can read and understand.',
+    desc: 'No hidden chains, no callbacks, no global state. Every step is plain Python you can read and override.',
+  },
+];
+
+const NAV_CARDS = [
+  {
+    icon: '🗂',
+    title: 'RAG Pipelines',
+    desc: 'Retrieval-augmented generation with streaming, BM25 reranking, conversation memory, and token tracing.',
+    href: '/docs/rag/pipeline',
+  },
+  {
+    icon: '🤖',
+    title: 'Agents',
+    desc: 'ReAct loop for any LLM. Native function calling for OpenAI and Anthropic. 5 built-in tools, fully extensible.',
+    href: '/docs/agents/overview',
+  },
+  {
+    icon: '🔀',
+    title: 'Graph Workflows',
+    desc: 'DAG-based async pipelines. Parallel node execution, conditional routing, compile-time validation.',
+    href: '/docs/graph/overview',
+  },
+  {
+    icon: '🧠',
+    title: 'LLM Providers',
+    desc: 'OpenAI, Anthropic, Ollama, Gemini, Cohere, Mistral, Bedrock — all behind one interface.',
+    href: '/docs/llms/overview',
+  },
+  {
+    icon: '🗄',
+    title: 'Vector Stores',
+    desc: 'InMemory, ChromaDB, FAISS, Qdrant, Pinecone. One interface for all backends. Swap without rewriting.',
+    href: '/docs/rag/vector-stores',
+  },
+  {
+    icon: '📖',
+    title: 'API Reference',
+    desc: 'Complete reference for every public class and method in SynapseKit.',
+    href: '/docs/api/llm',
   },
 ];
 
 export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
+  const bannerUrl = useBaseUrl('img/banner.svg');
+
   return (
     <Layout
-      title={siteConfig.title}
-      description="Lightweight, async-first RAG framework for Python. What FastAPI did to Flask — SynapseKit does to LangChain.">
-      <HomepageHeader />
-      <main>
-        <section className={styles.features}>
+      title="SynapseKit — Async-first Python framework for LLM applications"
+      description="Build RAG pipelines, agents, and graph workflows in Python. Async-native, streaming-first, 2 core dependencies."
+    >
+      <div className={styles.page}>
+
+        {/* ── Hero ─────────────────────────────────────────────────────── */}
+        <section className="sk-hero">
           <div className="container">
-            <div className="row">
-              {features.map((props) => (
-                <Feature key={props.title} {...props} />
-              ))}
+            <img className="banner" src={bannerUrl} alt="SynapseKit" />
+            <p className="tagline">
+              Build RAG pipelines, agents, and graph workflows in Python.<br />
+              Async-native · Streaming-first · 2 core dependencies.
+            </p>
+            <div className="ctas">
+              <Link className="btn-primary" to="/docs/getting-started/quickstart">
+                Get started →
+              </Link>
+              <Link className="btn-secondary" to="/docs/intro">
+                What is SynapseKit?
+              </Link>
+              <a className="btn-secondary" href="https://github.com/SynapseKit/SynapseKit" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
             </div>
-          </div>
-        </section>
-        <section style={{padding: '2rem 0', background: 'var(--ifm-background-surface-color)'}}>
-          <div className="container">
-            <div className="row">
-              <div className="col col--8 col--offset-2">
-                <Heading as="h2" className="text--center">RAG in 3 lines</Heading>
-                <pre style={{marginTop: '1rem'}}>
-                  <code className="language-python">{`from synapsekit import RAG
-
-rag = RAG(model="gpt-4o-mini", api_key="sk-...")
-rag.add("Your document text here")
-
-async for token in rag.stream("What is the main topic?"):
-    print(token, end="", flush=True)`}</code>
-                </pre>
+            <div>
+              <div className="sk-install">
+                <span className="prompt">$</span>
+                <span>pip install synapsekit[openai]</span>
               </div>
             </div>
           </div>
         </section>
-      </main>
+
+        {/* ── Features ─────────────────────────────────────────────────── */}
+        <section className="sk-features">
+          <div className="container">
+            <p className="sk-section-label">Why SynapseKit</p>
+            <h2 className="sk-section-title">Built for production Python</h2>
+            <p className="sk-section-subtitle">
+              Designed for engineers who want full control without writing everything from scratch.
+            </p>
+            <div className="sk-features-grid">
+              {FEATURES.map(f => (
+                <div key={f.title} className="sk-feature-card">
+                  <span className="sk-feature-icon">{f.icon}</span>
+                  <div className="sk-feature-title">{f.title}</div>
+                  <p className="sk-feature-desc">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Navigation cards ─────────────────────────────────────────── */}
+        <section className="sk-nav-cards">
+          <div className="container">
+            <p className="sk-section-label">Explore the docs</p>
+            <h2 className="sk-section-title">Everything you need</h2>
+            <p className="sk-section-subtitle">
+              From a 3-line quickstart to production graph workflows.
+            </p>
+            <div className="sk-nav-grid">
+              {NAV_CARDS.map(c => (
+                <Link key={c.title} className="sk-nav-card" to={c.href}>
+                  <div className="sk-nav-card-header">
+                    <span className="sk-nav-card-icon">{c.icon}</span>
+                    <span className="sk-nav-card-title">{c.title}</span>
+                  </div>
+                  <p className="sk-nav-card-desc">{c.desc}</p>
+                  <span className="sk-nav-card-arrow">Read docs →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      </div>
     </Layout>
   );
 }
