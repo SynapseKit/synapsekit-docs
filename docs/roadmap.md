@@ -51,12 +51,16 @@ sidebar_position: 99
   - `SQLQueryTool` — SQLite (stdlib) + SQLAlchemy for other databases
 - 223 tests, all passing
 
-## Phase 4 — Graph Workflows 🔜
+## Phase 4 — Graph Workflows ✅ Done
 
-- `Graph` — DAG-based workflow primitive
-- `Node`, `Edge`, `ConditionalEdge`
-- Parallel node execution
-- Mermaid diagram export
+- **`StateGraph`** — fluent DAG builder with compile-time validation and cycle detection
+- **`CompiledGraph`** — wave-based async executor, `run()` / `stream()` / `run_sync()`
+- **`Node`**, **`Edge`**, **`ConditionalEdge`** — sync + async node functions and routing
+- **`agent_node()`**, **`rag_node()`** — wrap agents and RAG pipelines as graph nodes
+- **Parallel execution** — nodes in the same wave run via `asyncio.gather()`
+- **Mermaid diagram export** — `get_mermaid()` for any compiled graph
+- **`_MAX_STEPS = 100`** guard against infinite conditional loops
+- 267 tests, all passing
 
 ## Phase 5 — Structured Output + Evaluation 🔜
 

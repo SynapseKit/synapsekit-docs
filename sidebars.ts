@@ -48,6 +48,18 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Graph Workflows',
+      items: [
+        'graph/overview',
+        'graph/state-graph',
+        'graph/nodes',
+        'graph/edges',
+        'graph/compiled-graph',
+        'graph/mermaid',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Memory & Tracing',
       items: ['memory/conversation', 'memory/token-tracer'],
     },
