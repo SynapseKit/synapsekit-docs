@@ -9,6 +9,11 @@ const sidebars: SidebarsConfig = {
       items: ['getting-started/installation', 'getting-started/quickstart'],
     },
     {
+  type: 'doc',
+  id: 'faq',
+  label: 'FAQ',
+},
+    {
       type: 'category',
       label: 'RAG',
       items: [
