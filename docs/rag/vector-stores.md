@@ -11,7 +11,8 @@ from synapsekit.retrieval.base import VectorStore
 
 class VectorStore(ABC):
     async def add(self, texts: list[str], metadata: list[dict] | None = None) -> None: ...
-    async def search(self, query: str, top_k: int = 5) -> list[dict]: ...
+    async def search(self, query: str, top_k: int = 5, metadata_filter: dict | None = None) -> list[dict]: ...
+    async def search_mmr(self, query: str, top_k: int = 5, lambda_mult: float = 0.5, fetch_k: int = 20) -> list[dict]: ...
     def save(self, path: str) -> None: ...   # optional
     def load(self, path: str) -> None: ...   # optional
 ```
@@ -31,7 +32,13 @@ store = InMemoryVectorStore(embeddings)
 await store.add(["chunk one", "chunk two"], metadata=[{"src": "doc1"}, {"src": "doc2"}])
 
 results = await store.search("my query", top_k=3)
-# results[0] → {"text": "...", "score": 0.92, "metadata": {...}}
+# results[0] -> {"text": "...", "score": 0.92, "metadata": {...}}
+
+# Metadata filtering
+results = await store.search("my query", top_k=3, metadata_filter={"src": "doc1"})
+
+# MMR search (diversity-aware)
+results = await store.search_mmr("my query", top_k=3, lambda_mult=0.5)
 
 # Persist to disk
 store.save("my_store.npz")

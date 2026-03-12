@@ -76,15 +76,45 @@ sidebar_position: 99
 - **`RAGConfig.splitter`** — plug any `BaseSplitter` into the RAG pipeline
 - 332 tests, all passing
 
-## Phase 6 — Structured Output + Evaluation 🔜
+## Phase 6 — Polish & Ecosystem ✅ Done (v0.5.1–v0.5.3)
 
-- Pydantic model output with retry on parse failure
+### v0.5.1
+- **`@tool` decorator** — create agent tools from plain functions with auto-generated JSON Schema
+- **Metadata filtering** — `VectorStore.search(metadata_filter={"key": "value"})`
+- **Vector store lazy exports** — all backends importable from `synapsekit`
+- **File existence checks** — loaders raise `FileNotFoundError` before attempting to read
+- **Parameter validation** — agents and memory reject invalid config
+- 357 tests, all passing
+
+### v0.5.2
+- **`__repr__` methods** — human-readable repr on `StateGraph`, `CompiledGraph`, `RAGPipeline`, `ReActAgent`, `FunctionCallingAgent`
+- **Empty document handling** — `RAGPipeline.add()` silently skips empty text
+- **Retry for `call_with_tools()`** — `LLMConfig(max_retries=N)` applies to function calling
+- **Cache hit/miss statistics** — `BaseLLM.cache_stats` property
+- **MMR retrieval** — `search_mmr()` and `retrieve_mmr()` for diversity-aware retrieval
+- **Rate limiting** — `LLMConfig(requests_per_minute=N)` with token-bucket algorithm
+- **Structured output with retry** — `generate_structured(llm, prompt, schema=Model)` parses to Pydantic
+- 389 tests, all passing
+
+### v0.5.3
+- **Azure OpenAI** — `AzureOpenAILLM` for enterprise Azure deployments
+- **Groq** — `GroqLLM` for ultra-fast inference (Llama, Mixtral, Gemma)
+- **DeepSeek** — `DeepSeekLLM` with function calling support
+- **SQLite LLM cache** — persistent cache via `LLMConfig(cache_backend="sqlite")`
+- **RAG Fusion** — `RAGFusionRetriever` with multi-query + Reciprocal Rank Fusion
+- **Excel loader** — `ExcelLoader` for `.xlsx` files
+- **PowerPoint loader** — `PowerPointLoader` for `.pptx` files
+- 10 LLM providers, 10 document loaders, 415 tests passing
+
+## Phase 7 — Advanced Retrieval & Evaluation 🔜
+
+- Multi-modal support (image inputs for vision models)
 - `Evaluator` — faithfulness, relevancy, groundedness
 - RAGAS-style metrics
-- Multi-modal support (image inputs for vision models)
+- Advanced retrieval: Contextual Retrieval, FLARE, Step-Back Prompting
 - Conversation branching and tree-of-thought
 
-## Phase 7 — Platform 🔜
+## Phase 8 — Platform 🔜
 
 - Local observability UI (LangSmith-style, open source)
 - Streaming UI helpers — SSE + WebSocket for FastAPI

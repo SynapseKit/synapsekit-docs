@@ -52,6 +52,44 @@ Different values for any of these produce different cache keys.
 
 The cache uses an LRU (Least Recently Used) eviction policy. When `cache_maxsize` is exceeded, the oldest unused entry is evicted.
 
+### SQLite cache (persistent)
+
+For caching that survives process restarts, use the SQLite backend:
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    cache=True,
+    cache_backend="sqlite",              # Use SQLite instead of in-memory
+    cache_db_path="llm_cache.db",        # Default: "synapsekit_llm_cache.db"
+))
+```
+
+The SQLite cache stores responses in a local database file. Entries persist across restarts and have no size limit (no LRU eviction).
+
+### Cache statistics
+
+Monitor cache effectiveness via the `cache_stats` property:
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    cache=True,
+))
+
+await llm.generate("What is Python?")
+await llm.generate("What is Python?")  # cache hit
+
+print(llm.cache_stats)
+# {"hits": 1, "misses": 1, "size": 1}
+```
+
+Returns an empty dict when caching is disabled.
+
 ## Exponential backoff retries
 
 Retry transient failures (rate limits, network errors) with exponential backoff.
@@ -99,15 +137,76 @@ llm = OpenAILLM(LLMConfig(
 
 The flow is: **cache check → retry-wrapped API call → cache store**.
 
+### Retries for function calling
+
+`call_with_tools()` also respects `max_retries`. Transient API failures are retried automatically:
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    max_retries=3,
+))
+
+# call_with_tools() now retries on transient errors
+result = await llm.call_with_tools(messages=[...], tools=[...])
+```
+
+## Rate limiting
+
+Prevent hitting provider rate limits with a token-bucket rate limiter:
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    requests_per_minute=60,  # Max 60 requests per minute
+))
+
+# All calls (generate, stream, call_with_tools) are rate-limited
+response = await llm.generate("Hello!")
+```
+
+The rate limiter uses a token-bucket algorithm: tokens refill at a steady rate (`requests_per_minute / 60` per second). When no tokens are available, the call waits until one becomes available.
+
+## Structured output
+
+Generate structured (JSON/Pydantic) output with automatic retry on parse failure:
+
+```python
+from pydantic import BaseModel
+from synapsekit import generate_structured
+
+class Person(BaseModel):
+    name: str
+    age: int
+
+result = await generate_structured(
+    llm,
+    "Tell me about Albert Einstein",
+    schema=Person,
+    max_retries=3,
+)
+print(result.name)  # "Albert Einstein"
+print(result.age)   # 76
+```
+
+If the LLM returns invalid JSON, the function retries with feedback asking for valid output.
+
 ## LLMConfig reference
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `cache` | `bool` | `False` | Enable LRU response caching |
-| `cache_maxsize` | `int` | `128` | Maximum number of cached responses |
+| `cache` | `bool` | `False` | Enable response caching |
+| `cache_maxsize` | `int` | `128` | Maximum cached responses (memory backend) |
+| `cache_backend` | `str` | `"memory"` | `"memory"` (LRU) or `"sqlite"` (persistent) |
+| `cache_db_path` | `str` | `"synapsekit_llm_cache.db"` | SQLite file path |
 | `max_retries` | `int` | `0` | Maximum retry attempts (0 = no retries) |
 | `retry_delay` | `float` | `1.0` | Initial delay in seconds (doubles each attempt) |
+| `requests_per_minute` | `int \| None` | `None` | Rate limit (None = unlimited) |
 
 :::info
-These fields work with all LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, and Bedrock.
+These fields work with all 10 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, and DeepSeek.
 :::

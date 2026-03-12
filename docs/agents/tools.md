@@ -4,7 +4,36 @@ sidebar_position: 4
 
 # Built-in Tools
 
-## Creating a custom tool
+## `@tool` decorator (recommended)
+
+The easiest way to create a tool — just decorate a function:
+
+```python
+from synapsekit import tool
+
+@tool(name="uppercase", description="Convert text to uppercase")
+def uppercase(text: str) -> str:
+    return text.upper()
+
+# Use it with any agent
+agent = ReActAgent(llm=llm, tools=[uppercase])
+```
+
+The decorator auto-generates the JSON Schema from type hints. Supports both sync and async functions:
+
+```python
+@tool(name="fetch_url", description="Fetch a URL")
+async def fetch_url(url: str) -> str:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            return await resp.text()
+```
+
+If you omit `name` and `description`, they default to the function name and docstring.
+
+## Creating a custom tool (class-based)
+
+For more control, extend `BaseTool` directly:
 
 ```python
 from synapsekit import BaseTool, ToolResult

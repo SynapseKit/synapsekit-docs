@@ -168,6 +168,42 @@ docs = WebLoader("https://example.com").load_sync()
 
 ---
 
+## ExcelLoader
+
+Load an Excel (.xlsx) file, one Document per sheet. Each sheet is converted to tab-separated text.
+
+```bash
+pip install synapsekit[excel]
+```
+
+```python
+from synapsekit import ExcelLoader
+
+docs = ExcelLoader("data.xlsx").load()
+# docs[0].text     -> tab-separated rows
+# docs[0].metadata -> {"source": "data.xlsx", "sheet": "Sheet1"}
+```
+
+---
+
+## PowerPointLoader
+
+Load a PowerPoint (.pptx) file, one Document per slide. Extracts text from all shapes.
+
+```bash
+pip install synapsekit[pptx]
+```
+
+```python
+from synapsekit import PowerPointLoader
+
+docs = PowerPointLoader("presentation.pptx").load()
+# docs[0].text     -> text from slide 1
+# docs[0].metadata -> {"source": "presentation.pptx", "slide": 0}
+```
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

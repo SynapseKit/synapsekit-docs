@@ -33,8 +33,11 @@ config = LLMConfig(
     # Optional: caching and retries
     cache=False,          # Enable LRU response caching
     cache_maxsize=128,    # Max cached responses
+    cache_backend="memory",  # "memory" or "sqlite"
     max_retries=0,        # Retry attempts (0 = disabled)
     retry_delay=1.0,      # Initial retry delay in seconds
+    # Rate limiting
+    requests_per_minute=None,  # Token-bucket rate limiter
 )
 ```
 
@@ -51,6 +54,9 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Mistral | `MistralLLM` | `pip install synapsekit[mistral]` | `"mistral"` |
 | Google Gemini | `GeminiLLM` | `pip install synapsekit[gemini]` | `"gemini"` |
 | AWS Bedrock | `BedrockLLM` | `pip install synapsekit[bedrock]` | `"bedrock"` |
+| Azure OpenAI | `AzureOpenAILLM` | `pip install synapsekit[openai]` | `"azure"` |
+| Groq | `GroqLLM` | `pip install synapsekit[groq]` | `"groq"` |
+| DeepSeek | `DeepSeekLLM` | `pip install synapsekit[openai]` | `"deepseek"` |
 
 ## Auto-detection
 
@@ -62,6 +68,8 @@ The `RAG` facade auto-detects the provider from the model name:
 | `gemini-*` | `gemini` |
 | `command-*` | `cohere` |
 | `mistral-*`, `open-mistral-*` | `mistral` |
+| `deepseek-*` | `deepseek` |
+| `llama-*`, `mixtral-*`, `gemma-*` | `groq` |
 | everything else | `openai` |
 
 Override with the `provider=` argument:
