@@ -64,6 +64,12 @@ See [Caching & Retries](/docs/llms/caching-retries) for usage details.
 | `MistralLLM` | `synapsekit.llm.mistral` | `synapsekit[mistral]` |
 | `GeminiLLM` | `synapsekit.llm.gemini` | `synapsekit[gemini]` |
 | `BedrockLLM` | `synapsekit.llm.bedrock` | `synapsekit[bedrock]` |
+| `AzureOpenAILLM` | `synapsekit.llm.azure_openai` | `synapsekit[openai]` |
+| `GroqLLM` | `synapsekit.llm.groq` | `synapsekit[groq]` |
+| `DeepSeekLLM` | `synapsekit.llm.deepseek` | `synapsekit[openai]` |
+| `OpenRouterLLM` | `synapsekit.llm.openrouter` | `synapsekit[openai]` |
+| `TogetherLLM` | `synapsekit.llm.together` | `synapsekit[openai]` |
+| `FireworksLLM` | `synapsekit.llm.fireworks` | `synapsekit[openai]` |
 
 All providers share the same constructor signature:
 
@@ -72,6 +78,7 @@ LLM(config: LLMConfig)
 ```
 
 `BedrockLLM` accepts an additional optional `region: str = "us-east-1"` argument.
+`AzureOpenAILLM` accepts additional `azure_endpoint`, `api_version`, and `azure_deployment` arguments.
 
 ## `call_with_tools()`
 
@@ -81,8 +88,14 @@ Available on providers that support native function calling:
 |---|---|
 | `OpenAILLM` | ✅ |
 | `AnthropicLLM` | ✅ |
-| `GeminiLLM` | ✅ (v0.5.0) |
-| `MistralLLM` | ✅ (v0.5.0) |
+| `GeminiLLM` | ✅ |
+| `MistralLLM` | ✅ |
+| `DeepSeekLLM` | ✅ |
+| `OpenRouterLLM` | ✅ |
+| `TogetherLLM` | ✅ |
+| `FireworksLLM` | ✅ |
+| `AzureOpenAILLM` | ✅ |
+| `GroqLLM` | ✅ |
 | `OllamaLLM` | ❌ — use `ReActAgent` |
 | `CohereLLM` | ❌ — use `ReActAgent` |
 | `BedrockLLM` | ❌ — use `ReActAgent` |

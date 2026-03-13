@@ -42,21 +42,21 @@ Full retrieval-augmented generation with chunking, embedding, vector search, BM2
 
 → [RAG Pipeline docs](/docs/rag/pipeline)
 
-### 9 LLM providers
+### 13 LLM providers
 
-OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock — all behind `BaseLLM`. Auto-detected from the model name.
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks — all behind `BaseLLM`. Auto-detected from the model name.
 
 → [LLM Provider docs](/docs/llms/overview)
 
-### 4 vector store backends
+### 5 vector store backends
 
 InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone — all behind `VectorStore`.
 
 → [Vector store docs](/docs/rag/vector-stores)
 
-### 8 document loaders
+### 12 document loaders
 
-`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `DirectoryLoader`, `WebLoader`.
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, plus contextual and sentence-window strategies.
 
 → [Loader docs](/docs/rag/loaders)
 
@@ -65,23 +65,33 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 `ReActAgent` — Thought → Action → Observation loop, works with any LLM.
 `FunctionCallingAgent` — native `tool_calls` / `tool_use` for OpenAI, Anthropic, Gemini, and Mistral.
 `AgentExecutor` — unified runner, picks the right agent from config.
-5 built-in tools: Calculator, PythonREPL, FileRead, WebSearch, SQL.
+11 built-in tools: Calculator, PythonREPL, FileRead, FileWrite, FileList, WebSearch, SQL, HTTP, DateTime, Regex, JSONQuery.
 
 → [Agent docs](/docs/agents/overview)
 
 ### Graph Workflows
 
 `StateGraph` — fluent graph builder with compile-time validation, optional cycle support, and configurable step limits.
-`CompiledGraph` — wave-based async executor. Parallel nodes via `asyncio.gather`. Conditional routing, checkpointing, and Mermaid export.
+`CompiledGraph` — wave-based async executor. Parallel nodes via `asyncio.gather`. Conditional routing, checkpointing, human-in-the-loop interrupts, subgraphs, token-level streaming, and Mermaid export.
 
 → [Graph docs](/docs/graph/overview)
 
+### Advanced Retrieval
+
+RAG Fusion, Contextual Retrieval, Sentence Window, Self-Query (LLM-generated filters), Parent Document, Cross-Encoder reranking.
+
+→ [Retrieval docs](/docs/rag/retriever)
+
+### Memory
+
+`ConversationMemory` (sliding window), `HybridMemory` (window + LLM summary), `TokenTracer` (tokens, latency, cost).
+
 ### Utilities
 
-Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-shot), `ConversationMemory`, `TokenTracer`.
+Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-shot), structured output with Pydantic validation.
 
 ---
 
 ## Version
 
-Current version: **0.5.0** — see the [Changelog](https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md) and [Roadmap](/docs/roadmap).
+Current version: **0.6.1** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).

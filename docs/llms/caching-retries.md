@@ -208,5 +208,5 @@ If the LLM returns invalid JSON, the function retries with feedback asking for v
 | `requests_per_minute` | `int \| None` | `None` | Rate limit (None = unlimited) |
 
 :::info
-These fields work with all 10 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, and DeepSeek.
+These fields work with all 13 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, and Fireworks.
 :::

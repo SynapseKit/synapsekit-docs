@@ -77,6 +77,7 @@ const sidebars: SidebarsConfig = {
       label: 'API Reference',
       items: ['api/llm', 'api/vector-store', 'api/retriever'],
     },
+    'changelog',
     'roadmap',
   ],
 };
