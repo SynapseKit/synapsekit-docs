@@ -85,15 +85,42 @@ except GraphRuntimeError as e:
     print(f"Runtime failure: {e}")
 ```
 
-## `resume(graph_id, checkpointer)` — async
+## `resume(graph_id, checkpointer, updates=None)` — async
 
-Resume execution from a previously checkpointed state:
+Resume execution from a previously checkpointed state. Optionally apply human edits before resuming:
 
 ```python
+# Simple resume
 result = await graph.resume("run-1", cp)
+
+# Resume with human edits (Human-in-the-Loop)
+result = await graph.resume("run-1", cp, updates={"approved": True, "feedback": "Looks good"})
 ```
 
+The `updates` dict is merged into the checkpointed state before re-execution begins. This is the key mechanism for [Human-in-the-Loop](/docs/graph/checkpointing#human-in-the-loop) workflows.
+
 Raises `GraphRuntimeError` if no checkpoint exists for the given `graph_id`. See [Checkpointing](/docs/graph/checkpointing) for details.
+
+## `stream_tokens(state)` — async generator
+
+Yield token-level events from LLM nodes that have `stream=True`. Non-streaming nodes emit a `node_complete` event instead.
+
+```python
+async for event in graph.stream_tokens({"input": "Explain RAG"}):
+    if event["type"] == "token":
+        print(event["token"], end="", flush=True)
+    elif event["type"] == "node_complete":
+        print(f"\n[{event['node']} finished]")
+```
+
+| Event key | Type | Description |
+|---|---|---|
+| `"type"` | `str` | `"token"` or `"node_complete"` |
+| `"node"` | `str` | Name of the node |
+| `"token"` | `str` | Token text (only for `"token"` events) |
+| `"state"` | `dict` | State snapshot (only for `"node_complete"` events) |
+
+See [Nodes — Token streaming](/docs/graph/nodes#token-streaming) for how to create streaming LLM nodes.
 
 ## _MAX_STEPS guard
 

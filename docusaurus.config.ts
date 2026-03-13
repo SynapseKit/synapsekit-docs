@@ -50,8 +50,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v060',
-      content: '🎉 SynapseKit v0.6.0 — 6 new built-in tools, OpenRouter/Together/Fireworks providers, Contextual & Sentence Window retrieval. <a href="/synapsekit-docs/docs/roadmap">See what\'s new →</a>',
+      id: 'v061',
+      content: '🎉 SynapseKit v0.6.1 — Human-in-the-Loop, Subgraphs, Token Streaming, Self-Query & Parent Document retrievers, Cross-Encoder reranking, HybridMemory. <a href="/synapsekit-docs/docs/roadmap">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -78,7 +78,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v0.6.0</span>',
+          value: '<span class="navbar__version">v0.6.1</span>',
         },
         {
           href: 'https://github.com/SynapseKit/SynapseKit',

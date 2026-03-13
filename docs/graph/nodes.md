@@ -85,6 +85,120 @@ graph = (
 | `rag_node` | `input_key` | `"input"` | State key to read the query from |
 | `rag_node` | `output_key` | `"output"` | State key to write the answer to |
 
+### `llm_node(llm, input_key, output_key, stream)`
+
+Wrap a `BaseLLM` as a node, with optional token-level streaming support.
+
+```python
+from synapsekit import StateGraph, llm_node
+from synapsekit.llm.openai import OpenAILLM
+from synapsekit.llm.base import LLMConfig
+
+llm = OpenAILLM(LLMConfig(model="gpt-4o-mini", api_key="sk-..."))
+
+graph = (
+    StateGraph()
+    .add_node("llm", llm_node(llm, input_key="prompt", output_key="response"))
+    .set_entry_point("llm")
+    .set_finish_point("llm")
+    .compile()
+)
+
+result = await graph.run({"prompt": "Explain RAG in one sentence"})
+print(result["response"])
+```
+
+With `stream=True`, the node emits token-level streaming events. See [Token Streaming](#token-streaming) and [CompiledGraph.stream_tokens()](/docs/graph/compiled-graph#stream_tokensstate--async-generator) for details.
+
+```python
+node_fn = llm_node(llm, stream=True)
+```
+
+### `subgraph_node(compiled_graph, input_mapping, output_mapping)`
+
+Wrap a `CompiledGraph` as a node for nesting graphs. This lets you compose complex workflows from smaller, independently testable graphs.
+
+```python
+from synapsekit import StateGraph, subgraph_node
+
+# Build a subgraph
+async def process(state):
+    return {"output": state["input"].upper()}
+
+sub = (
+    StateGraph()
+    .add_node("process", process)
+    .set_entry_point("process")
+    .set_finish_point("process")
+    .compile()
+)
+
+# Nest it in a parent graph
+parent = (
+    StateGraph()
+    .add_node("sub", subgraph_node(
+        sub,
+        input_mapping={"query": "input"},
+        output_mapping={"output": "sub_result"},
+    ))
+    .set_entry_point("sub")
+    .set_finish_point("sub")
+    .compile()
+)
+
+result = await parent.run({"query": "hello"})
+print(result["sub_result"])  # "HELLO"
+```
+
+**Key points:**
+
+- `input_mapping` maps parent state keys to subgraph state keys. If omitted, the full parent state is passed through.
+- `output_mapping` maps subgraph output keys to parent state keys. If omitted, the subgraph result is returned as-is.
+- The subgraph runs with its own internal state, fully isolated from the parent.
+
+## Parameters
+
+| Helper | Parameter | Default | Description |
+|---|---|---|---|
+| `agent_node` | `input_key` | `"input"` | State key to read the question from |
+| `agent_node` | `output_key` | `"output"` | State key to write the answer to |
+| `rag_node` | `input_key` | `"input"` | State key to read the query from |
+| `rag_node` | `output_key` | `"output"` | State key to write the answer to |
+| `llm_node` | `input_key` | `"input"` | State key to read the prompt from |
+| `llm_node` | `output_key` | `"output"` | State key to write the response to |
+| `llm_node` | `stream` | `False` | Enable token-level streaming |
+| `subgraph_node` | `input_mapping` | `None` | Map parent keys to subgraph keys |
+| `subgraph_node` | `output_mapping` | `None` | Map subgraph output keys to parent keys |
+
+## Token streaming
+
+When an LLM node has `stream=True`, use `CompiledGraph.stream_tokens()` to receive token-by-token events:
+
+```python
+graph = (
+    StateGraph()
+    .add_node("llm", llm_node(llm, stream=True))
+    .set_entry_point("llm")
+    .set_finish_point("llm")
+    .compile()
+)
+
+async for event in graph.stream_tokens({"input": "Tell me about RAG"}):
+    if event["type"] == "token":
+        print(event["token"], end="", flush=True)
+    elif event["type"] == "node_complete":
+        print(f"\n[{event['node']} finished]")
+```
+
+Each event is a dict:
+
+| Key | Type | Description |
+|---|---|---|
+| `"type"` | `str` | Either `"token"` or `"node_complete"` |
+| `"node"` | `str` | Name of the node emitting the event |
+| `"token"` | `str` | The token text (only for `"token"` events) |
+| `"state"` | `dict` | State snapshot (only for `"node_complete"` events) |
+
 ## Parallel nodes
 
 Nodes that are reachable in the same wave (no dependency between them) run concurrently via `asyncio.gather`. No extra configuration needed — just add edges from a common predecessor to multiple nodes.

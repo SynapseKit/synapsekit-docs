@@ -114,7 +114,56 @@ result = await graph.run({"input": "data"}, checkpointer=cp, graph_id="run-1")
 result = await graph.resume("run-1", cp)
 ```
 
-→ [Checkpointing docs](/docs/graph/checkpointing)
+-> [Checkpointing docs](/docs/graph/checkpointing)
+
+## Human-in-the-Loop
+
+Nodes can raise `GraphInterrupt` to pause execution for human review. The state is checkpointed and `resume(updates=...)` applies edits before continuing:
+
+```python
+from synapsekit import GraphInterrupt
+
+async def review(state):
+    raise GraphInterrupt(message="Review needed", data={"draft": state["draft"]})
+
+# After human review:
+result = await graph.resume("run-1", cp, updates={"draft": "edited text"})
+```
+
+-> [Human-in-the-Loop docs](/docs/graph/checkpointing#human-in-the-loop)
+
+## Subgraphs
+
+Nest a compiled graph as a node in a parent graph using `subgraph_node()`:
+
+```python
+from synapsekit import subgraph_node
+
+parent.add_node("sub", subgraph_node(
+    compiled_sub,
+    input_mapping={"query": "input"},
+    output_mapping={"output": "sub_result"},
+))
+```
+
+-> [Subgraphs docs](/docs/graph/nodes#subgraph_nodecompiled_graph-input_mapping-output_mapping)
+
+## Token streaming
+
+Stream tokens from LLM nodes using `llm_node(stream=True)` and `stream_tokens()`:
+
+```python
+from synapsekit import llm_node
+
+graph.add_node("llm", llm_node(llm, stream=True))
+compiled = graph.compile()
+
+async for event in compiled.stream_tokens({"input": "Tell me about RAG"}):
+    if event["type"] == "token":
+        print(event["token"], end="")
+```
+
+-> [Token streaming docs](/docs/graph/nodes#token-streaming)
 
 ## What's validated at compile time
 

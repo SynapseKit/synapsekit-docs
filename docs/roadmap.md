@@ -124,6 +124,16 @@ sidebar_position: 99
   - `SentenceWindowRetriever` — sentence-level embedding with window expansion
 - 13 LLM providers, 11 built-in tools, 12 document loaders, 452 tests passing
 
+## Phase 7.1 — Graph Power-ups & Advanced Retrieval (v0.6.1)
+
+- **Graph: Human-in-the-Loop** — `GraphInterrupt` exception pauses execution for human review; `InterruptState` holds interrupt details; `resume(updates=...)` applies human edits and continues
+- **Graph: Subgraphs** — `subgraph_node(compiled_graph, input_mapping, output_mapping)` nests a `CompiledGraph` as a node in a parent graph
+- **Graph: Token Streaming** — `llm_node(llm, stream=True)` + `compiled.stream_tokens(state)` yields `{"type": "token", "node", "token"}` events for real-time LLM output
+- **Retrieval: SelfQueryRetriever** — LLM decomposes natural-language queries into semantic search + metadata filters automatically
+- **Retrieval: ParentDocumentRetriever** — embeds small chunks for precision, returns full parent documents for context
+- **Retrieval: CrossEncoderReranker** — reranks retrieval results with cross-encoder models for higher precision (`pip install synapsekit[semantic]`)
+- **Memory: HybridMemory** — sliding window of recent messages + LLM summary of older messages for token-efficient long conversations
+
 ## Phase 8 — Evaluation & Multi-modal 🔜
 
 - Multi-modal support (image inputs for vision models)
