@@ -69,6 +69,18 @@ CREATE TABLE checkpoints (
 );
 ```
 
+### JSONFileCheckpointer
+
+Persists checkpoints as JSON files on disk. Each graph gets its own `{graph_id}.json` file. No external dependencies.
+
+```python
+from synapsekit import JSONFileCheckpointer
+
+cp = JSONFileCheckpointer("./checkpoints")
+```
+
+Each file stores `{"step": N, "state": {...}}`. Good for simple file-based persistence without a database.
+
 ## Resuming execution
 
 Use `resume()` to re-execute a graph from its last checkpointed state:

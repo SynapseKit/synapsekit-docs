@@ -69,6 +69,23 @@ llm = OpenAILLM(LLMConfig(
 
 The SQLite cache stores responses in a local database file. Entries persist across restarts and have no size limit (no LRU eviction).
 
+### Filesystem cache (persistent)
+
+For a lightweight persistent cache using JSON files (no database required):
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    cache=True,
+    cache_backend="filesystem",                  # Use filesystem instead of in-memory
+    cache_db_path=".synapsekit_cache",           # Directory for cache files
+))
+```
+
+Each cache entry is stored as a separate `.json` file in the cache directory. Like the SQLite cache, entries persist across restarts and have no size limit.
+
 ### Cache statistics
 
 Monitor cache effectiveness via the `cache_stats` property:
@@ -201,7 +218,7 @@ If the LLM returns invalid JSON, the function retries with feedback asking for v
 |---|---|---|---|
 | `cache` | `bool` | `False` | Enable response caching |
 | `cache_maxsize` | `int` | `128` | Maximum cached responses (memory backend) |
-| `cache_backend` | `str` | `"memory"` | `"memory"` (LRU) or `"sqlite"` (persistent) |
+| `cache_backend` | `str` | `"memory"` | `"memory"` (LRU), `"sqlite"` (persistent DB), or `"filesystem"` (persistent JSON files) |
 | `cache_db_path` | `str` | `"synapsekit_llm_cache.db"` | SQLite file path |
 | `max_retries` | `int` | `0` | Maximum retry attempts (0 = no retries) |
 | `retry_delay` | `float` | `1.0` | Initial delay in seconds (doubles each attempt) |
