@@ -370,6 +370,56 @@ r = await tool.run(query="machine learning", max_results=3)
 
 ---
 
+## ShellTool
+
+Execute shell commands with timeout and optional command whitelist.
+
+```python
+from synapsekit import ShellTool
+
+tool = ShellTool(timeout=30)
+
+r = await tool.run(command="echo hello world")
+# r.output → "hello world\n"
+
+# Restrict allowed commands for security
+tool = ShellTool(allowed_commands=["echo", "ls", "cat"])
+r = await tool.run(command="echo safe")    # works
+r = await tool.run(command="rm -rf /")     # error: not in allowed list
+```
+
+:::warning
+`ShellTool` executes real shell commands. Use `allowed_commands` to restrict which commands can be run in untrusted environments.
+:::
+
+---
+
+## SQLSchemaInspectionTool
+
+Inspect database schema — list tables and describe columns.
+
+```python
+from synapsekit import SQLSchemaInspectionTool
+
+# SQLite (stdlib, no extra deps)
+tool = SQLSchemaInspectionTool(connection_string="mydb.db")
+
+# List all tables
+r = await tool.run(action="list_tables")
+# r.output → "users, posts, comments"
+
+# Describe a table's columns
+r = await tool.run(action="describe_table", table_name="users")
+# r.output → "id (INTEGER, nullable=False, pk=True)\nname (TEXT, ...)"
+```
+
+```python
+# PostgreSQL / MySQL (requires sqlalchemy)
+tool = SQLSchemaInspectionTool(connection_string="postgresql://user:pass@localhost/mydb")
+```
+
+---
+
 ## SummarizationTool
 
 Summarize text using an LLM. Supports concise, bullet point, and detailed styles.
