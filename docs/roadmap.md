@@ -158,6 +158,18 @@ sidebar_position: 99
 - **Tools: TranslationTool** — translate text between languages
 - 13 providers, 16 tools, 12 loaders, 10 retrieval strategies, 4 memory backends, 540 tests passing
 
+## Phase 7.4 — Loaders, HyDE, Tools, Caching & Checkpointing ✅ Done (v0.6.4)
+
+- **Loaders: DocxLoader** — load Microsoft Word (.docx) files with python-docx (`pip install synapsekit[docx]`)
+- **Loaders: MarkdownLoader** — load Markdown files with optional YAML frontmatter stripping (stdlib, no deps)
+- **Retrieval: HyDERetriever** — Hypothetical Document Embeddings: generates a hypothetical answer with an LLM and uses it as the search query for improved retrieval
+- **Tools: ShellTool** — async shell command execution with configurable timeout and allowed_commands whitelist
+- **Tools: SQLSchemaInspectionTool** — inspect database schema (list_tables, describe_table) for SQLite and SQLAlchemy backends
+- **LLM: FilesystemLLMCache** — persistent file-based LLM cache using JSON files on disk (`cache_backend="filesystem"`)
+- **Graph: JSONFileCheckpointer** — file-based graph checkpointing using JSON files
+- **Observability: COST_TABLE** — updated with GPT-4.1 family, o3/o4-mini, Gemini 2.5, DeepSeek, Groq-hosted models
+- 13 providers, 19 tools, 14 loaders, 11 retrieval strategies, 3 cache backends, 3 checkpointers, 587 tests passing
+
 ## Phase 8 — Evaluation & Multi-modal 🔜
 
 - Multi-modal support (image inputs for vision models)

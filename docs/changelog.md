@@ -8,6 +8,32 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v0.6.4 — Loaders, HyDE, Tools, Caching & Checkpointing
+
+**Loaders (2 new)**
+- `DocxLoader` — load Microsoft Word (.docx) files (`pip install synapsekit[docx]`)
+- `MarkdownLoader` — load Markdown files with optional YAML frontmatter stripping (stdlib, no deps)
+
+**Retrieval (1 new strategy)**
+- `HyDERetriever` — Hypothetical Document Embeddings: generates a hypothetical answer with an LLM and uses it as the search query for improved retrieval
+
+**Tools (2 new)**
+- `ShellTool` — async shell command execution with configurable timeout and allowed_commands whitelist
+- `SQLSchemaInspectionTool` — inspect database schema (list_tables, describe_table) for SQLite and SQLAlchemy backends
+
+**LLM Caching (1 new backend)**
+- `FilesystemLLMCache` — persistent file-based cache using JSON files on disk (`cache_backend="filesystem"`)
+
+**Graph (1 new checkpointer)**
+- `JSONFileCheckpointer` — file-based graph checkpointing using JSON files
+
+**Observability**
+- `COST_TABLE` updated with GPT-4.1 family, o3/o3-mini/o4-mini, Gemini 2.5 Pro/Flash, DeepSeek-V3/R1, Groq-hosted models
+
+**Stats:** 587 tests, 13 providers, 19 tools, 14 loaders, 11 retrieval strategies, 3 cache backends, 3 checkpointers
+
+---
+
 ## v0.6.3 — Typed State, Fan-Out, SSE Streaming & LLM Tools
 
 **Graph Workflows**
