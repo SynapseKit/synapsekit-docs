@@ -170,12 +170,23 @@ sidebar_position: 99
 - **Observability: COST_TABLE** — updated with GPT-4.1 family, o3/o4-mini, Gemini 2.5, DeepSeek, Groq-hosted models
 - 13 providers, 19 tools, 14 loaders, 11 retrieval strategies, 3 cache backends, 3 checkpointers, 587 tests passing
 
+## Phase 7.5 — Retrieval, Tools, Memory & Redis Cache ✅ Done (v0.6.5)
+
+- **Retrieval: CohereReranker** — rerank results using the Cohere Rerank API (`pip install synapsekit[cohere]`)
+- **Retrieval: StepBackRetriever** — generate a step-back question, retrieve in parallel for both, deduplicate
+- **Retrieval: FLARERetriever** — Forward-Looking Active REtrieval: iterative generate/retrieve loop with `[SEARCH: ...]` markers
+- **Tools: DuckDuckGoSearchTool** — extended DuckDuckGo search with text and news search types
+- **Tools: PDFReaderTool** — read and extract text from PDF files with optional page selection
+- **Tools: GraphQLTool** — execute GraphQL queries against any endpoint
+- **Memory: TokenBufferMemory** — token-budget-aware memory that drops oldest messages (no LLM needed)
+- **LLM: RedisLLMCache** — distributed Redis cache backend (`pip install synapsekit[redis]`)
+- 13 providers, 22 tools, 14 loaders, 14 retrieval strategies, 4 cache backends, 6 memory backends, 642 tests passing
+
 ## Phase 8 — Evaluation & Multi-modal 🔜
 
 - Multi-modal support (image inputs for vision models)
 - `Evaluator` — faithfulness, relevancy, groundedness
 - RAGAS-style metrics
-- Advanced retrieval: FLARE, Step-Back Prompting
 - Conversation branching and tree-of-thought
 
 ## Phase 9 — Platform 🔜

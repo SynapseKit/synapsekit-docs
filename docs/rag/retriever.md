@@ -375,6 +375,115 @@ The process:
 3. Scores are summed across retrievers for documents appearing in multiple result sets
 4. Final results are sorted by fused score
 
+## Cohere Reranking
+
+The `CohereReranker` uses Cohere's rerank models to rerank retrieval results for higher precision. Unlike `CrossEncoderReranker` (local model), this uses the Cohere Rerank API.
+
+```python
+from synapsekit import CohereReranker
+
+reranker = CohereReranker(
+    retriever=retriever,
+    model="rerank-v3.5",
+    fetch_k=20,  # Initial candidates to retrieve before reranking
+)
+
+results = await reranker.retrieve("What is RAG?", top_k=5)
+```
+
+The process:
+1. `fetch_k` candidates are retrieved using standard vector search
+2. Candidates are sent to the Cohere Rerank API
+3. Results are reranked by relevance score and the top `top_k` are returned
+
+### Getting scores
+
+Use `retrieve_with_scores()` to see the Cohere relevance scores:
+
+```python
+results = await reranker.retrieve_with_scores("What is RAG?", top_k=5)
+for r in results:
+    print(r["text"], r["relevance_score"])
+```
+
+### API key
+
+The API key is resolved in order:
+1. `api_key` parameter
+2. `CO_API_KEY` environment variable
+
+:::info
+Requires `cohere`: `pip install synapsekit[cohere]`
+:::
+
+## Step-Back Retrieval
+
+The `StepBackRetriever` generates a more abstract "step-back" question using an LLM, retrieves for both the original and step-back queries in parallel, and merges deduplicated results. This improves retrieval for specific or narrow questions by also searching with a broader perspective.
+
+```python
+from synapsekit import StepBackRetriever
+
+step_back = StepBackRetriever(
+    retriever=retriever,
+    llm=llm,
+)
+
+results = await step_back.retrieve("What is the melting point of gold?", top_k=5)
+```
+
+The process:
+1. The LLM generates a step-back (more abstract) question from the original query
+2. Both the original and step-back queries are used to retrieve results in parallel
+3. Results are merged and deduplicated, preserving order
+
+### Custom prompt template
+
+Override the default prompt to control how step-back questions are generated:
+
+```python
+step_back = StepBackRetriever(
+    retriever=retriever,
+    llm=llm,
+    prompt_template="Given this question, ask a more general version:\n{query}",
+)
+```
+
+The template must include `{query}` as a placeholder for the user's question.
+
+## FLARE (Forward-Looking Active REtrieval)
+
+The `FLARERetriever` implements an iterative retrieve-generate-retrieve loop. It generates an answer, identifies parts that need more information (marked with `[SEARCH: ...]`), retrieves for those sub-queries, and regenerates — repeating until no more search markers appear or `max_iterations` is reached.
+
+```python
+from synapsekit import FLARERetriever
+
+flare = FLARERetriever(
+    retriever=retriever,
+    llm=llm,
+    max_iterations=3,
+)
+
+results = await flare.retrieve("Explain the history of quantum computing", top_k=5)
+```
+
+The process:
+1. Initial retrieval for the original query
+2. LLM generates an answer, inserting `[SEARCH: sub-query]` markers where it needs more information
+3. Sub-queries are extracted from the markers
+4. If no markers are found, return current documents
+5. New retrieval is performed for each sub-query
+6. Results are merged, deduplicated, and the process repeats (up to `max_iterations`)
+
+### Parameters
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for answer generation |
+| `max_iterations` | `3` | Maximum generate-retrieve cycles |
+| `generate_prompt` | built-in | Prompt for initial answer generation |
+| `regenerate_prompt` | built-in | Prompt for regeneration with new context |
+
 ## HyDE (Hypothetical Document Embeddings)
 
 The `HyDERetriever` generates a hypothetical answer to the query using an LLM, then uses that hypothetical answer as the search query. This often improves retrieval for complex or abstract questions because the hypothetical answer is closer in embedding space to relevant documents than the original question.
@@ -485,3 +594,30 @@ The template must include `{query}` as a placeholder for the user's question.
 | `retrievers` | — | List of `Retriever` instances |
 | `weights` | equal | Weight for each retriever in RRF scoring |
 | `rrf_k` | `60` | RRF constant (higher = less aggressive reranking) |
+
+### CohereReranker
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `model` | `"rerank-v3.5"` | Cohere rerank model name |
+| `api_key` | `None` | Cohere API key (falls back to `CO_API_KEY` env var) |
+| `fetch_k` | `20` | Number of initial candidates to retrieve |
+
+### StepBackRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for generating step-back questions |
+| `prompt_template` | built-in | Custom prompt (must include `{query}`) |
+
+### FLARERetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for answer generation |
+| `max_iterations` | `3` | Maximum generate-retrieve cycles |
+| `generate_prompt` | built-in | Prompt for initial answer generation |
+| `regenerate_prompt` | built-in | Prompt for regeneration with new context |

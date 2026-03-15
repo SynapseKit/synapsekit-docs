@@ -137,6 +137,101 @@ r = await tool.run(query="SynapseKit async RAG framework", max_results=3)
 
 ---
 
+## DuckDuckGoSearchTool
+
+Extended DuckDuckGo search with support for both text and news search types. Returns numbered results.
+
+```bash
+pip install synapsekit[search]
+```
+
+```python
+from synapsekit import DuckDuckGoSearchTool
+
+tool = DuckDuckGoSearchTool()
+
+# Text search (default)
+r = await tool.run(query="SynapseKit framework", max_results=5)
+# r.output → "1. Title\n   URL\n   Snippet\n\n2. ..."
+
+# News search
+r = await tool.run(query="AI frameworks", search_type="news", max_results=3)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of results |
+| `search_type` | `"text"` | `"text"` or `"news"` |
+
+---
+
+## PDFReaderTool
+
+Read and extract text from PDF files with optional page selection.
+
+```bash
+pip install synapsekit[pdf]
+```
+
+```python
+from synapsekit import PDFReaderTool
+
+tool = PDFReaderTool()
+
+# Read all pages
+r = await tool.run(file_path="/path/to/document.pdf")
+# r.output → "--- Page 1 ---\n...\n\n--- Page 2 ---\n..."
+
+# Read specific pages
+r = await tool.run(file_path="/path/to/document.pdf", page_numbers="1,3,5")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `file_path` | — | Path to the PDF file (required) |
+| `page_numbers` | all pages | Comma-separated page numbers (e.g. `"1,3,5"`) |
+
+---
+
+## GraphQLTool
+
+Execute GraphQL queries against any endpoint.
+
+```bash
+pip install synapsekit[http]
+```
+
+```python
+from synapsekit import GraphQLTool
+
+tool = GraphQLTool(timeout=30)
+
+# Basic query
+r = await tool.run(
+    url="https://api.example.com/graphql",
+    query="{ users { id name } }",
+)
+# r.output → formatted JSON response
+
+# With variables and headers
+r = await tool.run(
+    url="https://api.example.com/graphql",
+    query="query($id: ID!) { user(id: $id) { name } }",
+    variables='{"id": "1"}',
+    headers='{"Authorization": "Bearer token123"}',
+)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `url` | — | GraphQL endpoint URL (required) |
+| `query` | — | GraphQL query string (required) |
+| `variables` | `""` | JSON string of variables |
+| `headers` | `""` | JSON string of extra HTTP headers |
+
+---
+
 ## SQLQueryTool
 
 Run SQL `SELECT` queries against SQLite or any SQLAlchemy-supported database.

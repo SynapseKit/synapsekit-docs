@@ -86,6 +86,27 @@ llm = OpenAILLM(LLMConfig(
 
 Each cache entry is stored as a separate `.json` file in the cache directory. Like the SQLite cache, entries persist across restarts and have no size limit.
 
+### Redis cache (persistent, shared)
+
+For distributed or high-throughput caching with Redis:
+
+```python
+llm = OpenAILLM(LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    provider="openai",
+    cache=True,
+    cache_backend="redis",                          # Use Redis
+    cache_db_path="redis://localhost:6379",          # Redis URL
+))
+```
+
+The Redis cache stores responses as JSON strings with an optional TTL. It supports shared caching across multiple processes or services.
+
+:::info
+Requires `redis`: `pip install synapsekit[redis]`
+:::
+
 ### Cache statistics
 
 Monitor cache effectiveness via the `cache_stats` property:
@@ -218,12 +239,12 @@ If the LLM returns invalid JSON, the function retries with feedback asking for v
 |---|---|---|---|
 | `cache` | `bool` | `False` | Enable response caching |
 | `cache_maxsize` | `int` | `128` | Maximum cached responses (memory backend) |
-| `cache_backend` | `str` | `"memory"` | `"memory"` (LRU), `"sqlite"` (persistent DB), or `"filesystem"` (persistent JSON files) |
+| `cache_backend` | `str` | `"memory"` | `"memory"` (LRU), `"sqlite"` (persistent DB), `"filesystem"` (persistent JSON files), or `"redis"` (distributed) |
 | `cache_db_path` | `str` | `"synapsekit_llm_cache.db"` | SQLite file path |
 | `max_retries` | `int` | `0` | Maximum retry attempts (0 = no retries) |
 | `retry_delay` | `float` | `1.0` | Initial delay in seconds (doubles each attempt) |
 | `requests_per_minute` | `int \| None` | `None` | Rate limit (None = unlimited) |
 
 :::info
-These fields work with all 13 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, and Fireworks.
+These fields work with all 13 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, and Fireworks. The 4 cache backends (memory, SQLite, filesystem, Redis) are interchangeable across all providers.
 :::

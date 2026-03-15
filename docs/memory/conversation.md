@@ -251,3 +251,56 @@ context = memory.format_context()
 | `format_context()` | `str` | Formatted string, sync, no summarization |
 | `clear()` | `None` | Clear all messages and summary |
 | `summary` | `str` | The current running summary (property) |
+
+---
+
+## TokenBufferMemory
+
+`TokenBufferMemory` tracks approximate token count and drops the oldest messages when the buffer exceeds a token limit. Unlike `SummaryBufferMemory`, this does **not** use an LLM — it simply discards the oldest messages to stay within budget.
+
+### Usage
+
+```python
+from synapsekit.memory.token_buffer import TokenBufferMemory
+
+memory = TokenBufferMemory(
+    max_tokens=4000,
+    chars_per_token=4,  # Estimation ratio
+)
+
+memory.add("user", "Hello!")
+memory.add("assistant", "Hi there! How can I help you today?")
+
+# Messages are returned as-is (no async, no LLM needed)
+messages = memory.get_messages()
+# [{"role": "user", "content": "Hello!"}, {"role": "assistant", "content": "..."}]
+```
+
+### How it works
+
+1. When `add()` is called, the message is appended to the buffer
+2. The total token count is estimated (`len(content) // chars_per_token`)
+3. If the total exceeds `max_tokens`, the oldest messages are dropped one at a time until the buffer fits
+
+### Formatting for prompts
+
+```python
+context = memory.format_context()
+# "User: Hello!\nAssistant: Hi there! How can I help you today?"
+```
+
+### Parameters
+
+| Parameter | Default | Description |
+|---|---|---|
+| `max_tokens` | `4000` | Token budget for the buffer (must be >= 1) |
+| `chars_per_token` | `4` | Characters per token for estimation |
+
+### Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `add(role, content)` | `None` | Append a message and trim if over budget |
+| `get_messages()` | `list[dict]` | Current message history (sync) |
+| `format_context()` | `str` | Formatted conversation string (sync) |
+| `clear()` | `None` | Clear all messages |

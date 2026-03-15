@@ -8,6 +8,28 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v0.6.5 — Retrieval, Tools, Memory & Redis Cache
+
+**Retrieval (3 new strategies)**
+- `CohereReranker` — rerank retrieval results using the Cohere Rerank API (`pip install synapsekit[cohere]`)
+- `StepBackRetriever` — generates a more abstract "step-back" question, retrieves for both original and step-back in parallel, deduplicates
+- `FLARERetriever` — Forward-Looking Active REtrieval: iterative generate/retrieve loop with `[SEARCH: ...]` markers
+
+**Tools (3 new)**
+- `DuckDuckGoSearchTool` — extended DuckDuckGo search with text and news search types (`pip install synapsekit[search]`)
+- `PDFReaderTool` — read and extract text from PDF files with optional page selection (`pip install synapsekit[pdf]`)
+- `GraphQLTool` — execute GraphQL queries against any endpoint (`pip install synapsekit[http]`)
+
+**Memory (1 new)**
+- `TokenBufferMemory` — token-budget-aware memory that drops oldest messages when over limit (no LLM needed)
+
+**LLM Caching (1 new backend)**
+- `RedisLLMCache` — distributed Redis cache backend (`pip install synapsekit[redis]`)
+
+**Stats:** 642 tests, 13 providers, 22 tools, 14 loaders, 14 retrieval strategies, 4 cache backends, 6 memory backends
+
+---
+
 ## v0.6.4 — Loaders, HyDE, Tools, Caching & Checkpointing
 
 **Loaders (2 new)**
