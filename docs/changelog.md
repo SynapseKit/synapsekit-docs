@@ -8,6 +8,30 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v0.6.6 — Providers, Retrieval, Tools & Memory
+
+**LLM Providers (2 new)**
+- `PerplexityLLM` — Perplexity AI with Sonar models, OpenAI-compatible (`pip install synapsekit[openai]`)
+- `CerebrasLLM` — Cerebras ultra-fast inference, OpenAI-compatible (`pip install synapsekit[openai]`)
+
+**Retrieval (4 new strategies)**
+- `HybridSearchRetriever` — combines BM25 keyword matching with vector similarity using Reciprocal Rank Fusion
+- `SelfRAGRetriever` — self-reflective RAG: retrieve → grade relevance → generate → check support → retry
+- `AdaptiveRAGRetriever` — LLM classifies query complexity and routes to different retrieval strategies
+- `MultiStepRetriever` — iterative retrieval-generation with gap identification and follow-up queries
+
+**Tools (2 new)**
+- `ArxivSearchTool` — search arXiv for academic papers via the Atom API (stdlib only, no deps)
+- `TavilySearchTool` — AI-optimized web search via Tavily API (`pip install synapsekit[tavily]`)
+
+**Memory (2 new)**
+- `BufferMemory` — simplest unbounded buffer, keeps all messages until cleared (no LLM, no trimming)
+- `EntityMemory` — LLM-based entity extraction with running descriptions and eviction policy
+
+**Stats:** 698 tests, 15 providers, 24 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends
+
+---
+
 ## v0.6.5 — Retrieval, Tools, Memory & Redis Cache
 
 **Retrieval (3 new strategies)**

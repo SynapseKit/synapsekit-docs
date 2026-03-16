@@ -39,6 +39,8 @@ const sidebars: SidebarsConfig = {
         'llms/openrouter',
         'llms/together',
         'llms/fireworks',
+        'llms/perplexity',
+        'llms/cerebras',
         'llms/caching-retries',
       ],
     },

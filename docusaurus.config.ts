@@ -50,8 +50,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v065',
-      content: '🎉 SynapseKit v0.6.5 — CohereReranker, StepBackRetriever, FLARERetriever, DuckDuckGoSearchTool, PDFReaderTool, GraphQLTool, TokenBufferMemory, RedisLLMCache. <a href="/synapsekit-docs/docs/roadmap">See what\'s new →</a>',
+      id: 'v066',
+      content: '🎉 SynapseKit v0.6.6 — HybridSearch, SelfRAG, AdaptiveRAG, MultiStep retrieval, PerplexityLLM, CerebrasLLM, ArxivSearch, TavilySearch, BufferMemory, EntityMemory. <a href="/synapsekit-docs/docs/roadmap">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -78,7 +78,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v0.6.5</span>',
+          value: '<span class="navbar__version">v0.6.6</span>',
         },
         {
           href: 'https://github.com/SynapseKit/SynapseKit',

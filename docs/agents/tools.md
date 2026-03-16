@@ -572,3 +572,55 @@ r = await tool.run(text="Hello world!", target_language="Spanish")
 r = await tool.run(text="Bonjour", target_language="English", source_language="French")
 # r.output → "Hello"
 ```
+
+---
+
+## ArxivSearchTool
+
+Search arXiv for academic papers. Uses the arXiv API — no API key required, no extra dependencies (stdlib only).
+
+```python
+from synapsekit import ArxivSearchTool
+
+tool = ArxivSearchTool()
+
+r = await tool.run(query="attention is all you need", max_results=3)
+# r.output → "1. **Attention Is All You Need**\n   Authors: Ashish Vaswani, ...\n   Link: ...\n   ..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of papers to return |
+
+---
+
+## TavilySearchTool
+
+AI-optimized web search via the Tavily API.
+
+```bash
+pip install synapsekit[tavily]
+```
+
+```python
+from synapsekit import TavilySearchTool
+
+tool = TavilySearchTool(api_key="tvly-...")
+
+r = await tool.run(query="latest AI breakthroughs", max_results=5)
+# r.output → "1. **Title**\n   URL: https://...\n   Content snippet..."
+
+# Advanced search depth
+r = await tool.run(query="RAG frameworks comparison", search_depth="advanced")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of results |
+| `search_depth` | `"basic"` | `"basic"` or `"advanced"` |
+
+The API key is resolved in order:
+1. `api_key` constructor parameter
+2. `TAVILY_API_KEY` environment variable

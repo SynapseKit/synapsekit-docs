@@ -76,6 +76,13 @@ poetry add "synapsekit[all]"         # Everything
 | `qdrant` | `qdrant-client` | `QdrantVectorStore` |
 | `pinecone` | `pinecone` | `PineconeVectorStore` |
 
+### Search
+
+| Extra | Installs | Use case |
+|---|---|---|
+| `search` | `duckduckgo-search` | `WebSearchTool`, `DuckDuckGoSearchTool` |
+| `tavily` | `tavily-python` | `TavilySearchTool` (AI-optimized search) |
+
 ### Embeddings
 
 | Extra | Installs | Use case |
@@ -115,5 +122,5 @@ poetry add "synapsekit[ollama,faiss,semantic]"
 
 ```python
 import synapsekit
-print(synapsekit.__version__)  # 0.4.0
+print(synapsekit.__version__)  # 0.6.6
 ```

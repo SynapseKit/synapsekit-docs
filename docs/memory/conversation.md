@@ -304,3 +304,99 @@ context = memory.format_context()
 | `get_messages()` | `list[dict]` | Current message history (sync) |
 | `format_context()` | `str` | Formatted conversation string (sync) |
 | `clear()` | `None` | Clear all messages |
+
+---
+
+## BufferMemory
+
+`BufferMemory` is the simplest memory backend — an unbounded buffer that keeps all messages until cleared. No windowing, no trimming, no LLM calls.
+
+### Usage
+
+```python
+from synapsekit.memory.buffer import BufferMemory
+
+memory = BufferMemory()
+
+memory.add("user", "Hello!")
+memory.add("assistant", "Hi there!")
+
+messages = memory.get_messages()
+# [{"role": "user", "content": "Hello!"}, {"role": "assistant", "content": "Hi there!"}]
+
+context = memory.format_context()
+# "User: Hello!\nAssistant: Hi there!"
+
+print(len(memory))  # 2
+memory.clear()
+```
+
+### Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `add(role, content)` | `None` | Append a message |
+| `get_messages()` | `list[dict]` | All messages (copy) |
+| `format_context()` | `str` | Formatted conversation string |
+| `clear()` | `None` | Clear all messages |
+
+---
+
+## EntityMemory
+
+`EntityMemory` uses an LLM to extract named entities from each message and maintains running descriptions. Useful for tracking people, places, organizations, and concepts across a conversation.
+
+### Usage
+
+```python
+from synapsekit.memory.entity import EntityMemory
+
+memory = EntityMemory(llm=llm, max_entities=50)
+
+await memory.add("user", "Alice works at Acme Corp in Paris.")
+await memory.add("assistant", "That's great! Acme Corp is a tech company.")
+
+# View tracked entities
+entities = memory.get_entities()
+# {"Alice": "A person who works at Acme Corp in Paris.",
+#  "Acme Corp": "A tech company located in Paris.",
+#  "Paris": "A city where Acme Corp is located."}
+```
+
+### How it works
+
+1. When `add()` is called, the LLM extracts entity names from the message
+2. For each entity, the LLM generates or updates a running description
+3. Entities are stored in an `OrderedDict` — most recently updated at the end
+4. When the entity count exceeds `max_entities`, the oldest entities are evicted
+
+### Formatting for prompts
+
+`format_context()` includes both entities and messages:
+
+```python
+context = memory.format_context()
+# "Known entities:
+#   - Alice: A person who works at Acme Corp in Paris.
+#   - Acme Corp: A tech company located in Paris.
+#
+# User: Alice works at Acme Corp in Paris.
+# Assistant: That's great! Acme Corp is a tech company."
+```
+
+### Parameters
+
+| Parameter | Default | Description |
+|---|---|---|
+| `llm` | — | LLM instance for entity extraction and summarization |
+| `max_entities` | `50` | Maximum entities to track (oldest evicted first) |
+
+### Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `add(role, content)` | `None` | Add message and extract/update entities (async) |
+| `get_messages()` | `list[dict]` | All messages (copy) |
+| `get_entities()` | `dict[str, str]` | Entity name → description mapping |
+| `format_context()` | `str` | Entities section + messages |
+| `clear()` | `None` | Clear messages and entities |

@@ -60,6 +60,8 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | OpenRouter | `OpenRouterLLM` | `pip install synapsekit[openai]` | `"openrouter"` |
 | Together AI | `TogetherLLM` | `pip install synapsekit[openai]` | `"together"` |
 | Fireworks AI | `FireworksLLM` | `pip install synapsekit[openai]` | `"fireworks"` |
+| Perplexity AI | `PerplexityLLM` | `pip install synapsekit[openai]` | `"perplexity"` |
+| Cerebras | `CerebrasLLM` | `pip install synapsekit[openai]` | `"cerebras"` |
 
 ## Auto-detection
 

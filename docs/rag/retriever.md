@@ -518,6 +518,131 @@ hyde = HyDERetriever(
 
 The template must include `{query}` as a placeholder for the user's question.
 
+## Hybrid Search Retrieval
+
+The `HybridSearchRetriever` combines BM25 keyword matching with vector similarity using Reciprocal Rank Fusion (RRF). This gives you the best of both sparse (keyword) and dense (vector) retrieval.
+
+```python
+from synapsekit import HybridSearchRetriever
+
+hybrid = HybridSearchRetriever(
+    retriever=retriever,
+    bm25_weight=0.5,
+    vector_weight=0.5,
+    rrf_k=60,
+)
+
+# Build the BM25 index from your documents
+hybrid.add_documents(["doc one text...", "doc two text...", "doc three text..."])
+
+# Retrieve — fuses BM25 and vector results via RRF
+results = await hybrid.retrieve("search query", top_k=5)
+```
+
+The process:
+1. Vector retrieval via the base retriever
+2. BM25 scoring on the indexed documents
+3. RRF fusion: `score = weight / (rrf_k + rank + 1)` for both result sets
+4. Results are sorted by fused score and deduplicated
+
+Uses the existing `rank-bm25` hard dependency — no extra install needed.
+
+## Self-RAG (Self-Reflective RAG)
+
+The `SelfRAGRetriever` implements a self-reflective retrieval loop: retrieve candidates, grade each for relevance, generate an answer, check if the documents support the answer, and retry with a rewritten query if not.
+
+```python
+from synapsekit import SelfRAGRetriever
+
+self_rag = SelfRAGRetriever(
+    retriever=retriever,
+    llm=llm,
+    max_iterations=2,
+    relevance_threshold=0.5,
+)
+
+results = await self_rag.retrieve("What is quantum computing?", top_k=5)
+```
+
+The process:
+1. Retrieve candidates using the base retriever
+2. LLM grades each document as "relevant" or "irrelevant"
+3. LLM generates an answer from relevant documents
+4. LLM checks if the answer is "fully", "partially", or "not" supported
+5. If not fully supported, the query is rewritten and the process repeats
+
+### Inspecting reflection metadata
+
+```python
+results, meta = await self_rag.retrieve_with_reflection("query", top_k=5)
+print(meta["iterations"])     # Number of iterations performed
+print(meta["support_level"])  # "fully", "partially", or "not"
+```
+
+## Adaptive RAG
+
+The `AdaptiveRAGRetriever` uses an LLM to classify query complexity (simple/moderate/complex) and routes to different retrieval strategies accordingly.
+
+```python
+from synapsekit import AdaptiveRAGRetriever
+
+adaptive = AdaptiveRAGRetriever(
+    llm=llm,
+    simple_retriever=basic_retriever,
+    moderate_retriever=fusion_retriever,
+    complex_retriever=multi_step_retriever,
+)
+
+results = await adaptive.retrieve("What is 2+2?")  # → routed to simple
+results = await adaptive.retrieve("Compare quantum and classical computing for ML")  # → routed to complex
+```
+
+The process:
+1. LLM classifies the query as "simple", "moderate", or "complex"
+2. The query is routed to the corresponding retriever
+3. Fallback: if `moderate_retriever` is not provided, uses `simple_retriever`; if `complex_retriever` is not provided, uses `moderate_retriever`
+
+### Inspecting classification
+
+```python
+results, classification = await adaptive.retrieve_with_classification("query")
+print(classification)  # "simple", "moderate", or "complex"
+```
+
+## Multi-Step Retrieval
+
+The `MultiStepRetriever` performs iterative retrieval-generation: retrieve documents, generate an answer, identify information gaps, retrieve for those gaps, and repeat until the answer is complete or `max_steps` is reached.
+
+```python
+from synapsekit import MultiStepRetriever
+
+ms = MultiStepRetriever(
+    retriever=retriever,
+    llm=llm,
+    max_steps=3,
+)
+
+results = await ms.retrieve("What is the history and future of quantum computing?", top_k=5)
+```
+
+The process:
+1. Initial retrieval for the original query
+2. LLM generates an answer from retrieved documents
+3. LLM identifies gaps — returns search queries for missing information, or "COMPLETE" if done
+4. Gap queries are used for additional retrieval
+5. New documents are added (deduplicated) and the process repeats
+
+### Inspecting the step trace
+
+```python
+results, trace = await ms.retrieve_with_steps("query")
+for step in trace:
+    print(step["step"], step["query"], step["new_docs"])
+    # step 0: initial query, N new docs
+    # step 1: ["gap query 1", "gap query 2"], M new docs
+    # step 2: None, 0 new docs, complete=True
+```
+
 ## Parameters
 
 ### Retriever
@@ -621,3 +746,39 @@ The template must include `{query}` as a placeholder for the user's question.
 | `max_iterations` | `3` | Maximum generate-retrieve cycles |
 | `generate_prompt` | built-in | Prompt for initial answer generation |
 | `regenerate_prompt` | built-in | Prompt for regeneration with new context |
+
+### HybridSearchRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `bm25_weight` | `0.5` | Weight for BM25 scores in RRF fusion |
+| `vector_weight` | `0.5` | Weight for vector scores in RRF fusion |
+| `rrf_k` | `60` | RRF constant (higher = less aggressive reranking) |
+
+### SelfRAGRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for grading, generation, and support checking |
+| `max_iterations` | `2` | Max retrieve-grade-generate-check cycles |
+| `relevance_threshold` | `0.5` | Min fraction of docs that must be graded relevant |
+
+### AdaptiveRAGRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `llm` | — | LLM for query classification |
+| `simple_retriever` | — | Retriever for simple queries |
+| `moderate_retriever` | `None` | Retriever for moderate queries (falls back to simple) |
+| `complex_retriever` | `None` | Retriever for complex queries (falls back to moderate) |
+| `classify_prompt` | built-in | Custom classification prompt |
+
+### MultiStepRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for answer generation and gap identification |
+| `max_steps` | `3` | Maximum retrieval-generation iterations |

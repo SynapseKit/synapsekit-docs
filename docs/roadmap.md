@@ -182,6 +182,20 @@ sidebar_position: 99
 - **LLM: RedisLLMCache** — distributed Redis cache backend (`pip install synapsekit[redis]`)
 - 13 providers, 22 tools, 14 loaders, 14 retrieval strategies, 4 cache backends, 6 memory backends, 642 tests passing
 
+## Phase 7.6 — Providers, Retrieval, Tools & Memory ✅ Done (v0.6.6)
+
+- **LLM: PerplexityLLM** — Perplexity AI with Sonar models, OpenAI-compatible
+- **LLM: CerebrasLLM** — Cerebras ultra-fast inference, OpenAI-compatible
+- **Retrieval: HybridSearchRetriever** — BM25 keyword matching + vector similarity via Reciprocal Rank Fusion (RRF)
+- **Retrieval: SelfRAGRetriever** — self-reflective RAG: retrieve, grade relevance, generate, check support, retry if needed
+- **Retrieval: AdaptiveRAGRetriever** — LLM classifies query complexity (simple/moderate/complex) and routes to different retrievers
+- **Retrieval: MultiStepRetriever** — iterative retrieval-generation with automatic gap identification and follow-up queries
+- **Tools: ArxivSearchTool** — search arXiv for academic papers via Atom API (stdlib only, no deps)
+- **Tools: TavilySearchTool** — AI-optimized web search via Tavily API (`pip install synapsekit[tavily]`)
+- **Memory: BufferMemory** — simplest unbounded buffer, keeps all messages until cleared
+- **Memory: EntityMemory** — LLM-based entity extraction with running descriptions and eviction policy
+- 15 providers, 24 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends, 698 tests passing
+
 ## Phase 8 — Evaluation & Multi-modal 🔜
 
 - Multi-modal support (image inputs for vision models)
