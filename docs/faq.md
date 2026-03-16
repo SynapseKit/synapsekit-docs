@@ -1,3 +1,7 @@
+---
+sidebar_position: 97
+---
+
 # FAQ
 
 Below are common questions about SynapseKit.
@@ -9,7 +13,7 @@ Below are common questions about SynapseKit.
 <details>
 <summary>Answer</summary>
 
-SynapseKit requires **Python 3.10 or newer**.
+SynapseKit requires **Python 3.14 or newer**.
 
 </details>
 
@@ -20,7 +24,7 @@ SynapseKit requires **Python 3.10 or newer**.
 <details>
 <summary>Answer</summary>
 
-SynapseKit is designed as an **async-native framework for RAG, agents, and graph workflows** with minimal dependencies and production-ready architecture.
+SynapseKit is **async-native and streaming-first** from the ground up — every public API is `async`, streaming is the default. It has only 2 hard dependencies (`numpy` and `rank-bm25`), compared to LangChain's heavy dependency tree. No chains, no magic callbacks, no global state — just plain Python classes you can read, subclass, and override. See the [Feature Parity Report](https://github.com/SynapseKit/SynapseKit/blob/main/docs/FEATURE_PARITY.md) for a detailed comparison.
 
 </details>
 
@@ -31,7 +35,7 @@ SynapseKit is designed as an **async-native framework for RAG, agents, and graph
 <details>
 <summary>Answer</summary>
 
-Yes. SynapseKit supports **local model providers such as Ollama** so you can run LLM pipelines locally.
+Yes. Install with `pip install synapsekit[ollama]` and use `OllamaLLM` or pass `provider="ollama"` to the `RAG` facade. See the [Ollama docs](/docs/llms/ollama) for details.
 
 </details>
 
@@ -42,7 +46,7 @@ Yes. SynapseKit supports **local model providers such as Ollama** so you can run
 <details>
 <summary>Answer</summary>
 
-You can implement a custom provider interface and register it inside your SynapseKit pipeline configuration.
+Extend `BaseLLM` and implement the `stream()` method. All other methods (`generate()`, `stream_with_messages()`, `generate_with_messages()`) are derived from it. See the [LLM Overview](/docs/llms/overview) for the full interface.
 
 </details>
 
@@ -53,7 +57,7 @@ You can implement a custom provider interface and register it inside your Synaps
 <details>
 <summary>Answer</summary>
 
-Yes. SynapseKit works well with **FastAPI and other Python frameworks** for deploying production APIs.
+Yes. Since SynapseKit is fully async, it integrates naturally with FastAPI. Graph workflows also support SSE streaming via `sse_stream()` for real-time HTTP responses.
 
 </details>
 
@@ -64,7 +68,7 @@ Yes. SynapseKit works well with **FastAPI and other Python frameworks** for depl
 <details>
 <summary>Answer</summary>
 
-Yes. SynapseKit is designed for **production-grade LLM applications** including RAG pipelines and agent systems.
+Yes. SynapseKit includes LLM response caching (memory, SQLite, filesystem, Redis), exponential backoff retries, token-bucket rate limiting, structured output with Pydantic validation, and graph checkpointing for fault tolerance.
 
 </details>
 
@@ -75,6 +79,6 @@ Yes. SynapseKit is designed for **production-grade LLM applications** including 
 <details>
 <summary>Answer</summary>
 
-You can contribute by opening issues, submitting pull requests, improving documentation, or adding integrations.
+Check out the [GitHub repo](https://github.com/SynapseKit/SynapseKit) — open issues, submit pull requests, improve documentation, or add new integrations. See the [Roadmap](/docs/roadmap) for planned features.
 
 </details>

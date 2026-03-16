@@ -9,11 +9,6 @@ const sidebars: SidebarsConfig = {
       items: ['getting-started/installation', 'getting-started/quickstart'],
     },
     {
-  type: 'doc',
-  id: 'faq',
-  label: 'FAQ',
-},
-    {
       type: 'category',
       label: 'RAG',
       items: [
@@ -84,6 +79,7 @@ const sidebars: SidebarsConfig = {
       label: 'API Reference',
       items: ['api/llm', 'api/vector-store', 'api/retriever'],
     },
+    'faq',
     'changelog',
     'roadmap',
   ],

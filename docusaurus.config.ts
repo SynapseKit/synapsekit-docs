@@ -112,6 +112,7 @@ const config: Config = {
           title: 'Reference',
           items: [
             {label: 'API Reference', to: '/docs/api/llm'},
+            {label: 'FAQ', to: '/docs/faq'},
             {label: 'Roadmap', to: '/docs/roadmap'},
             {label: 'Changelog', href: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md'},
           ],
