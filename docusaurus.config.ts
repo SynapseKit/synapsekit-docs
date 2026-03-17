@@ -22,6 +22,13 @@ const config: Config = {
     {
       tagName: 'meta',
       attributes: {
+        name: 'google-site-verification',
+        content: 'HVS4Mx40XNoVDW9HMBUFlnZHlosMQD5ypP3TfLDpNtw',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
         name: 'description',
         content: 'SynapseKit is an async-native Python framework for building production-grade LLM applications. RAG pipelines, AI agents, graph workflows, 15 LLM providers, 29 tools. 2 dependencies. pip install synapsekit.',
       },
