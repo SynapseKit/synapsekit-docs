@@ -8,6 +8,26 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v0.6.8 — Tools, Execution Trace & WebSocket Streaming
+
+**Tools (5 new)**
+- `VectorSearchTool` — wraps a `Retriever` so agents can search a knowledge base (no extra deps)
+- `PubMedSearchTool` — search PubMed for biomedical literature via E-utilities API (stdlib only, no deps)
+- `GitHubAPITool` — interact with GitHub REST API: search repos, get repo info, search issues, get issue details (stdlib only)
+- `EmailTool` — send emails via SMTP with STARTTLS (stdlib `smtplib` + `email`, config via env vars)
+- `YouTubeSearchTool` — search YouTube for videos (`pip install synapsekit[youtube]`)
+
+**Graph Workflows (2 new)**
+- `ExecutionTrace` + `TraceEntry` — structured execution tracing that hooks into `EventHooks` with timestamps, durations, and JSON-serializable output
+- `ws_stream()` — stream graph execution events over WebSocket connections (works with any object with `send_text()` or `send()`)
+- `GraphEvent.to_ws()` — format events as JSON strings for WebSocket transmission
+
+**Closes:** #217, #219, #220, #229, #231, #239, #241
+
+**Stats:** 743 tests, 15 providers, 29 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends
+
+---
+
 ## v0.6.6 — Providers, Retrieval, Tools & Memory
 
 **LLM Providers (2 new)**

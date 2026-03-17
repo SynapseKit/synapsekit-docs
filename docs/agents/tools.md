@@ -624,3 +624,141 @@ r = await tool.run(query="RAG frameworks comparison", search_depth="advanced")
 The API key is resolved in order:
 1. `api_key` constructor parameter
 2. `TAVILY_API_KEY` environment variable
+
+---
+
+## VectorSearchTool
+
+Wraps a `Retriever` instance so agents can search a knowledge base. No external dependencies.
+
+```python
+from synapsekit import VectorSearchTool, Retriever, InMemoryVectorStore
+
+retriever = Retriever(InMemoryVectorStore(dim=384))
+tool = VectorSearchTool(retriever)
+
+r = await tool.run(query="machine learning basics", top_k=3)
+# r.output → "1. Document about ML\n\n2. Another document..."
+```
+
+Custom name and description for domain-specific knowledge bases:
+
+```python
+tool = VectorSearchTool(retriever, name="product_kb", description="Search the product knowledge base")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `top_k` | `5` | Number of results to return |
+
+---
+
+## PubMedSearchTool
+
+Search PubMed for biomedical and life science research articles. Uses the NCBI E-utilities API — no API key required, no extra dependencies (stdlib only).
+
+```python
+from synapsekit import PubMedSearchTool
+
+tool = PubMedSearchTool()
+
+r = await tool.run(query="CRISPR gene editing", max_results=3)
+# r.output → "1. **CRISPR Study**\n   Authors: Smith J, ...\n   PMID: 12345\n   ..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of articles to return |
+
+---
+
+## GitHubAPITool
+
+Interact with the GitHub REST API. Supports searching repos, getting repo info, searching issues, and getting issue details. Uses stdlib `urllib` — no extra dependencies.
+
+```python
+from synapsekit import GitHubAPITool
+
+tool = GitHubAPITool(token="ghp_...")  # or set GITHUB_TOKEN env var
+
+# Search repositories
+r = await tool.run(action="search_repos", query="langchain python")
+
+# Get repo details
+r = await tool.run(action="get_repo", owner="SynapseKit", repo="SynapseKit")
+
+# Search issues
+r = await tool.run(action="search_issues", query="bug fix in:title")
+
+# Get a specific issue
+r = await tool.run(action="get_issue", owner="SynapseKit", repo="SynapseKit", issue_number=42)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `search_repos`, `get_repo`, `search_issues`, or `get_issue` (required) |
+| `query` | — | Search query (for search actions) |
+| `owner` | — | Repository owner (for get actions) |
+| `repo` | — | Repository name (for get actions) |
+| `issue_number` | — | Issue number (for `get_issue`) |
+
+The token is resolved in order:
+1. `token` constructor parameter
+2. `GITHUB_TOKEN` environment variable
+
+---
+
+## EmailTool
+
+Send emails via SMTP with STARTTLS. Uses stdlib `smtplib` + `email` — no extra dependencies.
+
+```python
+from synapsekit import EmailTool
+
+tool = EmailTool(
+    smtp_host="smtp.gmail.com",
+    smtp_port=587,
+    smtp_user="me@gmail.com",
+    smtp_password="app-password",
+    from_addr="me@gmail.com",
+)
+
+r = await tool.run(to="bob@example.com", subject="Hello", body="Hi Bob!")
+# r.output → "Email sent successfully to bob@example.com."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `to` | — | Recipient email address (required) |
+| `subject` | — | Email subject line (required) |
+| `body` | — | Email body text (required) |
+
+SMTP configuration is resolved in order:
+1. Constructor parameters (`smtp_host`, `smtp_port`, `smtp_user`, `smtp_password`, `from_addr`)
+2. Environment variables (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`)
+
+---
+
+## YouTubeSearchTool
+
+Search YouTube for videos. Returns titles, channels, durations, URLs, and view counts.
+
+```bash
+pip install synapsekit[youtube]
+```
+
+```python
+from synapsekit import YouTubeSearchTool
+
+tool = YouTubeSearchTool()
+
+r = await tool.run(query="python async tutorial", max_results=3)
+# r.output → "1. **Python Async Tutorial**\n   Channel: Tech Channel\n   Duration: 10:30 | Views: 1.2M\n   URL: ..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of videos to return |

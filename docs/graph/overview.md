@@ -248,6 +248,86 @@ result = await compiled.run(state, hooks=hooks)
 
 Supports both sync and async callbacks. Available events: `node_start`, `node_complete`, `wave_start`, `wave_complete`, `error`.
 
+## Execution Trace
+
+Collect all graph events into a structured trace for debugging and observability:
+
+```python
+from synapsekit import ExecutionTrace, EventHooks
+
+trace = ExecutionTrace()
+hooks = trace.hook(EventHooks())
+
+result = await compiled.run(state, hooks=hooks)
+
+# Human-readable summary
+print(trace.summary())
+# Execution trace (4 events, 123.4ms):
+#   node_start [fetch]
+#   node_complete [fetch] (45.2ms)
+#   node_start [summarize]
+#   node_complete [summarize] (78.1ms)
+
+# Per-node durations
+print(trace.node_durations)
+# {"fetch": 45.2, "summarize": 78.1}
+
+# Total wall-clock time
+print(trace.total_duration_ms)  # 123.4
+
+# JSON-serializable for logging/storage
+import json
+json.dumps(trace.to_dict())
+```
+
+You can combine `ExecutionTrace` with your own `EventHooks` — just pass in an existing hooks instance:
+
+```python
+hooks = EventHooks()
+hooks.on_error(lambda e: alert(e.data))  # your own callbacks
+
+trace = ExecutionTrace()
+hooks = trace.hook(hooks)  # trace hooks are added alongside yours
+
+result = await compiled.run(state, hooks=hooks)
+```
+
+## WebSocket Streaming
+
+Stream graph execution events over a WebSocket connection:
+
+```python
+from synapsekit import ws_stream
+
+# Works with FastAPI, Starlette, or plain websockets
+@app.websocket("/ws")
+async def endpoint(websocket):
+    await websocket.accept()
+    result = await ws_stream(compiled, {"input": "hello"}, websocket)
+```
+
+Events are sent as JSON strings via `send_text()` (or `send()` as fallback). Each event includes `event`, `node`, and `state` fields. A final `"done"` event is sent when execution completes.
+
+You can also pass extra hooks that run alongside the WebSocket streaming:
+
+```python
+from synapsekit import ws_stream, EventHooks
+
+hooks = EventHooks()
+hooks.on_error(lambda e: log_error(e))
+
+result = await ws_stream(compiled, state, websocket, hooks=hooks)
+```
+
+Individual events can also be formatted for WebSocket transmission:
+
+```python
+from synapsekit import GraphEvent
+
+event = GraphEvent(event_type="node_complete", node="fetch", state={"data": "result"})
+ws_msg = event.to_ws()  # JSON string: '{"event": "node_complete", "node": "fetch", ...}'
+```
+
 ## What's validated at compile time
 
 - Entry point is set and refers to a registered node
