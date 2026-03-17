@@ -8,7 +8,7 @@ SynapseKit uses optional dependency groups so you only install what you need.
 
 ## Requirements
 
-- Python 3.14+
+- Python 3.10+
 
 ## Install
 
