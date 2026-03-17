@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'SynapseKit',
-  tagline: 'Async-first Python framework for building LLM applications.',
+  title: 'SynapseKit — Python LLM Framework',
+  tagline: 'Async-first Python framework for building production-grade LLM applications with RAG, agents, and graph workflows.',
   favicon: 'img/favicon.svg',
 
   future: { v4: true },
@@ -17,6 +17,30 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'description',
+        content: 'SynapseKit is an async-native Python framework for building production-grade LLM applications. RAG pipelines, AI agents, graph workflows, 15 LLM providers, 29 tools. 2 dependencies. pip install synapsekit.',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:title',
+        content: 'SynapseKit — Python LLM Framework',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:description',
+        content: 'Async-first Python framework for building production-grade LLM apps. RAG, agents, graph workflows. pip install synapsekit.',
+      },
+    },
+  ],
 
   i18n: {
     defaultLocale: 'en',
@@ -42,7 +66,7 @@ const config: Config = {
 
   themeConfig: {
     metadata: [
-      {name: 'keywords', content: 'rag, llm, agents, python, async, streaming, openai, anthropic'},
+      {name: 'keywords', content: 'synapsekit, python llm framework, rag framework, ai agents python, langchain alternative, async llm, graph workflows, openai, anthropic, pip install synapsekit'},
       {name: 'twitter:card', content: 'summary_large_image'},
     ],
     colorMode: {
@@ -50,8 +74,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v066',
-      content: '🎉 SynapseKit v0.6.6 — HybridSearch, SelfRAG, AdaptiveRAG, MultiStep retrieval, PerplexityLLM, CerebrasLLM, ArxivSearch, TavilySearch, BufferMemory, EntityMemory. <a href="/synapsekit-docs/docs/roadmap">See what\'s new →</a>',
+      id: 'v068',
+      content: '🎉 SynapseKit v0.6.8 — VectorSearch, PubMed, GitHub API, Email, YouTube tools + ExecutionTrace + WebSocket streaming. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -78,7 +102,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v0.6.6</span>',
+          value: '<span class="navbar__version">v0.6.8</span>',
         },
         {
           href: 'https://github.com/SynapseKit/SynapseKit',
