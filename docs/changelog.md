@@ -8,6 +8,23 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v0.6.9 — Tools & Graph Routing
+
+**Tools (3 new)**
+- `SlackTool` — send messages via Slack webhook URL or Web API bot token (stdlib only, no deps)
+- `JiraTool` — Jira REST API v2: search issues (JQL), get issue, create issue, add comment (stdlib only)
+- `BraveSearchTool` — web search via Brave Search API (stdlib only)
+
+**Graph Workflows (2 new)**
+- `approval_node()` — factory returning a node that gates on human approval; raises `GraphInterrupt` when `state[key]` is falsy; supports dynamic messages via callable
+- `dynamic_route_node()` — factory returning a node that routes to different compiled subgraphs based on a routing function; supports sync/async routing and input/output mapping
+
+**Closes:** #199, #218, #234, #243, #247
+
+**Stats:** 795 tests, 15 providers, 32 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends
+
+---
+
 ## v0.6.8 — Tools, Execution Trace & WebSocket Streaming
 
 **Tools (5 new)**

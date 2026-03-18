@@ -196,6 +196,15 @@ sidebar_position: 99
 - **Memory: EntityMemory** — LLM-based entity extraction with running descriptions and eviction policy
 - 15 providers, 24 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends, 698 tests passing
 
+## Phase 7.8 — Tools & Graph Routing ✅ Done (v0.6.9)
+
+- **Tools: SlackTool** — send messages via Slack webhook or bot token (stdlib only, no deps)
+- **Tools: JiraTool** — Jira REST API v2: search, get, create issues, add comments (stdlib only)
+- **Tools: BraveSearchTool** — web search via Brave Search API (stdlib only)
+- **Graph: approval_node()** — gate graph execution on human approval; raises `GraphInterrupt` when state key is falsy; dynamic messages via callable
+- **Graph: dynamic_route_node()** — route to different compiled subgraphs at runtime based on routing function; sync/async, input/output mapping
+- 15 providers, 32 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends, 795 tests passing
+
 ## Phase 8 — Evaluation & Multi-modal 🔜
 
 - Multi-modal support (image inputs for vision models)

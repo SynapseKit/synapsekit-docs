@@ -328,6 +328,77 @@ event = GraphEvent(event_type="node_complete", node="fetch", state={"data": "res
 ws_msg = event.to_ws()  # JSON string: '{"event": "node_complete", "node": "fetch", ...}'
 ```
 
+## Approval Node
+
+`approval_node()` is a factory that creates a gate node for human-in-the-loop approval. If the specified state key is truthy, execution continues; otherwise it raises `GraphInterrupt` to pause for review.
+
+```python
+from synapsekit import StateGraph, approval_node
+
+graph = StateGraph()
+graph.add_node("process", process_fn)
+graph.add_node("gate", approval_node(
+    approval_key="human_ok",
+    message=lambda s: f"Please approve: {s.get('draft', '')[:100]}",
+))
+graph.add_node("publish", publish_fn)
+
+graph.set_entry_point("process")
+graph.add_edge("process", "gate")
+graph.add_edge("gate", "publish")
+graph.set_finish_point("publish")
+```
+
+When `state["human_ok"]` is falsy (or missing), the graph pauses with a `GraphInterrupt`. Resume with `compiled.resume(updates={"human_ok": True})` to continue.
+
+You can also pass static `data` to include in the interrupt:
+
+```python
+gate = approval_node(approval_key="ok", data={"reason": "content review"})
+```
+
+---
+
+## Dynamic Route Node
+
+`dynamic_route_node()` routes to different compiled subgraphs at runtime based on a routing function. It supports sync/async routing and the same `input_mapping`/`output_mapping` as `subgraph_node()`.
+
+```python
+from synapsekit import StateGraph, dynamic_route_node
+
+# Build subgraphs
+fast_graph = build_fast_pipeline().compile()
+thorough_graph = build_thorough_pipeline().compile()
+
+# Route based on state
+graph = StateGraph()
+graph.add_node("router", dynamic_route_node(
+    routing_fn=lambda s: "fast" if s.get("urgent") else "thorough",
+    subgraphs={"fast": fast_graph, "thorough": thorough_graph},
+    input_mapping={"query": "input"},
+    output_mapping={"output": "result"},
+))
+graph.set_entry_point("router")
+graph.set_finish_point("router")
+```
+
+Async routing functions are also supported:
+
+```python
+async def smart_route(state):
+    complexity = await classify_query(state["input"])
+    return "simple" if complexity < 0.5 else "complex"
+
+node = dynamic_route_node(
+    routing_fn=smart_route,
+    subgraphs={"simple": simple_graph, "complex": complex_graph},
+)
+```
+
+If the routing function returns an unknown key, a `ValueError` is raised with the available routes.
+
+---
+
 ## What's validated at compile time
 
 - Entry point is set and refers to a registered node

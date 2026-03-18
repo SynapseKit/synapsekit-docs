@@ -762,3 +762,100 @@ r = await tool.run(query="python async tutorial", max_results=3)
 |---|---|---|
 | `query` | — | Search query (required) |
 | `max_results` | `5` | Maximum number of videos to return |
+
+---
+
+## SlackTool
+
+Send messages to Slack channels via incoming webhook URL or Bot API token. Stdlib only — no extra dependencies.
+
+```python
+from synapsekit import SlackTool
+
+# Via webhook
+tool = SlackTool(webhook_url="https://hooks.slack.com/services/T.../B.../xxx")
+r = await tool.run(action="send_webhook", text="Hello from SynapseKit!")
+# r.output → "Message sent via webhook."
+
+# Via bot token
+tool = SlackTool(bot_token="xoxb-...")
+r = await tool.run(action="send_message", channel="#general", text="Hi team!")
+# r.output → "Message sent to #general."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `send_message` (bot token) or `send_webhook` (webhook URL) — required |
+| `text` | — | Message text to send (required) |
+| `channel` | — | Slack channel for `send_message` (e.g. `#general`) |
+
+Configuration is resolved in order:
+1. Constructor parameters (`webhook_url`, `bot_token`)
+2. Environment variables (`SLACK_WEBHOOK_URL`, `SLACK_BOT_TOKEN`)
+
+---
+
+## JiraTool
+
+Interact with Jira REST API v2: search issues via JQL, get issue details, create issues, and add comments. Stdlib `urllib` + `base64` Basic auth — no extra dependencies.
+
+```python
+from synapsekit import JiraTool
+
+tool = JiraTool(
+    url="https://mycompany.atlassian.net",
+    email="me@company.com",
+    api_token="ATATT3x...",
+)
+
+# Search issues
+r = await tool.run(action="search_issues", query="project=PROJ AND status=Open")
+
+# Get issue details
+r = await tool.run(action="get_issue", issue_key="PROJ-123")
+
+# Create issue
+r = await tool.run(action="create_issue", project_key="PROJ", summary="Fix login bug")
+
+# Add comment
+r = await tool.run(action="add_comment", issue_key="PROJ-123", comment="Fixed in v2.")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `search_issues`, `get_issue`, `create_issue`, or `add_comment` (required) |
+| `query` | — | JQL query string (for `search_issues`) |
+| `issue_key` | — | Issue key e.g. `PROJ-123` (for `get_issue`, `add_comment`) |
+| `project_key` | — | Project key (for `create_issue`) |
+| `summary` | — | Issue summary (for `create_issue`) |
+| `description` | `""` | Issue description (for `create_issue`) |
+| `issue_type` | `"Task"` | Issue type e.g. Task, Bug (for `create_issue`) |
+| `comment` | — | Comment body (for `add_comment`) |
+
+Configuration is resolved in order:
+1. Constructor parameters (`url`, `email`, `api_token`)
+2. Environment variables (`JIRA_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`)
+
+---
+
+## BraveSearchTool
+
+Web search via the Brave Search API. Stdlib `urllib` only — no extra dependencies.
+
+```python
+from synapsekit import BraveSearchTool
+
+tool = BraveSearchTool(api_key="BSA...")
+
+r = await tool.run(query="latest AI news", count=5)
+# r.output → "1. **AI News Title**\n   URL: https://...\n   Description..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `count` | `5` | Number of results to return (max 20) |
+
+The API key is resolved in order:
+1. `api_key` constructor parameter
+2. `BRAVE_API_KEY` environment variable
