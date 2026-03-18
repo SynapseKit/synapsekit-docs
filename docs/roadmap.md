@@ -205,17 +205,49 @@ sidebar_position: 99
 - **Graph: dynamic_route_node()** — route to different compiled subgraphs at runtime based on routing function; sync/async, input/output mapping
 - 15 providers, 32 tools, 14 loaders, 18 retrieval strategies, 4 cache backends, 8 memory backends, 795 tests passing
 
-## Phase 8 — Evaluation & Multi-modal 🔜
+## Phase 8 — MCP + Multi-Agent ✅ Done (v0.7.0)
 
-- Multi-modal support (image inputs for vision models)
-- `Evaluator` — faithfulness, relevancy, groundedness
-- RAGAS-style metrics
-- Conversation branching and tree-of-thought
+- **MCP: MCPClient** — connect to MCP servers via `connect_stdio()` or `connect_sse()`
+- **MCP: MCPToolAdapter** — wrap MCP tools as `BaseTool` instances for use with any agent
+- **MCP: MCPServer** — expose SynapseKit tools as an MCP-compatible server
+- **Multi-Agent: SupervisorAgent + WorkerAgent** — supervisor orchestrates workers using DELEGATE/FINAL protocol
+- **Multi-Agent: HandoffChain + Handoff** — condition-based agent transfers
+- **Multi-Agent: Crew + CrewAgent + Task** — role-based teams, sequential or parallel task execution
 
-## Phase 9 — Platform 🔜
+## Phase 9 — Evaluation + Observability ✅ Done (v0.8.0)
 
-- Local observability UI (LangSmith-style, open source)
-- Streaming UI helpers — SSE + WebSocket for FastAPI
+- **Evaluation: FaithfulnessMetric** — measure answer faithfulness to source documents
+- **Evaluation: RelevancyMetric** — measure answer relevancy to the question
+- **Evaluation: GroundednessMetric** — measure groundedness in retrieved context
+- **Evaluation: EvaluationPipeline + EvaluationResult** — multi-metric pipeline with `mean_score`
+- **Observability: OTelExporter + Span** — export traces in OpenTelemetry format
+- **Observability: TracingMiddleware** — auto-trace LLM calls with zero code changes
+- **Observability: TracingUI** — HTML dashboard for viewing traces
+
+## Phase 10 — A2A + Guardrails + Distributed Tracing ✅ Done (v0.9.0)
+
+- **A2A: A2AClient + A2AServer** — Agent-to-Agent protocol for inter-agent communication
+- **A2A: AgentCard** — agent metadata for discovery
+- **A2A: A2ATask + A2AMessage + TaskState** — task lifecycle management
+- **Guardrails: ContentFilter** — block harmful or inappropriate content
+- **Guardrails: PIIDetector** — detect and redact personally identifiable information
+- **Guardrails: TopicRestrictor** — restrict agent conversations to allowed topics
+- **Guardrails: Guardrails** — compose multiple guardrail checks into a pipeline
+- **Tracing: DistributedTracer + TraceSpan** — distributed tracing across services/agents
+
+## Phase 11 — Multimodal + API Markers ✅ Done (v1.0.0)
+
+- **Multimodal: ImageContent** — image payloads with `from_file()`, `from_url()`, `from_base64()`, provider-specific formatting
+- **Multimodal: AudioContent** — audio payloads with `from_file()`, `from_base64()`
+- **Multimodal: MultimodalMessage** — compose text + images + audio, convert to OpenAI/Anthropic formats
+- **Multimodal: ImageLoader** — sync `load()` and `async_load()` with optional vision LLM description
+- **API Markers: @public_api** — mark stable public API surfaces
+- **API Markers: @experimental** — mark experimental features
+- **API Markers: @deprecated(reason, alternative)** — deprecation with migration guidance
+
+## Phase 12 — Platform 🔜
+
 - `synapsekit serve` — deploy any app as FastAPI in one command
 - Prompt hub — versioned prompt registry
 - Plugin system for community extensions
+- Conversation branching and tree-of-thought

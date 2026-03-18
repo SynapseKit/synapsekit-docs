@@ -8,6 +8,80 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.0.0 — Multimodal + Image Loader + API Markers
+
+**Multimodal**
+- `ImageContent` — image payloads with `from_file()`, `from_url()`, `from_base64()`, `to_openai_format()`, `to_anthropic_format()`
+- `AudioContent` — audio payloads with `from_file()`, `from_base64()`
+- `MultimodalMessage` — compose text + images + audio with `to_openai_messages()`, `to_anthropic_messages()`
+- `ImageLoader` — sync `load()` and `async_load()` with optional vision LLM description
+
+**API Markers**
+- `@public_api` — mark stable public API surfaces
+- `@experimental` — mark experimental features
+- `@deprecated(reason, alternative)` — mark deprecated features with migration guidance
+
+---
+
+## v0.9.0 — A2A + Guardrails + Distributed Tracing
+
+**Agent-to-Agent (A2A) Protocol**
+- `A2AClient` — call remote agents via the A2A protocol
+- `A2AServer` — expose agents as A2A-compatible endpoints
+- `AgentCard` — agent metadata for discovery
+- `A2ATask`, `A2AMessage`, `TaskState` — task lifecycle management
+
+**Guardrails**
+- `ContentFilter` — block harmful or inappropriate content
+- `PIIDetector` — detect and redact personally identifiable information
+- `TopicRestrictor` — restrict agent conversations to allowed topics
+- `Guardrails` — compose multiple guardrail checks into a pipeline
+
+**Distributed Tracing**
+- `DistributedTracer` — trace requests across multiple services/agents
+- `TraceSpan` — individual span in a distributed trace
+
+---
+
+## v0.8.0 — Evaluation + Observability
+
+**Evaluation**
+- `FaithfulnessMetric` — measure whether answers are faithful to source documents
+- `RelevancyMetric` — measure answer relevancy to the question
+- `GroundednessMetric` — measure how well answers are grounded in retrieved context
+- `EvaluationPipeline` — run multiple metrics over a dataset
+- `EvaluationResult` — structured results with per-metric scores and `mean_score`
+
+**Observability**
+- `OTelExporter` — export traces in OpenTelemetry format
+- `Span` — individual trace span with timing and metadata
+- `TracingMiddleware` — auto-trace LLM calls with zero code changes
+- `TracingUI` — HTML dashboard for viewing traces
+
+---
+
+## v0.7.0 — MCP + Multi-Agent
+
+**MCP (Model Context Protocol)**
+- `MCPClient` — connect to MCP servers via `connect_stdio()` or `connect_sse()`
+- `MCPToolAdapter` — wrap MCP tools as `BaseTool` instances for use with any agent
+- `MCPServer` — expose your SynapseKit tools as an MCP-compatible server
+
+**Multi-Agent: Supervisor/Worker**
+- `SupervisorAgent` — orchestrates worker agents, routes tasks using DELEGATE/FINAL protocol
+- `WorkerAgent` — specialized agent that reports results back to the supervisor
+
+**Multi-Agent: Handoffs**
+- `HandoffChain` — chain of agents with condition-based handoffs
+- `Handoff` — defines a condition and target agent for automatic transfer
+
+**Multi-Agent: Crew**
+- `Crew` — role-based team of agents that execute tasks sequentially or in parallel
+- `CrewAgent` — agent with a defined role, goal, and backstory
+- `Task` — unit of work assigned to a crew agent
+
+---
+
 ## v0.6.9 — Tools & Graph Routing
 
 **Tools (3 new)**

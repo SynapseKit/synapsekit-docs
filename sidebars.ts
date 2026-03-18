@@ -53,7 +53,36 @@ const sidebars: SidebarsConfig = {
         'agents/function-calling',
         'agents/tools',
         'agents/executor',
+        'agents/mcp',
       ],
+    },
+    {
+      type: 'category',
+      label: 'Multi-Agent',
+      items: [
+        'multi-agent/overview',
+        'multi-agent/a2a',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Evaluation',
+      items: ['evaluation/overview'],
+    },
+    {
+      type: 'category',
+      label: 'Guardrails',
+      items: ['guardrails/overview'],
+    },
+    {
+      type: 'category',
+      label: 'Observability',
+      items: ['observability/overview'],
+    },
+    {
+      type: 'category',
+      label: 'Multimodal',
+      items: ['multimodal/overview'],
     },
     {
       type: 'category',
