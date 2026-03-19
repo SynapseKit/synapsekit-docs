@@ -41,6 +41,7 @@ const sidebars: SidebarsConfig = {
         'llms/fireworks',
         'llms/perplexity',
         'llms/cerebras',
+        'llms/vertex-ai',
         'llms/caching-retries',
       ],
     },
