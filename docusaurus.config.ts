@@ -23,7 +23,7 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'google-site-verification',
-        content: 'rfOuzYkjAnTjrKutZc_XBacKwHSuCUBAvymUdcvtdwc',
+        content: 'HVS4Mx40XNoVDW9HMBUFlnZHlosMQD5ypP3TfLDpNtw',
       },
     },
     {
