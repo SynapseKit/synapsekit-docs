@@ -119,6 +119,42 @@ chunks = splitter.split(document)
 `SemanticSplitter` requires `sentence-transformers`. Install with `pip install synapsekit[semantic]`.
 :::
 
+## MarkdownTextSplitter
+
+Splits markdown text respecting document structure. Headers define natural split points, and each chunk carries its parent header context for semantic completeness.
+
+```python
+from synapsekit import MarkdownTextSplitter
+
+splitter = MarkdownTextSplitter(
+    chunk_size=512,
+    chunk_overlap=50,
+)
+
+chunks = splitter.split("""# User Guide
+## Installation
+Run pip install synapsekit to get started.
+
+## Quick Start
+Import RAG and create a pipeline.
+
+### Configuration
+Set your API key in the config.
+""")
+# Each chunk includes parent headers:
+# "# User Guide\n## Installation\nRun pip install..."
+# "# User Guide\n## Quick Start\nImport RAG and..."
+# "# User Guide\n## Quick Start\n### Configuration\nSet your..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `chunk_size` | `512` | Maximum characters per chunk |
+| `chunk_overlap` | `50` | Characters of overlap between consecutive chunks |
+| `headers_to_split_on` | `[("#", "Header1"), ("##", "Header2"), ("###", "Header3"), ("####", "Header4")]` | Header markers and labels to split on |
+
+Oversized sections without headers fall back to `RecursiveCharacterTextSplitter` with `---`, `\n\n`, `\n`, `. `, ` ` as separators.
+
 ## Using splitters with RAGPipeline
 
 By default, `RAGPipeline` uses `RecursiveCharacterTextSplitter` with the `chunk_size` and `chunk_overlap` from `RAGConfig`. You can override this by passing any `BaseSplitter` to `RAGConfig.splitter`:

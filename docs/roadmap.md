@@ -245,7 +245,18 @@ sidebar_position: 99
 - **API Markers: @experimental** — mark experimental features
 - **API Markers: @deprecated(reason, alternative)** — deprecation with migration guidance
 
-## Phase 12 — Platform 🔜
+## Phase 12 — Retrieval, Memory, Providers & Visualization ✅ Done (v1.1.0)
+
+- **Retrieval: GraphRAGRetriever** — knowledge-graph-augmented retrieval: extract entities via LLM, traverse KG, merge with vector results
+- **Retrieval: KnowledgeGraph** — in-memory triple store with BFS traversal, entity-document linking, LLM-powered extraction
+- **Memory: RedisConversationMemory** — Redis-backed conversation memory with windowing, multi-conversation, JSON serialization
+- **LLM: VertexAILLM** — Google Vertex AI provider with ADC auth, streaming, native function calling
+- **Text Splitters: MarkdownTextSplitter** — header-hierarchy-aware splitting with parent context preservation
+- **Graph: GraphVisualizer** — ASCII timeline, Mermaid trace highlighting, step replay, HTML export
+- **Graph: get_mermaid_with_trace()** — Mermaid diagrams with CSS status classes (completed/errored/skipped)
+- 16 providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 1047 tests passing
+
+## Phase 13 — Platform 🔜
 
 - `synapsekit serve` — deploy any app as FastAPI in one command
 - Prompt hub — versioned prompt registry

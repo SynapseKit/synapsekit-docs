@@ -609,6 +609,50 @@ results, classification = await adaptive.retrieve_with_classification("query")
 print(classification)  # "simple", "moderate", or "complex"
 ```
 
+## GraphRAG (Knowledge Graph Retrieval)
+
+The `GraphRAGRetriever` combines knowledge graph traversal with vector retrieval. It extracts entities from the query, traverses a knowledge graph to find related documents, and merges those with standard vector retrieval results.
+
+```python
+from synapsekit import GraphRAGRetriever, KnowledgeGraph
+
+# Build a knowledge graph
+kg = KnowledgeGraph()
+kg.add_triple("Python", "is_a", "programming language")
+kg.add_triple("Python", "used_for", "machine learning")
+kg.add_document_link("Python", "doc_1")
+kg.add_document_link("machine learning", "doc_2")
+
+# Or build from documents using an LLM
+await kg.build_from_documents(["Python is a programming language used for ML..."], llm)
+
+# Combine with vector retrieval
+graphrag = GraphRAGRetriever(
+    retriever=retriever,
+    llm=llm,
+    knowledge_graph=kg,
+    max_hops=2,
+)
+
+results = await graphrag.retrieve("What is Python used for?", top_k=5)
+```
+
+The process:
+1. The LLM extracts entities from the query
+2. The knowledge graph is traversed up to `max_hops` from each entity
+3. Related documents are gathered from the graph
+4. Standard vector retrieval runs in parallel
+5. Results are merged and deduplicated
+
+### Inspecting graph metadata
+
+```python
+results, meta = await graphrag.retrieve_with_graph("query", top_k=5)
+print(meta["entities_extracted"])  # Entities found in the query
+print(meta["graph_docs"])          # Documents from graph traversal
+print(meta["traversal_hops"])      # Max hops used
+```
+
 ## Multi-Step Retrieval
 
 The `MultiStepRetriever` performs iterative retrieval-generation: retrieve documents, generate an answer, identify information gaps, retrieve for those gaps, and repeat until the answer is complete or `max_steps` is reached.
@@ -782,3 +826,12 @@ for step in trace:
 | `retriever` | — | Base `Retriever` instance |
 | `llm` | — | LLM for answer generation and gap identification |
 | `max_steps` | `3` | Maximum retrieval-generation iterations |
+
+### GraphRAGRetriever
+
+| Parameter | Default | Description |
+|---|---|---|
+| `retriever` | — | Base `Retriever` instance |
+| `llm` | — | LLM for entity extraction |
+| `knowledge_graph` | `None` | `KnowledgeGraph` instance (falls back to vector-only if None) |
+| `max_hops` | `2` | Maximum graph traversal hops from extracted entities |

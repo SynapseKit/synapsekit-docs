@@ -400,3 +400,58 @@ context = memory.format_context()
 | `get_entities()` | `dict[str, str]` | Entity name → description mapping |
 | `format_context()` | `str` | Entities section + messages |
 | `clear()` | `None` | Clear messages and entities |
+
+---
+
+## RedisConversationMemory
+
+`RedisConversationMemory` provides persistent conversation memory backed by Redis. Messages survive process restarts and support multiple concurrent conversations.
+
+```bash
+pip install synapsekit[redis]
+```
+
+### Usage
+
+```python
+from synapsekit.memory.redis import RedisConversationMemory
+
+memory = RedisConversationMemory(
+    url="redis://localhost:6379",
+    conversation_id="user-42",
+    window=10,
+)
+
+memory.add("user", "What is SynapseKit?")
+memory.add("assistant", "An async-first RAG framework.")
+
+messages = memory.get_messages()
+context = memory.format_context()
+
+# List all conversations
+conversations = memory.list_conversations()
+
+# Clean up
+memory.clear()
+memory.close()
+```
+
+### Parameters
+
+| Parameter | Default | Description |
+|---|---|---|
+| `url` | `"redis://localhost:6379"` | Redis connection URL |
+| `conversation_id` | `"default"` | Conversation identifier for multi-conversation support |
+| `window` | `None` | Max message pairs to keep (None = unlimited) |
+| `prefix` | `"synapsekit:memory:"` | Redis key prefix for namespacing |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `add(role, content, metadata=None)` | Append a message |
+| `get_messages()` | Return all messages for this conversation |
+| `format_context()` | Flatten history to a plain string |
+| `clear()` | Delete all messages for this conversation |
+| `list_conversations()` | List all conversation IDs |
+| `close()` | Close the Redis connection |

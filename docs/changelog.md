@@ -8,6 +8,29 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.1.0 — GraphRAG, Redis Memory, Vertex AI, MarkdownSplitter, Graph Visualization
+
+**Retrieval**
+- `GraphRAGRetriever` — entity-based graph traversal merged with vector retrieval for knowledge-graph-augmented RAG
+- `KnowledgeGraph` — in-memory graph store with triples, BFS traversal, and LLM-powered entity extraction
+
+**Memory**
+- `RedisConversationMemory` — persistent conversation memory backed by Redis with windowing support (`pip install synapsekit[redis]`)
+
+**LLM Providers**
+- `VertexAILLM` — Google Vertex AI with Application Default Credentials, streaming, and native function calling (`pip install synapsekit[vertex]`)
+
+**Text Splitters**
+- `MarkdownTextSplitter` — header-aware chunking that preserves parent header context, with recursive fallback for oversized sections
+
+**Graph Visualization**
+- `GraphVisualizer` — ASCII timeline rendering, Mermaid trace highlighting, step-by-step replay, and standalone HTML export
+- `get_mermaid_with_trace()` — Mermaid flowcharts with CSS classes for completed/errored/skipped nodes
+
+**Stats:** 1047 tests, 16 LLM providers, 20 retrieval strategies, 6 text splitters, 9 memory backends
+
+---
+
 ## v1.0.0 — Multimodal + Image Loader + API Markers
 
 **Multimodal**
