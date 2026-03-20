@@ -98,3 +98,58 @@ print(result.relevancy)      # 0.90
 print(result.groundedness)   # 0.88
 print(result.mean_score)     # 0.91
 ```
+
+## @eval_case decorator
+
+Define evaluation test cases with quality, cost, and latency bounds. Works with both `synapsekit test` CLI and pytest.
+
+```python
+from synapsekit import eval_case
+
+@eval_case(min_score=0.8, max_cost_usd=0.05, max_latency_ms=2000, tags=["qa", "rag"])
+async def eval_summarization():
+    # Run your pipeline, measure quality
+    return {"score": 0.85, "cost_usd": 0.02, "latency_ms": 1200}
+
+@eval_case(min_score=0.9)
+def eval_retrieval():
+    return {"score": 0.92}
+```
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `min_score` | `float \| None` | `None` | Minimum acceptable score (0.0-1.0) |
+| `max_cost_usd` | `float \| None` | `None` | Maximum acceptable cost in USD |
+| `max_latency_ms` | `float \| None` | `None` | Maximum acceptable latency in ms |
+| `tags` | `list[str]` | `[]` | Tags for filtering and grouping |
+
+### Return value
+
+Decorated functions must return a dict with any of these keys:
+
+| Key | Type | Description |
+|---|---|---|
+| `score` | `float` | Quality score (checked against `min_score`) |
+| `cost_usd` | `float` | Cost (checked against `max_cost_usd`) |
+| `latency_ms` | `float` | Latency (auto-measured if omitted, checked against `max_latency_ms`) |
+
+### EvalCaseMeta
+
+The decorator attaches an `EvalCaseMeta` dataclass to the function as `_eval_case_meta`:
+
+```python
+meta = eval_summarization._eval_case_meta
+print(meta.min_score)      # 0.8
+print(meta.max_cost_usd)   # 0.05
+print(meta.tags)           # ["qa", "rag"]
+```
+
+### Running eval cases
+
+Use the [`synapsekit test`](/docs/cli/test) CLI to discover and run eval cases:
+
+```bash
+synapsekit test tests/evals/ --threshold 0.8
+```
