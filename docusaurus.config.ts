@@ -81,8 +81,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v110',
-      content: '🎉 SynapseKit v1.1.0 — GraphRAG, Redis Memory, Vertex AI, MarkdownSplitter, Graph Visualization. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
+      id: 'v120',
+      content: '🎉 SynapseKit v1.2.0 — synapsekit serve, CostTracker, BudgetGuard, eval CLI, PromptHub, Plugins, Redis/Postgres checkpointers. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -109,7 +109,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.1.0</span>',
+          value: '<span class="navbar__version">v1.2.0</span>',
         },
         {
           href: 'https://github.com/SynapseKit/SynapseKit',

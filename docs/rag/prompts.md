@@ -89,3 +89,55 @@ prompt = fsp.format(question="5 + 8")
 # Output:
 # """
 ```
+
+---
+
+## PromptHub
+
+Local filesystem prompt registry with versioning. Push, pull, and manage versioned prompt templates.
+
+```python
+from synapsekit import PromptHub
+
+hub = PromptHub()  # defaults to ~/.synapsekit/prompts/
+
+# Push a prompt
+hub.push("my-org/summarize", "Summarize: {text}", version="v1")
+hub.push("my-org/summarize", "Please summarize concisely: {text}", version="v2")
+
+# Pull by version
+tpl = hub.pull("my-org/summarize:v2")
+print(tpl.format(text="Hello world"))
+
+# Pull latest version
+tpl = hub.pull("my-org/summarize")  # resolves to v2
+```
+
+### Directory layout
+
+Prompts are stored as JSON files on the local filesystem:
+
+```
+~/.synapsekit/prompts/
+  my-org/
+    summarize/
+      v1.json
+      v2.json
+    qa/
+      v1.json
+```
+
+### Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `push(name, template, version, metadata)` | `Path` | Save a prompt template |
+| `pull(ref)` | `PromptTemplate` | Load a prompt; ref is `"org/name:version"` or `"org/name"` (latest) |
+| `list(org=)` | `list[str]` | List all prompts, optionally filtered by org |
+| `versions(name)` | `list[str]` | List all versions of a prompt |
+
+### Custom hub directory
+
+```python
+hub = PromptHub(hub_dir="/path/to/my/prompts")
+```

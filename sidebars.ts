@@ -78,7 +78,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Observability',
-      items: ['observability/overview'],
+      items: ['observability/overview', 'observability/cost-tracker'],
     },
     {
       type: 'category',
@@ -99,6 +99,12 @@ const sidebars: SidebarsConfig = {
         'graph/mermaid',
       ],
     },
+    {
+      type: 'category',
+      label: 'CLI',
+      items: ['cli/overview', 'cli/serve', 'cli/test'],
+    },
+    'plugins',
     {
       type: 'category',
       label: 'Memory & Tracing',

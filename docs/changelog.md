@@ -8,6 +8,35 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.2.0 — Serve, Cost Intelligence & Eval CLI
+
+**CLI**
+- `synapsekit serve` — deploy any RAG/Agent/Graph app as a FastAPI server in one command with auto-detection, health checks, and OpenAPI docs (`pip install synapsekit[serve]`)
+- `synapsekit test` — discover and run `@eval_case`-decorated evaluation suites with threshold enforcement and CI-friendly exit codes
+
+**Cost Intelligence**
+- `CostTracker` — hierarchical cost attribution with scope context manager, auto-calculated costs from built-in COST_TABLE
+- `BudgetGuard` — per-request/per-user/daily spending limits with circuit breaker pattern (CLOSED → OPEN → HALF_OPEN → CLOSED)
+- `BudgetLimit`, `BudgetExceeded`, `CircuitState` — supporting types for budget enforcement
+
+**Evaluation**
+- `@eval_case` decorator — define evaluation test cases with `min_score`, `max_cost_usd`, `max_latency_ms`, and `tags`
+- `EvalCaseMeta` — metadata dataclass attached to decorated functions
+
+**Prompts**
+- `PromptHub` — local filesystem versioned prompt registry with push/pull/list/versions (`~/.synapsekit/prompts/`)
+
+**Plugins**
+- `PluginRegistry` — discover and load community plugins via `synapsekit.plugins` entry point group
+
+**Graph Checkpointers**
+- `RedisCheckpointer` — Redis-backed graph checkpoint persistence with optional TTL (`pip install synapsekit[redis]`)
+- `PostgresCheckpointer` — PostgreSQL-backed graph checkpoint persistence with UPSERT and JSONB state (`pip install synapsekit[postgres]`)
+
+**Stats:** 1127 tests, 16 LLM providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 5 checkpointers
+
+---
+
 ## v1.1.0 — GraphRAG, Redis Memory, Vertex AI, MarkdownSplitter, Graph Visualization
 
 **Retrieval**

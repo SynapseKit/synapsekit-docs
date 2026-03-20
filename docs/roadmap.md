@@ -256,9 +256,22 @@ sidebar_position: 99
 - **Graph: get_mermaid_with_trace()** — Mermaid diagrams with CSS status classes (completed/errored/skipped)
 - 16 providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 1047 tests passing
 
-## Phase 13 — Platform 🔜
+## Phase 13 — Serve, Cost Intelligence & Eval CLI ✅ Done (v1.2.0)
 
-- `synapsekit serve` — deploy any app as FastAPI in one command
-- Prompt hub — versioned prompt registry
-- Plugin system for community extensions
+- **CLI: synapsekit serve** — deploy any RAG/Agent/Graph app as FastAPI in one command (auto-detect, SSE/WS endpoints, health checks, OpenAPI docs)
+- **CLI: synapsekit test** — discover and run eval suites with threshold enforcement and CI-friendly exit codes
+- **Observability: CostTracker** — hierarchical cost attribution with scope context manager
+- **Observability: BudgetGuard** — per-request/per-user/daily spending limits with circuit breaker
+- **Evaluation: @eval_case** — decorator for eval test cases with quality/cost/latency bounds
+- **Prompts: PromptHub** — local versioned prompt registry with push/pull/list/versions
+- **Plugins: PluginRegistry** — discover and load community plugins via entry points
+- **Graph: RedisCheckpointer** — Redis graph checkpoint backend with optional TTL
+- **Graph: PostgresCheckpointer** — PostgreSQL graph checkpoint backend with UPSERT
+- 16 providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 5 checkpointers, 1127 tests passing
+
+## Phase 14 — Platform 🔜
+
 - Conversation branching and tree-of-thought
+- `CostRouter` — route requests to cheapest model meeting quality/latency threshold
+- `FallbackChain` — cascading model selection
+- `EvalCI` — GitHub Action that blocks deploys on quality regression

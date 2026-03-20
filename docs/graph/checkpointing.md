@@ -81,6 +81,60 @@ cp = JSONFileCheckpointer("./checkpoints")
 
 Each file stores `{"step": N, "state": {...}}`. Good for simple file-based persistence without a database.
 
+### RedisCheckpointer
+
+Persists checkpoints in Redis. Supports optional TTL for auto-expiry.
+
+```bash
+pip install synapsekit[redis]
+```
+
+```python
+import redis
+from synapsekit import RedisCheckpointer
+
+r = redis.Redis()
+cp = RedisCheckpointer(r, ttl=3600)  # optional TTL in seconds
+```
+
+Keys are stored as `synapsekit:checkpoint:{graph_id}` with JSON-serialized `{"step": N, "state": {...}}`.
+
+| Parameter | Default | Description |
+|---|---|---|
+| `client` | (required) | A `redis.Redis` instance |
+| `ttl` | `None` | Optional TTL in seconds for auto-expiry |
+
+### PostgresCheckpointer
+
+Persists checkpoints in PostgreSQL using UPSERT. Auto-creates the table on first use.
+
+```bash
+pip install synapsekit[postgres]
+```
+
+```python
+import psycopg
+from synapsekit import PostgresCheckpointer
+
+conn = psycopg.connect("postgresql://localhost/mydb")
+cp = PostgresCheckpointer(conn)
+```
+
+The table schema is:
+
+```sql
+CREATE TABLE IF NOT EXISTS synapsekit_checkpoints (
+    graph_id TEXT PRIMARY KEY,
+    step INTEGER NOT NULL,
+    state JSONB NOT NULL
+);
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `connection` | (required) | A `psycopg.Connection` instance |
+| `autocommit` | `True` | Whether to commit after each operation |
+
 ## Resuming execution
 
 Use `resume()` to re-execute a graph from its last checkpointed state:
@@ -221,25 +275,23 @@ Extend `BaseCheckpointer` and implement three methods:
 ```python
 from synapsekit import BaseCheckpointer
 
-class RedisCheckpointer(BaseCheckpointer):
-    def __init__(self, redis_client):
-        self._r = redis_client
-
+class MyCheckpointer(BaseCheckpointer):
     def save(self, graph_id: str, step: int, state: dict) -> None:
-        import json
-        self._r.set(f"cp:{graph_id}", json.dumps({"step": step, "state": state}))
+        # Persist state
+        ...
 
     def load(self, graph_id: str) -> tuple[int, dict] | None:
-        import json
-        data = self._r.get(f"cp:{graph_id}")
-        if data is None:
-            return None
-        parsed = json.loads(data)
-        return parsed["step"], parsed["state"]
+        # Load most recent checkpoint, return (step, state) or None
+        ...
 
     def delete(self, graph_id: str) -> None:
-        self._r.delete(f"cp:{graph_id}")
+        # Remove checkpoint
+        ...
 ```
+
+:::info
+SynapseKit ships with 5 built-in checkpointers: InMemory, SQLite, JSON file, Redis, and PostgreSQL. You only need a custom checkpointer for unsupported backends.
+:::
 
 ## API reference
 
