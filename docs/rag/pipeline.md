@@ -99,3 +99,11 @@ answer = await pipeline.ask("Your question?")
 | `system_prompt` | `str` | `"Answer using only..."` | LLM system instruction |
 | `chunk_size` | `int` | `512` | Max characters per chunk |
 | `chunk_overlap` | `int` | `50` | Overlap between chunks |
+
+## Next steps
+
+- [Retriever](./retriever) — advanced retrieval strategies (RAG Fusion, GraphRAG, HyDE, and more)
+- [Loaders](./loaders) — PDF, HTML, CSV, directory, and web loaders
+- [Splitter](./splitter) — text splitting strategies and chunk size tuning
+- [Vector Stores](./vector-stores) — ChromaDB, FAISS, Qdrant, Pinecone backends
+- [PromptHub](./prompt-hub) — version and share prompt templates across your team

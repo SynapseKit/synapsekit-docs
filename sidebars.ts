@@ -177,27 +177,6 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Cookbook',
       items: [
-        'cookbook/index',
-        'cookbook/rag-patterns',
-        'cookbook/agent-patterns',
-        'cookbook/graph-patterns',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Reference',
-      items: [
-        'reference/env-vars',
-        'reference/errors',
-        'reference/troubleshooting',
-        'reference/security',
-        'reference/production',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Cookbook',
-      items: [
         'cookbook/intro',
         'cookbook/rag-patterns',
         'cookbook/agent-patterns',

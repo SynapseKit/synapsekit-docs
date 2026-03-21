@@ -58,8 +58,27 @@ Lazy imports mean unused optional backends don't affect startup time.
 ## Running benchmarks yourself
 
 ```bash
+# Run via pytest (fastest path)
 git clone https://github.com/SynapseKit/SynapseKit
 cd SynapseKit
-pip install synapsekit[all]
-python benchmarks/run.py  # coming soon
+pip install -e ".[all]"
+pytest tests/ -q --tb=no  # 1100+ tests, proxy for correctness benchmarks
+
+# Time a single RAG query yourself:
+python -c "
+import asyncio, time
+from synapsekit import RAG
+from synapsekit.llms.openai import OpenAILLM
+
+llm = OpenAILLM(model='gpt-4o-mini')
+rag = RAG(llm=llm)
+
+async def bench():
+    await rag.add('SynapseKit is a Python LLM framework.')
+    t = time.perf_counter()
+    result = await rag.aquery('What is SynapseKit?')
+    print(f'Query time: {(time.perf_counter() - t)*1000:.1f}ms')
+
+asyncio.run(bench())
+"
 ```
