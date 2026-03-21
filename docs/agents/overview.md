@@ -59,3 +59,11 @@ print(answer)  # "The answer is 1048."
 executor = AgentExecutor(AgentConfig(llm=llm, tools=[CalculatorTool()]))
 answer = executor.run_sync("What is sqrt(144)?")
 ```
+
+## Next steps
+
+- [ReAct Agent](./react) — prompt-based reasoning loop that works with any LLM
+- [Function Calling Agent](./function-calling) — native tool_calls for OpenAI and Anthropic
+- [Built-in Tools](./tools) — all 24 tools with usage examples
+- [AgentExecutor](./executor) — unified runner, multi-step loops, and streaming
+- [Multi-Agent](../multi-agent/overview) — coordinating multiple agents with message passing

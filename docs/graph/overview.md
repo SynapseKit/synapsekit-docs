@@ -406,3 +406,11 @@ If the routing function returns an unknown key, a `ValueError` is raised with th
 - No cycles in static edges (unless `allow_cycles=True`)
 
 Conditional edge destinations are validated at compile time; the routing itself is resolved at runtime.
+
+## Next steps
+
+- [StateGraph](./state-graph) — full builder API reference
+- [Nodes](./nodes) — node types, `llm_node`, `subgraph_node`, `fan_out_node`
+- [Checkpointing](./checkpointing) — persistence, resumability, and human-in-the-loop
+- [Cycles](./cycles) — iterative workflows with `allow_cycles=True`
+- [Mermaid Export](./mermaid) — visualize your graph as a Mermaid diagram

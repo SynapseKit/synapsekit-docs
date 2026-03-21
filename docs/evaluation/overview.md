@@ -153,3 +153,11 @@ Use the [`synapsekit test`](/docs/cli/test) CLI to discover and run eval cases:
 ```bash
 synapsekit test tests/evals/ --threshold 0.8
 ```
+
+## See also
+
+- [synapsekit test](../cli/test) — CLI reference for running eval suites
+- [Cost Tracker](../observability/cost-tracker) — track cost per eval run
+- [RAG Pipeline](../rag/pipeline) — the pipeline you are evaluating
+- [Retriever](../rag/retriever) — retrieval strategies that affect faithfulness and groundedness
+- [LLM Overview](../llms/overview) — choosing models for evaluation

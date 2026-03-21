@@ -186,3 +186,11 @@ with tracker.scope("qa_pipeline"):
 print(f"Pipeline cost: ${tracker.total_cost_usd:.4f}")
 print(f"Daily spend: ${guard.daily_spend:.4f}")
 ```
+
+## See also
+
+- [LLM Overview](../llms/overview) — token tracking on individual LLM instances
+- [Evaluation](../evaluation/overview) — track cost per eval case with `max_cost_usd`
+- [RAG Pipeline](../rag/pipeline) — `TokenTracer` for per-query cost attribution
+- [CLI: serve](../cli/serve) — cost headers in HTTP responses from served pipelines
+- [PromptHub](../rag/prompt-hub) — versioning prompts to control and compare costs

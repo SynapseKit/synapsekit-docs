@@ -7,7 +7,7 @@ sidebar_position: 2
 This page gets you from install to a working LLM application in under 5 minutes.
 
 :::info Prerequisites
-- Python 3.14+
+- Python 3.10+
 - An OpenAI API key (or swap to any [supported provider](/docs/llms/overview))
 :::
 
@@ -54,6 +54,8 @@ rag.add("SynapseKit is an async-first Python framework for building LLM applicat
 
 answer = rag.ask_sync("What is SynapseKit?")
 print(answer)
+# Expected output:
+# SynapseKit is an async-first Python framework for building LLM applications.
 ```
 
 That's it. Under the hood:
@@ -102,20 +104,96 @@ answer = rag.ask_sync("What are the key findings?")
 
 ## 5. Use a different LLM
 
-No code changes beyond the model name:
+SynapseKit supports 16 providers. Swap the provider with no other code changes:
+
+<Tabs groupId="llm-provider">
+<TabItem value="openai" label="OpenAI" default>
 
 ```python
-# Anthropic
+from synapsekit.llms.openai import OpenAILLM
+llm = OpenAILLM(model="gpt-4o-mini")
+result = await llm.generate("Explain RAG in one sentence.")
+# Expected output:
+# RAG (Retrieval-Augmented Generation) enhances LLM responses by retrieving
+# relevant documents from a knowledge base before generating an answer.
+```
+
+Or via the RAG facade:
+
+```python
+rag = RAG(model="gpt-4o-mini", api_key="sk-...")
+```
+
+</TabItem>
+<TabItem value="anthropic" label="Anthropic">
+
+```python
+from synapsekit.llms.anthropic import AnthropicLLM
+llm = AnthropicLLM(model="claude-haiku-4-5-20251001")
+result = await llm.generate("Explain RAG in one sentence.")
+# Expected output:
+# RAG combines retrieval of relevant documents with language model generation
+# to produce grounded, accurate answers from a knowledge base.
+```
+
+Or via the RAG facade:
+
+```python
 rag = RAG(model="claude-sonnet-4-6", api_key="sk-ant-...")
+```
 
-# Local model via Ollama (no API key needed)
+</TabItem>
+<TabItem value="ollama" label="Ollama (local)">
+
+```python
+from synapsekit.llms.ollama import OllamaLLM
+llm = OllamaLLM(model="llama3")  # no API key needed
+result = await llm.generate("Explain RAG in one sentence.")
+# Expected output:
+# RAG is a technique that retrieves relevant context from a document store
+# and feeds it to an LLM to generate accurate, grounded answers.
+```
+
+Or via the RAG facade (no API key required):
+
+```python
 rag = RAG(model="llama3", api_key="", provider="ollama")
+```
 
-# Google Gemini
+</TabItem>
+<TabItem value="gemini" label="Google Gemini">
+
+```python
+from synapsekit.llms.gemini import GeminiLLM
+llm = GeminiLLM(model="gemini-1.5-flash")
+result = await llm.generate("Explain RAG in one sentence.")
+```
+
+Or via the RAG facade:
+
+```python
 rag = RAG(model="gemini-1.5-pro", api_key="...", provider="gemini")
 ```
 
-→ See [all supported providers](/docs/llms/overview)
+</TabItem>
+<TabItem value="groq" label="Groq">
+
+```python
+from synapsekit.llms.groq import GroqLLM
+llm = GroqLLM(model="llama-3.1-8b-instant")  # ultra-fast inference
+result = await llm.generate("Explain RAG in one sentence.")
+```
+
+Or via the RAG facade:
+
+```python
+rag = RAG(model="llama-3.1-8b-instant", api_key="gsk_...", provider="groq")
+```
+
+</TabItem>
+</Tabs>
+
+→ See [all 16 supported providers](/docs/llms/overview)
 
 ---
 
@@ -136,6 +214,8 @@ executor = AgentExecutor(AgentConfig(
 
 answer = executor.run_sync("What is the square root of 1764?")
 print(answer)
+# Expected output:
+# The square root of 1764 is 42.
 ```
 
 ---
@@ -164,6 +244,8 @@ graph = (
 
 result = asyncio.run(graph.run({"query": "latest AI research"}))
 print(result["summary"])
+# Expected output:
+# Summary: result for: latest AI research
 ```
 
 ---
@@ -197,4 +279,4 @@ context + query → LLM.stream() → tokens
 | [RAG Pipeline](/docs/rag/pipeline) | Full RAG pipeline docs |
 | [Agents](/docs/agents/overview) | ReAct and function calling agents |
 | [Graph Workflows](/docs/graph/overview) | DAG-based async pipelines |
-| [LLM Providers](/docs/llms/overview) | All 13 providers with examples |
+| [LLM Providers](/docs/llms/overview) | All 16 providers with examples |

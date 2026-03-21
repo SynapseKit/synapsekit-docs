@@ -100,3 +100,11 @@ print(llm.tokens_used)  # {"input": 12, "output": 8}
 ```
 
 The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
+
+## Next steps
+
+- [OpenAI](./openai) — GPT-4o, GPT-4o-mini, structured output, vision
+- [Anthropic](./anthropic) — Claude models, extended context, tool use
+- [Ollama](./ollama) — run local models with no API key
+- [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
+- [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

@@ -835,3 +835,101 @@ for step in trace:
 | `llm` | — | LLM for entity extraction |
 | `knowledge_graph` | `None` | `KnowledgeGraph` instance (falls back to vector-only if None) |
 | `max_hops` | `2` | Maximum graph traversal hops from extracted entities |
+
+---
+
+## GraphRAGRetriever (dedicated import)
+
+**Added in v1.1.0** · Requires: `pip install synapsekit[openai]` (or any LLM provider)
+
+Knowledge-graph-augmented retrieval. Extracts entities from the query using an LLM, traverses a `KnowledgeGraph` to find related entities, then merges graph context with standard vector results.
+
+```python
+from synapsekit.retrieval.graphrag import GraphRAGRetriever, KnowledgeGraph
+from synapsekit.llms.openai import OpenAILLM
+from synapsekit.embeddings.openai import OpenAIEmbeddings
+from synapsekit.vectorstores.chroma import ChromaVectorStore
+
+llm = OpenAILLM(model="gpt-4o-mini")
+embeddings = OpenAIEmbeddings()
+store = ChromaVectorStore(embeddings)
+
+# Build a knowledge graph
+kg = KnowledgeGraph()
+kg.add_triple("SynapseKit", "is_a", "Python framework")
+kg.add_triple("SynapseKit", "supports", "RAG")
+kg.add_triple("RAG", "uses", "vector search")
+kg.add_triple("RAG", "uses", "LLMs")
+
+retriever = GraphRAGRetriever(
+    vector_store=store,
+    knowledge_graph=kg,
+    llm=llm,
+    k=5,
+    graph_depth=2,
+)
+
+# Add documents
+await retriever.add(["SynapseKit is a Python framework for building LLM applications."])
+
+# Retrieve with graph augmentation
+results = await retriever.retrieve("What does SynapseKit support?")
+# Returns documents with both vector similarity AND graph-traversal context
+```
+
+### KnowledgeGraph
+
+In-memory triple store with BFS traversal and entity-document linking.
+
+```python
+from synapsekit.retrieval.graphrag import KnowledgeGraph
+
+kg = KnowledgeGraph()
+
+# Add triples
+kg.add_triple("subject", "predicate", "object")
+kg.add_triple("Alice", "works_at", "Acme Corp")
+kg.add_triple("Acme Corp", "located_in", "San Francisco")
+kg.add_triple("Acme Corp", "makes", "SynapseKit")
+
+# Traverse from an entity (BFS, depth=2)
+related = kg.traverse("Alice", depth=2)
+print(related)
+# Expected output:
+# ['works_at', 'Acme Corp', 'located_in', 'San Francisco', 'makes', 'SynapseKit']
+
+# Get all entities
+entities = kg.entities()
+
+# Get triples for an entity
+triples = kg.get_triples("Acme Corp")
+# Expected output:
+# [('Acme Corp', 'located_in', 'San Francisco'), ('Acme Corp', 'makes', 'SynapseKit')]
+```
+
+### LLM-powered entity extraction
+
+`GraphRAGRetriever` uses an LLM to extract entities from the query, then looks them up in the knowledge graph:
+
+```python
+# When you query:
+results = await retriever.retrieve("Tell me about SynapseKit's RAG support")
+
+# Internally:
+# 1. LLM extracts entities: ["SynapseKit", "RAG"]
+# 2. KG traversal finds related: ["Python framework", "vector search", "LLMs"]
+# 3. Vector search finds similar docs
+# 4. Results are merged: graph context prepended to vector results
+```
+
+### When to use GraphRAGRetriever
+
+Use when:
+- Your domain has structured relationships (org charts, product hierarchies, knowledge domains)
+- Queries involve multi-hop reasoning ("Who works with Alice's team?")
+- You want to augment semantic search with domain knowledge
+
+Use standard retrieval when:
+- Documents are self-contained and don't reference external entities
+- You don't have a pre-built knowledge graph
+- Latency is critical (KG traversal + LLM entity extraction adds overhead)
