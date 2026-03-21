@@ -77,27 +77,7 @@ Supported type annotations: `str`, `int`, `float`, `bool`, `list`, `dict`, `Opti
 
 ### Supervisor / Worker
 
-```
-              +-----------+
-              | Supervisor|
-              |  (planner)|
-              +-----+-----+
-                    | assigns tasks
-          +---------+---------+
-          v         v         v
-   +----------+ +----------+ +----------+
-   | Worker A | | Worker B | | Worker C |
-   | (search) | | (code)   | | (write)  |
-   +----------+ +----------+ +----------+
-          |         |         |
-          +---------+---------+
-                    | results
-                    v
-              +-----------+
-              | Supervisor|
-              |(synthesis)|
-              +-----------+
-```
+![Supervisor/Worker — hierarchical task delegation](/img/supervisor-worker.svg)
 
 ```python
 from synapsekit.agents import HandoffChain
