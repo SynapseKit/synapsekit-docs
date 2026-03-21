@@ -79,6 +79,8 @@ const sidebars: SidebarsConfig = {
         'agents/tools',
         'agents/executor',
         'agents/mcp',
+        'agents/cookbook',
+        'agents/tool-authoring',
       ],
     },
     {
