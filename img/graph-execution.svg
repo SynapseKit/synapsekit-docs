@@ -1,0 +1,74 @@
+<svg width="540" height="440" viewBox="0 0 540 440" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="g-in" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="g-sort" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="g-wave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="g-merge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/><stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="g-check" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="g-out" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f766e"/><stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#64748b"/>
+    </marker>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000018"/></filter>
+  </defs>
+
+  <rect width="540" height="440" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="270" y="26" fill="#0f172a" font-size="14" font-weight="700" text-anchor="middle">Graph Execution Flow</text>
+
+  <!-- Input -->
+  <rect x="155" y="44" width="230" height="44" rx="22" fill="url(#g-in)" filter="url(#sh)"/>
+  <text x="270" y="66" fill="white" font-size="13" font-weight="600" text-anchor="middle">CompiledGraph.run(</text>
+  <text x="270" y="82" fill="#c7d2fe" font-size="11" text-anchor="middle">initial_state: TypedState</text>
+  <line x1="270" y1="88" x2="270" y2="108" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Topological Sort -->
+  <rect x="80" y="110" width="380" height="50" rx="10" fill="url(#g-sort)" filter="url(#sh)"/>
+  <text x="270" y="131" fill="white" font-size="12" font-weight="700" text-anchor="middle">Topological Sort</text>
+  <text x="270" y="150" fill="#bae6fd" font-size="11" text-anchor="middle">compute execution waves from DAG edges</text>
+  <line x1="270" y1="160" x2="270" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Execution Wave (parallel) -->
+  <rect x="80" y="182" width="380" height="76" rx="10" fill="url(#g-wave)" filter="url(#sh)"/>
+  <text x="270" y="200" fill="white" font-size="12" font-weight="700" text-anchor="middle">Execute Wave (parallel)</text>
+  <text x="270" y="216" fill="#e9d5ff" font-size="11" text-anchor="middle">asyncio.gather(node_A(state), node_B(state), node_C(state))</text>
+  <!-- Mini node boxes -->
+  <rect x="110" y="224" width="72" height="26" rx="6" fill="#ffffff22"/>
+  <text x="146" y="241" fill="white" font-size="10" text-anchor="middle">node_A ✓</text>
+  <rect x="206" y="224" width="72" height="26" rx="6" fill="#ffffff22"/>
+  <text x="242" y="241" fill="white" font-size="10" text-anchor="middle">node_B ✓</text>
+  <rect x="302" y="224" width="72" height="26" rx="6" fill="#ffffff22"/>
+  <text x="338" y="241" fill="white" font-size="10" text-anchor="middle">node_C ✓</text>
+  <line x1="270" y1="258" x2="270" y2="278" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- State Merge -->
+  <rect x="80" y="280" width="380" height="50" rx="10" fill="url(#g-merge)" filter="url(#sh)"/>
+  <text x="270" y="301" fill="white" font-size="12" font-weight="700" text-anchor="middle">Merge State</text>
+  <text x="270" y="320" fill="#a7f3d0" font-size="11" text-anchor="middle">TypedState reducers · dict merge · next wave ready</text>
+  <line x1="270" y1="330" x2="270" y2="350" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Checkpointer -->
+  <rect x="80" y="352" width="380" height="44" rx="10" fill="url(#g-check)" filter="url(#sh)"/>
+  <text x="270" y="372" fill="white" font-size="12" font-weight="700" text-anchor="middle">Checkpointer (if configured)</text>
+  <text x="270" y="388" fill="#fef3c7" font-size="11" text-anchor="middle">save(graph_id, step, state) → SQLite / Redis / Postgres</text>
+  <line x1="270" y1="396" x2="270" y2="416" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Final State -->
+  <rect x="155" y="418" width="230" height="16" rx="8" fill="url(#g-out)" filter="url(#sh)"/>
+  <text x="270" y="430" fill="white" font-size="11" font-weight="600" text-anchor="middle">Final State returned</text>
+
+  <!-- Loop back arrow (dashed) -->
+  <path d="M 80,268 Q 34,268 34,220 Q 34,182 80,202" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="18" y="226" fill="#7c3aed" font-size="9" text-anchor="middle" transform="rotate(-90,18,226)">repeat waves</text>
+</svg>
