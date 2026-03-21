@@ -47,6 +47,34 @@ const config: Config = {
         content: 'Async-first Python framework for building production-grade LLM apps. RAG, agents, graph workflows. pip install synapsekit.',
       },
     },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image',
+        content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:image',
+        content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:type',
+        content: 'website',
+      },
+    },
+  ],
+
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      { hashed: true, language: ['en'], docsRouteBasePath: '/docs' },
+    ],
   ],
 
   i18n: {
@@ -63,7 +91,13 @@ const config: Config = {
           editUrl: 'https://github.com/SynapseKit/synapsekit-docs/tree/main/',
           showLastUpdateTime: true,
         },
-        blog: false,
+        blog: {
+          showReadingTime: true,
+          blogTitle: 'SynapseKit Blog',
+          blogDescription: 'Tutorials, release notes, and AI engineering insights from the SynapseKit team.',
+          postsPerPage: 10,
+          feedOptions: { type: ['rss', 'atom'] },
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -106,6 +140,7 @@ const config: Config = {
           label: 'Roadmap',
           position: 'left',
         },
+        { to: '/blog', label: 'Blog', position: 'left' },
         {
           type: 'html',
           position: 'left',
@@ -163,7 +198,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.oneLight,
       darkTheme: prismThemes.oneDark,
-      additionalLanguages: ['python', 'bash', 'toml'],
+      additionalLanguages: ['python', 'bash', 'toml', 'json', 'yaml', 'typescript', 'jsx', 'tsx', 'sql', 'docker'],
     },
     tableOfContents: {
       minHeadingLevel: 2,

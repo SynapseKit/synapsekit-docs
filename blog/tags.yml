@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+release:
+  label: Release
+  permalink: /release
+  description: SynapseKit release announcements
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+v1.2.0:
+  label: v1.2.0
+  permalink: /v1-2-0
+  description: SynapseKit v1.2.0 release
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+cli:
+  label: CLI
+  permalink: /cli
+  description: SynapseKit CLI tooling
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+observability:
+  label: Observability
+  permalink: /observability
+  description: Cost tracking, tracing, and monitoring
+
+evaluation:
+  label: Evaluation
+  permalink: /evaluation
+  description: LLM evaluation and testing

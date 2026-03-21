@@ -3,6 +3,7 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   docsSidebar: [
     'intro',
+    'architecture',
     {
       type: 'category',
       label: 'Getting Started',
@@ -110,6 +111,8 @@ const sidebars: SidebarsConfig = {
       items: ['api/llm', 'api/vector-store', 'api/retriever'],
     },
     'faq',
+    'benchmarks',
+    'comparison',
     'changelog',
     'roadmap',
   ],
