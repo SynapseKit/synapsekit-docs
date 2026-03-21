@@ -23,25 +23,7 @@ Build a content moderation pipeline where low-confidence decisions are escalated
 
 ## Graph design
 
-```
-                    ┌─────────────────────┐
-                    │   classify_content   │
-                    │  (LLM-based scoring) │
-                    └────────┬────────────┘
-                             │
-              ┌──────────────┼──────────────┐
-       score >= 0.9    0.4 <= score < 0.9   score < 0.4
-              │               │                  │
-    ┌─────────▼──────┐  ┌─────▼──────────┐  ┌───▼──────────┐
-    │  auto_approve  │  │  flag_for_review│  │  auto_reject │
-    │  (skip human)  │  │ (GraphInterrupt)│  │  (skip human)│
-    └─────────┬──────┘  └─────┬──────────┘  └───┬──────────┘
-              │               │                  │
-              └───────────────▼──────────────────┘
-                         ┌────▼────┐
-                         │  audit  │
-                         └─────────┘
-```
+![HITL content moderation graph](/img/hitl-graph.svg)
 
 ## Step 1: Define the graph state
 
