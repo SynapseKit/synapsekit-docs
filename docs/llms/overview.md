@@ -4,6 +4,11 @@ sidebar_position: 1
 
 # LLM Overview
 
+[![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
+[![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
+[![Tests](https://img.shields.io/badge/tests-1133%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
 ## Interface
