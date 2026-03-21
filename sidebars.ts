@@ -11,6 +11,28 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Tutorials',
+      items: [
+        'tutorials/index',
+        'tutorials/customer-support-bot',
+        'tutorials/document-qa',
+        'tutorials/research-agent',
+        'tutorials/hitl-workflow',
+        'tutorials/cost-aware-pipeline',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Concepts',
+      items: [
+        'concepts/rag',
+        'concepts/agents',
+        'concepts/graphs',
+        'concepts/embeddings',
+      ],
+    },
+    {
+      type: 'category',
       label: 'RAG',
       items: [
         'rag/pipeline',
@@ -20,6 +42,7 @@ const sidebars: SidebarsConfig = {
         'rag/vector-stores',
         'rag/parsers',
         'rag/prompts',
+        'rag/prompt-hub',
       ],
     },
     {
@@ -113,8 +136,55 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'How-to Guides',
+      items: [
+        'how-to/index',
+        'how-to/streaming',
+        'how-to/custom-llm-provider',
+        'how-to/custom-tools',
+        'how-to/custom-retrievers',
+        'how-to/memory',
+        'how-to/error-handling',
+        'how-to/testing',
+        'how-to/production',
+        'how-to/migrate-from-langchain',
+      ],
+    },
+    {
+      type: 'category',
       label: 'API Reference',
-      items: ['api/llm', 'api/vector-store', 'api/retriever'],
+      items: [
+        'api/llm',
+        'api/rag-pipeline',
+        'api/state-graph',
+        'api/agents',
+        'api/memory',
+        'api/retriever',
+        'api/vector-store',
+        'api/evaluation',
+        'api/observability',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Reference',
+      items: [
+        'reference/env-vars',
+        'reference/errors',
+        'reference/troubleshooting',
+        'reference/security',
+        'reference/production',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Cookbook',
+      items: [
+        'cookbook/index',
+        'cookbook/rag-patterns',
+        'cookbook/agent-patterns',
+        'cookbook/graph-patterns',
+      ],
     },
     'faq',
     'benchmarks',
