@@ -14,6 +14,8 @@ SynapseKit provides three multi-agent patterns for building systems where multip
 
 ## Supervisor/Worker
 
+![Supervisor/Worker pattern — hierarchical task delegation](/img/supervisor-worker.svg)
+
 A supervisor agent receives a task, decides which worker to delegate to, and synthesizes the final answer. Workers are specialized agents that handle specific domains.
 
 ```python

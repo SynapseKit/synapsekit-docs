@@ -17,32 +17,7 @@ LLMs are frozen at their training cutoff. Ask GPT-4o about your company's intern
 
 ## The RAG pipeline
 
-```
-Your question
-      |
-      v
-+---------------------+
-|  1. Embed question  |  "What is SynapseKit?" -> [0.23, -0.41, 0.87, ...]
-+---------------------+
-      |
-      v
-+---------------------+
-|  2. Search index    |  Find the 5 most similar document chunks
-+---------------------+
-      |
-      v
-+---------------------+
-|  3. Build prompt    |  Question + retrieved context -> LLM prompt
-+---------------------+
-      |
-      v
-+---------------------+
-|  4. Generate answer |  LLM reads the context and generates an answer
-+---------------------+
-      |
-      v
-    Answer
-```
+![RAG pipeline — embed, search, assemble, generate](/img/rag-pipeline.svg)
 
 ## Step 1: Chunking
 

@@ -1,0 +1,102 @@
+<svg width="720" height="460" viewBox="0 0 720 460" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="grad-app" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="grad-tools" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="grad-core" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="grad-data" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="grad-llm" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="grad-obs" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="720" height="460" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="360" y="32" fill="#0f172a" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="0.5">SynapseKit — Layer Architecture</text>
+
+  <!-- ── Layer 1: Your Application ── -->
+  <rect x="24" y="48" width="672" height="52" rx="10" fill="url(#grad-app)" filter="url(#shadow)"/>
+  <text x="360" y="79" fill="white" font-size="15" font-weight="700" text-anchor="middle">Your Application</text>
+  <text x="360" y="95" fill="#c7d2fe" font-size="11" text-anchor="middle">scripts · FastAPI services · Jupyter notebooks · background jobs</text>
+
+  <!-- ── Layer 2: CLI / PromptHub / Plugins ── -->
+  <!-- CLI -->
+  <rect x="24" y="116" width="210" height="52" rx="10" fill="url(#grad-tools)" filter="url(#shadow)"/>
+  <text x="129" y="139" fill="white" font-size="13" font-weight="600" text-anchor="middle">CLI</text>
+  <text x="129" y="157" fill="#e9d5ff" font-size="11" text-anchor="middle">synapsekit serve / test / eval</text>
+  <!-- PromptHub -->
+  <rect x="254" y="116" width="212" height="52" rx="10" fill="url(#grad-tools)" filter="url(#shadow)"/>
+  <text x="360" y="139" fill="white" font-size="13" font-weight="600" text-anchor="middle">PromptHub</text>
+  <text x="360" y="157" fill="#e9d5ff" font-size="11" text-anchor="middle">versioned prompts · A/B testing</text>
+  <!-- Plugins -->
+  <rect x="486" y="116" width="210" height="52" rx="10" fill="url(#grad-tools)" filter="url(#shadow)"/>
+  <text x="591" y="139" fill="white" font-size="13" font-weight="600" text-anchor="middle">Plugins</text>
+  <text x="591" y="157" fill="#e9d5ff" font-size="11" text-anchor="middle">custom extensions · hooks</text>
+
+  <!-- ── Layer 3: Core Orchestration ── -->
+  <!-- RAG Pipeline -->
+  <rect x="24" y="184" width="210" height="62" rx="10" fill="url(#grad-core)" filter="url(#shadow)"/>
+  <text x="129" y="207" fill="white" font-size="13" font-weight="600" text-anchor="middle">RAG Pipeline</text>
+  <text x="129" y="224" fill="#bae6fd" font-size="11" text-anchor="middle">load · split · embed</text>
+  <text x="129" y="239" fill="#bae6fd" font-size="11" text-anchor="middle">retrieve · generate</text>
+  <!-- Graph Workflows -->
+  <rect x="254" y="184" width="212" height="62" rx="10" fill="url(#grad-core)" filter="url(#shadow)"/>
+  <text x="360" y="207" fill="white" font-size="13" font-weight="600" text-anchor="middle">Graph Workflows</text>
+  <text x="360" y="224" fill="#bae6fd" font-size="11" text-anchor="middle">StateGraph · parallel fan-out</text>
+  <text x="360" y="239" fill="#bae6fd" font-size="11" text-anchor="middle">cycles · HITL · checkpointing</text>
+  <!-- Agents -->
+  <rect x="486" y="184" width="210" height="62" rx="10" fill="url(#grad-core)" filter="url(#shadow)"/>
+  <text x="591" y="207" fill="white" font-size="13" font-weight="600" text-anchor="middle">Agents</text>
+  <text x="591" y="224" fill="#bae6fd" font-size="11" text-anchor="middle">ReAct · FunctionCalling</text>
+  <text x="591" y="239" fill="#bae6fd" font-size="11" text-anchor="middle">MCP · 32+ built-in tools</text>
+
+  <!-- ── Layer 4: Data & State ── -->
+  <!-- Retrieval / Vector Stores -->
+  <rect x="24" y="262" width="338" height="68" rx="10" fill="url(#grad-data)" filter="url(#shadow)"/>
+  <text x="193" y="286" fill="white" font-size="13" font-weight="600" text-anchor="middle">Retrieval Strategies (20)</text>
+  <text x="193" y="304" fill="#a7f3d0" font-size="11" text-anchor="middle">Hybrid · MMR · SelfQuery · GraphRAG · HyDE · BM25 · …</text>
+  <text x="193" y="320" fill="#a7f3d0" font-size="11" text-anchor="middle">Vector Stores: Chroma · Pinecone · Weaviate · Qdrant · FAISS</text>
+  <!-- Memory / Checkpointers -->
+  <rect x="372" y="262" width="324" height="68" rx="10" fill="url(#grad-data)" filter="url(#shadow)"/>
+  <text x="534" y="286" fill="white" font-size="13" font-weight="600" text-anchor="middle">Memory &amp; State (9 backends)</text>
+  <text x="534" y="304" fill="#a7f3d0" font-size="11" text-anchor="middle">InMemory · Redis · Postgres · DynamoDB · …</text>
+  <text x="534" y="320" fill="#a7f3d0" font-size="11" text-anchor="middle">Checkpointers (5): SQLite · Redis · Postgres · S3 · …</text>
+
+  <!-- ── Layer 5: LLM Providers ── -->
+  <rect x="24" y="346" width="672" height="52" rx="10" fill="url(#grad-llm)" filter="url(#shadow)"/>
+  <text x="360" y="367" fill="white" font-size="13" font-weight="700" text-anchor="middle">LLM Providers (16) — unified BaseLLM interface</text>
+  <text x="360" y="384" fill="#fef3c7" font-size="11" text-anchor="middle">OpenAI · Anthropic · Gemini · Ollama · Groq · Mistral · Cohere · DeepSeek · Bedrock · Azure · Perplexity · Cerebras · …</text>
+
+  <!-- ── Layer 6: Observability ── -->
+  <rect x="24" y="414" width="672" height="34" rx="10" fill="url(#grad-obs)" filter="url(#shadow)"/>
+  <text x="360" y="436" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle">Observability: TokenTracer  ·  CostTracker  ·  BudgetGuard  ·  OTelExporter  ·  DistributedTracer</text>
+
+  <!-- Left-side layer labels -->
+  <text x="10" y="79"  fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,79)">APP</text>
+  <text x="10" y="144" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,144)">TOOLS</text>
+  <text x="10" y="218" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,218)">CORE</text>
+  <text x="10" y="299" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,299)">DATA</text>
+  <text x="10" y="375" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,375)">LLM</text>
+  <text x="10" y="434" fill="#94a3b8" font-size="9" font-weight="600" text-anchor="middle" transform="rotate(-90,10,434)">OBS</text>
+</svg>

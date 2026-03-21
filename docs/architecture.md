@@ -8,22 +8,7 @@ SynapseKit is structured as a set of loosely-coupled, composable layers. You can
 
 ## Layer overview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Your Application                         │
-├─────────────────────────────────────────────────────────────┤
-│   CLI (synapsekit serve / test)   │   PromptHub   │ Plugins │
-├──────────────────┬──────────────────┬────────────────────────┤
-│   RAG Pipeline   │  Graph Workflow  │      Agents            │
-├──────────────────┴──────────────────┴────────────────────────┤
-│        Retrieval Strategies (20)   │   Memory (9)            │
-│        Vector Stores (5)           │   Checkpointers (5)     │
-├─────────────────────────────────────────────────────────────┤
-│              LLM Providers (16) — unified interface          │
-├─────────────────────────────────────────────────────────────┤
-│   Observability: TokenTracer │ CostTracker │ OTelExporter    │
-└─────────────────────────────────────────────────────────────┘
-```
+![SynapseKit layer architecture](/img/architecture-layers.svg)
 
 ## Core abstractions
 
@@ -66,42 +51,8 @@ Every public API is `async def`. Sync wrappers (e.g., `rag.query()`) call `async
 
 ## Data flow: RAG query
 
-```
-User query
-    │
-    ▼
-Embedder.embed(query)
-    │
-    ▼
-VectorStore.search(embedding, k=5)
-    │
-    ▼
-Retriever.retrieve(query, docs)    ← optional reranking / fusion
-    │
-    ▼
-LLM.generate(prompt + context)
-    │
-    ▼
-Response (str or AsyncIterator[str])
-```
+![RAG pipeline data flow](/img/rag-pipeline.svg)
 
 ## Data flow: Graph execution
 
-```
-CompiledGraph.run(initial_state)
-    │
-    ▼
-TopologicalSort → execution waves
-    │
-    ▼
-For each wave: asyncio.gather(*[node(state) for node in wave])
-    │
-    ▼
-State merges (TypedState reducers or dict merge)
-    │
-    ▼ (if checkpointer configured)
-Checkpointer.save(graph_id, step, state)
-    │
-    ▼
-Final state
-```
+![Graph execution flow](/img/graph-execution.svg)

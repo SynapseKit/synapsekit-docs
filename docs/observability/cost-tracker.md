@@ -114,11 +114,7 @@ All limits are optional floats in USD:
 
 BudgetGuard includes a circuit breaker that transitions through three states:
 
-| State | Description |
-|---|---|
-| `CLOSED` | Normal operation — all requests allowed |
-| `OPEN` | Budget exceeded — all requests blocked until cooldown |
-| `HALF_OPEN` | After cooldown — allows requests; closes if spend stays under limit |
+![Circuit breaker state machine — CLOSED, OPEN, HALF_OPEN](/img/circuit-breaker.svg)
 
 ```python
 from synapsekit import BudgetGuard, BudgetLimit, CircuitState

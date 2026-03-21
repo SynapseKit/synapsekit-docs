@@ -12,34 +12,7 @@ This document explains the two agent paradigms in SynapseKit — ReAct and funct
 
 ReAct (Reasoning + Acting) is a prompting strategy where the LLM interleaves thought steps with action steps. Each cycle produces three outputs:
 
-```
-+----------------------------------------------+
-|                                              |
-|  Thought: I need to look up the stock price  |
-|                                              |
-+------------------+---------------------------+
-                   |
-                   v
-+----------------------------------------------+
-|                                              |
-|  Action: search_web("AAPL stock price")      |
-|                                              |
-+------------------+---------------------------+
-                   |
-                   v
-+----------------------------------------------+
-|                                              |
-|  Observation: "AAPL is trading at $189.45"   |
-|                                              |
-+------------------+---------------------------+
-                   |
-          +--------+--------+
-          |                 |
-    Task done?           More steps
-          |                 |
-          v                 v
-     Final Answer     Back to Thought
-```
+![ReAct loop — Thought, Action, Observation cycle](/img/react-loop.svg)
 
 The loop continues until the LLM emits a `Final Answer` instead of an `Action`. A `max_steps` guard prevents infinite loops.
 
@@ -52,11 +25,11 @@ ReAct works with any LLM, including those that do not support native function ca
 Function calling is a native LLM capability where the model returns a structured JSON object specifying which tool to call, rather than generating the action as free text.
 
 ```
-User message -> LLM -> {"tool": "search_web", "args": {"query": "AAPL"}}
-                         |
-                    Your code executes the tool
-                         |
-                    Tool result -> LLM -> Final answer
+User message
+    → LLM returns: {"tool": "search_web", "args": {"query": "AAPL"}}
+    → Your code executes the tool
+    → Tool result fed back to LLM
+    → LLM returns: Final answer
 ```
 
 This is more reliable than ReAct because the JSON schema is enforced by the API. Parallel tool calls are also supported.
