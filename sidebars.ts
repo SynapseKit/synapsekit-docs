@@ -84,10 +84,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Multi-Agent',
-      items: [
-        'multi-agent/overview',
-        'multi-agent/a2a',
-      ],
+      items: ['multi-agent/overview', 'multi-agent/a2a'],
     },
     {
       type: 'category',
@@ -181,6 +178,27 @@ const sidebars: SidebarsConfig = {
       label: 'Cookbook',
       items: [
         'cookbook/index',
+        'cookbook/rag-patterns',
+        'cookbook/agent-patterns',
+        'cookbook/graph-patterns',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Reference',
+      items: [
+        'reference/env-vars',
+        'reference/errors',
+        'reference/troubleshooting',
+        'reference/security',
+        'reference/production',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Cookbook',
+      items: [
+        'cookbook/intro',
         'cookbook/rag-patterns',
         'cookbook/agent-patterns',
         'cookbook/graph-patterns',
