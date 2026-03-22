@@ -154,6 +154,77 @@ Use the [`synapsekit test`](/docs/cli/test) CLI to discover and run eval cases:
 synapsekit test tests/evals/ --threshold 0.8
 ```
 
+## EvalRegression
+
+Snapshot-based regression detection for CI pipelines. Save eval results as named snapshots, then compare against baselines to catch regressions.
+
+```python
+from synapsekit import EvalRegression
+
+regression = EvalRegression(store_dir=".synapsekit_evals")
+
+# Save a snapshot after running evals
+results = [{"name": "qa_test", "score": 0.85, "cost_usd": 0.02, "latency_ms": 1200}]
+regression.save_snapshot("v1.0", results)
+
+# Later, compare against baseline
+new_results = [{"name": "qa_test", "score": 0.80, "cost_usd": 0.03, "latency_ms": 1500}]
+regression.save_snapshot("v1.1", new_results)
+
+report = regression.compare("v1.0", "v1.1")
+print(report.has_regressions)  # True — score dropped 5%
+for delta in report.deltas:
+    if delta.regressed:
+        print(f"{delta.case_name}.{delta.metric}: {delta.baseline} → {delta.current}")
+```
+
+### Default thresholds
+
+| Metric | Threshold | Description |
+|---|---|---|
+| `score` | -0.02 (2% drop) | Quality score regression |
+| `cost_usd` | +0.10 (10% increase) | Cost regression |
+| `latency_ms` | +0.20 (20% increase) | Latency regression |
+
+### Custom thresholds
+
+```python
+report = regression.compare("v1.0", "v1.1", thresholds={
+    "score": -0.05,       # Allow up to 5% score drop
+    "cost_usd": 0.20,     # Allow up to 20% cost increase
+    "latency_ms": 0.50,   # Allow up to 50% latency increase
+})
+```
+
+### CLI integration
+
+Use `synapsekit test` with regression flags for CI gates:
+
+```bash
+# Save results as a named snapshot
+synapsekit test tests/evals/ --save v1.0
+
+# Compare against baseline and fail on regression
+synapsekit test tests/evals/ --compare v1.0 --fail-on-regression
+
+# Custom snapshot directory
+synapsekit test tests/evals/ --save v1.0 --snapshot-dir ./my_evals
+```
+
+See [`synapsekit test`](../cli/test) for full CLI reference.
+
+### Managing snapshots
+
+```python
+# List saved snapshots
+snapshots = regression.list_snapshots()
+# ["v1.0", "v1.1"]
+
+# Load a specific snapshot
+snapshot = regression.load_snapshot("v1.0")
+print(snapshot.name, snapshot.timestamp, len(snapshot.results))
+```
+
 ## See also
 
 - [synapsekit test](../cli/test) — CLI reference for running eval suites

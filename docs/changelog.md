@@ -8,6 +8,32 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.3.0 — Cost Routing, Compliance & Media Loaders
+
+**Cost-Intelligent Routing**
+- `CostRouter` — route to the cheapest model meeting a quality threshold, with automatic fallback on error
+- `FallbackChain` — try models in priority order, cascade on error or short responses
+- `QUALITY_TABLE` — built-in quality scores for 30+ models
+
+**Compliance**
+- `PIIRedactor` — reversible masking (`[EMAIL_1]`, `[PHONE_1]`) or permanent redaction with `wrap_generate()` for transparent LLM integration
+- `AuditLog` — immutable, append-only compliance log with memory, SQLite, and JSONL backends
+
+**Evaluation**
+- `EvalRegression` — snapshot-based regression detection with configurable thresholds for score, cost, and latency
+- `synapsekit test --save NAME` / `--compare BASELINE` / `--fail-on-regression` — CI gate for eval regressions
+
+**Media Loaders**
+- `AudioLoader` — transcribe audio files via Whisper API or local Whisper (`pip install synapsekit[audio]`)
+- `VideoLoader` — extract audio from video via ffmpeg, then transcribe (`pip install synapsekit[video]`)
+
+**Agents**
+- `stream_steps()` on `ReActAgent` and `FunctionCallingAgent` — stream `ThoughtEvent`, `ActionEvent`, `ObservationEvent`, `TokenEvent`, `FinalAnswerEvent` in real time
+
+**Stats:** 1203 tests, 16 LLM providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 5 checkpointers
+
+---
+
 ## v1.2.0 — Serve, Cost Intelligence & Eval CLI
 
 **CLI**
