@@ -67,6 +67,7 @@ const sidebars: SidebarsConfig = {
         'llms/cerebras',
         'llms/vertex-ai',
         'llms/caching-retries',
+        'llms/cost-router',
       ],
     },
     {
@@ -81,6 +82,7 @@ const sidebars: SidebarsConfig = {
         'agents/mcp',
         'agents/cookbook',
         'agents/tool-authoring',
+        'agents/streaming-steps',
       ],
     },
     {
@@ -101,7 +103,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Observability',
-      items: ['observability/overview', 'observability/cost-tracker'],
+      items: ['observability/overview', 'observability/cost-tracker', 'observability/audit-log'],
     },
     {
       type: 'category',

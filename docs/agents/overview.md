@@ -177,6 +177,7 @@ config = AgentConfig(
 - [Function Calling Agent](./function-calling) — native tool_calls for OpenAI and Anthropic
 - [Built-in Tools](./tools) — all 32+ tools with usage examples
 - [AgentExecutor](./executor) — unified runner, multi-step loops, and streaming
+- [Streaming Steps](./streaming-steps) — stream `ThoughtEvent`, `ActionEvent`, `TokenEvent` in real time
 - [Agent Cookbook](./cookbook) — 10 common patterns with full code examples
 - [Tool Authoring Guide](./tool-authoring) — build custom tools with `@tool` and `BaseTool`
 - [Multi-Agent](../multi-agent/overview) — coordinating multiple agents with message passing

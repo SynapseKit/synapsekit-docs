@@ -243,6 +243,73 @@ docs = MarkdownLoader("README.md", strip_frontmatter=False).load()
 
 ---
 
+## AudioLoader
+
+Transcribe audio files into Documents using OpenAI Whisper API or local Whisper.
+
+```bash
+pip install synapsekit[audio]
+```
+
+```python
+from synapsekit import AudioLoader
+
+# Using Whisper API (default)
+docs = AudioLoader("interview.mp3", api_key="sk-...").load()
+# docs[0].text     → transcribed text
+# docs[0].metadata → {"source": "interview.mp3", "loader": "AudioLoader", "backend": "whisper_api"}
+
+# Using local Whisper
+docs = AudioLoader("interview.mp3", backend="whisper_local").load()
+
+# Async
+docs = await AudioLoader("interview.mp3", api_key="sk-...").aload()
+```
+
+Supported formats: `.mp3`, `.wav`, `.m4a`, `.ogg`, `.flac`, `.webm`
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` | required | Path to audio file |
+| `api_key` | `str \| None` | `None` | OpenAI API key (for `whisper_api`) |
+| `backend` | `str` | `"whisper_api"` | `"whisper_api"` or `"whisper_local"` |
+| `language` | `str \| None` | `None` | Language hint |
+| `model` | `str` | `"whisper-1"` | Whisper model name |
+
+---
+
+## VideoLoader
+
+Extract audio from video files via ffmpeg, then transcribe using AudioLoader.
+
+```bash
+pip install synapsekit[video]
+# Requires ffmpeg installed on your system
+```
+
+```python
+from synapsekit import VideoLoader
+
+docs = VideoLoader("lecture.mp4", api_key="sk-...").load()
+# docs[0].text     → transcribed speech
+# docs[0].metadata → {"source": "lecture.mp4", "loader": "VideoLoader", "backend": "whisper_api"}
+
+# Async
+docs = await VideoLoader("lecture.mp4", api_key="sk-...").aload()
+```
+
+Supported formats: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.m4v`
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` | required | Path to video file |
+| `api_key` | `str \| None` | `None` | OpenAI API key |
+| `backend` | `str` | `"whisper_api"` | Whisper backend |
+| `language` | `str \| None` | `None` | Language hint |
+| `keep_audio` | `bool` | `False` | Keep extracted audio file |
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

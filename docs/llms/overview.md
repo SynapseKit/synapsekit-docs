@@ -107,4 +107,5 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [Anthropic](./anthropic) — Claude models, extended context, tool use
 - [Ollama](./ollama) — run local models with no API key
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
+- [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

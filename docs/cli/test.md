@@ -19,6 +19,10 @@ synapsekit test tests/evals/ --threshold 0.8 --format table
 | `path` | `.` | Directory or file to scan for eval files |
 | `--threshold` | `0.7` | Global minimum score threshold |
 | `--format` | `table` | Output format: `table` or `json` |
+| `--save NAME` | — | Save results as a named snapshot |
+| `--compare BASELINE` | — | Compare results against a saved baseline |
+| `--fail-on-regression` | `false` | Exit with code 1 if regressions are detected |
+| `--snapshot-dir DIR` | `.synapsekit_evals` | Directory for snapshot storage |
 
 ## File discovery
 
@@ -110,7 +114,42 @@ The command exits with code 1 if any eval case fails, making it suitable for CI 
   run: synapsekit test tests/evals/ --threshold 0.8
 ```
 
+## Regression detection
+
+Save eval snapshots and compare against baselines to catch regressions in CI:
+
+```bash
+# Save a baseline snapshot
+synapsekit test tests/evals/ --save baseline
+
+# On each PR, compare against baseline
+synapsekit test tests/evals/ --compare baseline --fail-on-regression
+```
+
+The regression report shows deltas for score, cost, and latency:
+
+```
+Regression Report: baseline → current
+---------------------------------------------
+REGRESSED  eval_qa.score: 0.850 → 0.780 (-8.2%)
+OK         eval_qa.cost_usd: 0.020 → 0.022 (+10.0%)
+OK         eval_qa.latency_ms: 1200 → 1300 (+8.3%)
+---------------------------------------------
+1 regression(s) detected
+```
+
+Default thresholds: 2% score drop, 10% cost increase, 20% latency increase. See [EvalRegression](/docs/evaluation/overview#evalregression) for custom thresholds.
+
+### GitHub Actions example
+
+```yaml
+- name: Run evals with regression check
+  run: |
+    synapsekit test tests/evals/ --threshold 0.8 --compare baseline --fail-on-regression
+```
+
 ## See also
 
 - [`@eval_case` decorator](/docs/evaluation/overview#eval_case-decorator)
+- [EvalRegression](/docs/evaluation/overview#evalregression) — snapshot comparison API
 - [CostTracker](/docs/observability/cost-tracker) for cost tracking in eval cases

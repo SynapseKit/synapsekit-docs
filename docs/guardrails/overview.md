@@ -82,7 +82,63 @@ if not result.passed:
     print(f"Blocked: {result.reason}")  # "PII detected: ssn"
 ```
 
+## PIIRedactor
+
+Advanced PII handling with reversible masking and LLM integration. Builds on `PIIDetector` with numbered placeholders, same-value deduplication, and a `wrap_generate()` helper.
+
+```python
+from synapsekit import PIIRedactor
+
+redactor = PIIRedactor(pii_types=["email", "phone"], mode="mask")
+
+# Redact PII with numbered placeholders
+result = redactor.redact("Email alice@example.com or call 555-123-4567")
+print(result.redacted_text)    # "Email [EMAIL_1] or call [PHONE_1]"
+print(result.mapping)          # {"[EMAIL_1]": "alice@example.com", "[PHONE_1]": "555-123-4567"}
+print(result.pii_types_found)  # ["email", "phone"]
+
+# Restore original values
+restored = redactor.restore(result.redacted_text, result.mapping)
+print(restored)  # "Email alice@example.com or call 555-123-4567"
+```
+
+### Modes
+
+| Mode | Description | Mapping |
+|---|---|---|
+| `"mask"` (default) | Reversible — placeholders can be restored | Yes |
+| `"redact"` | Permanent — no mapping stored | No |
+
+### Transparent LLM integration
+
+Use `wrap_generate()` to automatically redact PII before sending to the LLM and restore it in the response:
+
+```python
+from synapsekit import PIIRedactor
+
+redactor = PIIRedactor(pii_types=["email"], mode="mask")
+
+# The LLM never sees real PII
+restored_response, redaction = await redactor.wrap_generate(
+    llm, "My email is alice@example.com, confirm it"
+)
+# LLM receives: "My email is [EMAIL_1], confirm it"
+# LLM responds: "Your email is [EMAIL_1]."
+# restored_response: "Your email is alice@example.com."
+```
+
+### Same-value deduplication
+
+Identical PII values always get the same placeholder:
+
+```python
+result = redactor.redact("Contact alice@example.com. Reply to alice@example.com.")
+# "[EMAIL_1]" appears twice, mapping has only one entry
+```
+
 ### Using with agents
+
+
 
 ```python
 from synapsekit import FunctionCallingAgent, Guardrails, ContentFilter, PIIDetector
