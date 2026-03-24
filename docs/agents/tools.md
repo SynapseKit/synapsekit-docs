@@ -859,3 +859,174 @@ r = await tool.run(query="latest AI news", count=5)
 The API key is resolved in order:
 1. `api_key` constructor parameter
 2. `BRAVE_API_KEY` environment variable
+
+---
+
+## APIBuilderTool
+
+Build and execute API calls from OpenAPI specs or natural-language intent. Supports inline specs, spec URLs, explicit path/method, and optional LLM-assisted operation selection. Uses stdlib `urllib` — no extra dependencies.
+
+```python
+from synapsekit import APIBuilderTool
+
+tool = APIBuilderTool()
+
+# From an OpenAPI spec
+spec = {
+    "openapi": "3.0.0",
+    "servers": [{"url": "https://api.example.com"}],
+    "paths": {
+        "/users": {
+            "get": {"operationId": "listUsers", "summary": "List users"},
+            "post": {"operationId": "createUser", "summary": "Create user"},
+        }
+    },
+}
+r = await tool.run(intent="list all users", openapi_spec=spec)
+# r.output → "Selected operation: listUsers\nRequest: GET https://api.example.com/users\n\nHTTP 200\n[...]"
+```
+
+### With explicit path and parameters
+
+```python
+r = await tool.run(
+    intent="get user by id",
+    path="/users/{id}",
+    method="GET",
+    server_url="https://api.example.com",
+    path_params={"id": 42},
+    query_params={"expand": "profile"},
+    headers={"Authorization": "Bearer token123"},
+)
+```
+
+### With LLM-assisted operation selection
+
+```python
+tool = APIBuilderTool(llm=llm)
+r = await tool.run(intent="create a new user", openapi_spec=spec)
+# LLM picks the best operationId; falls back to token scoring if LLM fails
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `intent` | — | Natural-language description of the API call (required) |
+| `openapi_spec` | `""` | Inline OpenAPI spec as dict or JSON string |
+| `openapi_url` | `""` | URL to fetch an OpenAPI spec from |
+| `operation_id` | `""` | Explicit operationId to invoke |
+| `path` | `""` | Explicit API path (e.g. `/users/{id}`) |
+| `method` | `"GET"` | HTTP method when using explicit path |
+| `server_url` | `""` | Base server URL override |
+| `path_params` | `{}` | Path parameters for templated routes |
+| `query_params` | `{}` | Query parameters |
+| `headers` | `{}` | HTTP headers |
+| `body` | `""` | Request body (dict, JSON string, or plain text) |
+
+---
+
+## GoogleCalendarTool
+
+Create, list, and delete Google Calendar events. Uses the Google Calendar API v3 with Application Default Credentials.
+
+```bash
+pip install synapsekit[gcal-tool]
+```
+
+```python
+from synapsekit import GoogleCalendarTool
+
+tool = GoogleCalendarTool()
+
+# List upcoming events
+r = await tool.run(action="list_events", max_results=5)
+# r.output → "- Standup | 2026-03-24T09:00:00+05:30 -> 2026-03-24T09:15:00+05:30 | evt1"
+
+# Create an event
+r = await tool.run(
+    action="create_event",
+    summary="Team Meeting",
+    description="Weekly sync",
+    start="2026-03-25T14:00:00Z",
+    end="2026-03-25T15:00:00Z",
+    timezone="America/New_York",
+)
+# r.output → "Created event: Team Meeting | https://calendar.google.com/..."
+
+# Delete an event
+r = await tool.run(action="delete_event", event_id="evt-123")
+# r.output → "Deleted event evt-123 from calendar primary."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `list_events`, `create_event`, or `delete_event` (required) |
+| `calendar_id` | `"primary"` | Calendar ID |
+| `max_results` | `10` | Max events for `list_events` |
+| `time_min` | `""` | RFC3339 lower bound for `list_events` |
+| `time_max` | `""` | RFC3339 upper bound for `list_events` |
+| `summary` | `""` | Event title (required for `create_event`) |
+| `description` | `""` | Event description |
+| `start` | `""` | RFC3339 start datetime (required for `create_event`) |
+| `end` | `""` | RFC3339 end datetime (required for `create_event`) |
+| `timezone` | `"UTC"` | Timezone for the event |
+| `event_id` | `""` | Event ID (required for `delete_event`) |
+
+:::tip
+Set up [Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) before using this tool. For local development, run `gcloud auth application-default login`.
+:::
+
+---
+
+## AWSLambdaTool
+
+Invoke AWS Lambda functions. Uses boto3 with standard AWS credential resolution.
+
+```bash
+pip install synapsekit[aws-lambda]
+```
+
+```python
+from synapsekit import AWSLambdaTool
+
+tool = AWSLambdaTool(region_name="us-east-1")
+
+# Invoke a function
+r = await tool.run(
+    function_name="my-function",
+    payload={"key": "value"},
+)
+# r.output → "StatusCode: 200\nExecutedVersion: $LATEST\nPayload:\n{...}"
+
+# Async invocation (fire-and-forget)
+r = await tool.run(
+    function_name="my-function",
+    payload={"key": "value"},
+    invocation_type="Event",
+)
+
+# Invoke a specific version or alias
+r = await tool.run(
+    function_name="my-function",
+    qualifier="v2",
+)
+
+# Dry run (validate permissions without executing)
+r = await tool.run(
+    function_name="my-function",
+    invocation_type="DryRun",
+)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `function_name` | — | Lambda function name or ARN (required) |
+| `payload` | `{}` | JSON payload to send (dict, string, or bytes) |
+| `invocation_type` | `"RequestResponse"` | `RequestResponse`, `Event`, or `DryRun` |
+| `qualifier` | `""` | Version or alias to invoke |
+| `region_name` | `""` | AWS region override |
+
+Region is resolved in order:
+1. `region_name` parameter in `run()`
+2. `region_name` constructor parameter
+3. `AWS_REGION` or `AWS_DEFAULT_REGION` environment variable
+4. Default boto3 configuration
