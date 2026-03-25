@@ -1030,3 +1030,115 @@ Region is resolved in order:
 2. `region_name` constructor parameter
 3. `AWS_REGION` or `AWS_DEFAULT_REGION` environment variable
 4. Default boto3 configuration
+
+---
+
+## ImageAnalysisTool
+
+Analyze or describe an image using a multimodal LLM. Supports local file paths and public URLs.
+
+```bash
+pip install synapsekit[openai]  # or synapsekit[anthropic]
+```
+
+```python
+from synapsekit import ImageAnalysisTool, OpenAILLM, LLMConfig
+
+llm = OpenAILLM(LLMConfig(model="gpt-4o", api_key="sk-..."))
+tool = ImageAnalysisTool(llm=llm)
+
+# From a local file
+r = await tool.run(path="/path/to/image.png")
+# r.output → "The image shows a golden retriever sitting on a beach..."
+
+# From a URL
+r = await tool.run(image_url="https://example.com/photo.jpg", prompt="What objects are visible?")
+
+# Custom prompt
+r = await tool.run(path="/path/to/chart.png", prompt="Extract all data values from this chart.")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `path` | — | Local image file path |
+| `image_url` | — | Public image URL |
+| `prompt` | `"Describe this image in detail."` | Analysis instruction |
+| `media_type` | `"image/png"` | MIME type for URL-based images |
+
+Works with any multimodal LLM provider (OpenAI `gpt-4o`, Anthropic `claude-3-5-sonnet`, Google Gemini, etc.).
+
+---
+
+## TextToSpeechTool
+
+Convert text to speech audio using OpenAI TTS. Saves the audio to a local file.
+
+```bash
+pip install synapsekit[openai]
+```
+
+```python
+from synapsekit import TextToSpeechTool
+
+tool = TextToSpeechTool(api_key="sk-...")
+
+r = await tool.run(text="Hello, world!", output_path="/tmp/hello.mp3")
+# r.output → "Saved speech audio to /tmp/hello.mp3"
+
+# Different voice and format
+r = await tool.run(
+    text="Welcome to SynapseKit.",
+    output_path="/tmp/welcome.wav",
+    voice="nova",
+    format="wav",
+)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `text` | — | Text to synthesize (required) |
+| `output_path` | — | Path to save the audio file (required) |
+| `voice` | `"alloy"` | Voice: `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer` |
+| `model` | `"tts-1"` | TTS model: `tts-1` (faster) or `tts-1-hd` (higher quality) |
+| `format` | `"mp3"` | Audio format: `mp3`, `wav`, `flac`, `aac` |
+
+The API key is resolved in order:
+1. `api_key` parameter in `run()`
+2. `api_key` constructor parameter
+3. `OPENAI_API_KEY` environment variable
+
+---
+
+## SpeechToTextTool
+
+Transcribe audio files to text using OpenAI Whisper API or a local Whisper model.
+
+```bash
+pip install synapsekit[openai]           # for whisper_api backend
+pip install synapsekit[whisper]          # for whisper_local backend
+```
+
+```python
+from synapsekit import SpeechToTextTool
+
+# Whisper API (default)
+tool = SpeechToTextTool(api_key="sk-...")
+r = await tool.run(path="/path/to/audio.mp3")
+# r.output → "Hello, this is the transcribed text."
+
+# Local Whisper model (no API key required)
+tool = SpeechToTextTool(backend="whisper_local", model="base")
+r = await tool.run(path="/path/to/audio.wav")
+
+# Specify language
+r = await tool.run(path="/path/to/audio.mp3", language="fr")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `path` | — | Audio file path (required) |
+| `backend` | `"whisper_api"` | `"whisper_api"` (OpenAI) or `"whisper_local"` (local model) |
+| `model` | `"whisper-1"` | Model name (`whisper-1` for API; `base`, `small`, `medium`, `large` for local) |
+| `language` | — | Optional language hint (e.g. `"en"`, `"fr"`) |
+
+Supports MP3, WAV, FLAC, M4A, OGG, and other common audio formats.
