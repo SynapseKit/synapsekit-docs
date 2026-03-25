@@ -8,6 +8,30 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.0 — New Providers, Tools & Multimodal
+
+**4 new LLM providers**
+- `AI21LLM` — AI21 Jamba models (`jamba-1.5-mini`, `jamba-1.5-large`) with 256K context and native function calling
+- `DatabricksLLM` — Databricks Foundation Model APIs (DBRX, Llama 3.1, Mixtral) via OpenAI-compatible endpoint; resolves workspace URL from `DATABRICKS_HOST`
+- `ErnieLLM` — Baidu ERNIE Bot (`ernie-4.0`, `ernie-3.5`, `ernie-speed`, `ernie-lite`, `ernie-tiny-8k`) for Chinese-English tasks
+- `LlamaCppLLM` — local GGUF models via llama-cpp-python with true async streaming; no API key required; GPU offload via `n_gpu_layers`
+
+**6 new built-in tools**
+- `APIBuilderTool` — build and execute API calls from OpenAPI specs or natural-language intent; optional LLM-assisted operation selection
+- `GoogleCalendarTool` — create, list, delete Google Calendar events via Calendar API v3 (`pip install synapsekit[gcal-tool]`)
+- `AWSLambdaTool` — invoke AWS Lambda functions with RequestResponse/Event/DryRun types (`pip install synapsekit[aws-lambda]`)
+- `ImageAnalysisTool` — analyze images with any multimodal LLM; accepts local paths or public URLs
+- `TextToSpeechTool` — convert text to speech audio via OpenAI TTS; 6 voices, 4 formats (`pip install synapsekit[openai]`)
+- `SpeechToTextTool` — transcribe audio files via Whisper API or local Whisper model
+
+**Auto-detection extended**
+
+RAG facade now auto-detects `moonshot-*`, `glm-*`, `jamba-*`, `@cf/*`, `@hf/*`, `dbrx-*`/`databricks-*`, `ernie-*` model prefixes.
+
+**Stats:** 1327 tests, 23 LLM providers, 38 built-in tools, 20 retrieval strategies, 9 memory backends
+
+---
+
 ## v1.3.0 — Cost Routing, Compliance & Media Loaders
 
 **Cost-Intelligent Routing**
@@ -30,7 +54,7 @@ All notable changes to SynapseKit are documented here.
 **Agents**
 - `stream_steps()` on `ReActAgent` and `FunctionCallingAgent` — stream `ThoughtEvent`, `ActionEvent`, `ObservationEvent`, `TokenEvent`, `FinalAnswerEvent` in real time
 
-**Stats:** 1203 tests, 16 LLM providers, 20 retrieval strategies, 6 text splitters, 9 memory backends, 5 checkpointers
+**Stats:** 1203 tests, 19 LLM providers (added Moonshot, Zhipu, Cloudflare), 32 tools, 20 retrieval strategies, 6 text splitters, 9 memory backends, 5 checkpointers
 
 ---
 

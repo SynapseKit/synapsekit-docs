@@ -94,4 +94,4 @@ Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-sho
 
 ## Version
 
-Current version: **1.2.0** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).
+Current version: **1.4.0** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).
