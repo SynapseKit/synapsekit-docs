@@ -42,9 +42,9 @@ Full retrieval-augmented generation with chunking, embedding, vector search, BM2
 
 → [RAG Pipeline docs](/docs/rag/pipeline)
 
-### 16 LLM providers
+### 20 LLM providers
 
-OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI — all behind `BaseLLM`. Auto-detected from the model name.
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp — all behind `BaseLLM`. Auto-detected from the model name.
 
 → [LLM Provider docs](/docs/llms/overview)
 
@@ -65,7 +65,7 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 `ReActAgent` — Thought → Action → Observation loop, works with any LLM.
 `FunctionCallingAgent` — native `tool_calls` / `tool_use` for OpenAI, Anthropic, Gemini, and Mistral.
 `AgentExecutor` — unified runner, picks the right agent from config.
-24 built-in tools: Calculator, PythonREPL, FileRead, FileWrite, FileList, WebSearch, SQL, HTTP, DateTime, Regex, JSONQuery, HumanInput, Wikipedia, Summarization, SentimentAnalysis, Translation, WebScraper, Shell, SQLSchemaInspection, DuckDuckGoSearch, PDFReader, GraphQL, ArxivSearch, TavilySearch.
+27 built-in tools: Calculator, PythonREPL, FileRead, FileWrite, FileList, WebSearch, SQL, HTTP, DateTime, Regex, JSONQuery, HumanInput, Wikipedia, Summarization, SentimentAnalysis, Translation, WebScraper, Shell, SQLSchemaInspection, DuckDuckGoSearch, PDFReader, GraphQL, ArxivSearch, TavilySearch, ImageAnalysis, TextToSpeech, SpeechToText.
 
 → [Agent docs](/docs/agents/overview)
 

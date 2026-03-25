@@ -7,7 +7,7 @@ sidebar_position: 1
 [![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
 [![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
-[![Tests](https://img.shields.io/badge/tests-1133%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+[![Tests](https://img.shields.io/badge/tests-1327%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
 
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
@@ -67,6 +67,11 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Fireworks AI | `FireworksLLM` | `pip install synapsekit[openai]` | `"fireworks"` |
 | Perplexity AI | `PerplexityLLM` | `pip install synapsekit[openai]` | `"perplexity"` |
 | Cerebras | `CerebrasLLM` | `pip install synapsekit[openai]` | `"cerebras"` |
+| Google Vertex AI | `VertexAILLM` | `pip install synapsekit[vertexai]` | `"vertexai"` |
+| AI21 Labs | `AI21LLM` | `pip install synapsekit[ai21]` | `"ai21"` |
+| Databricks | `DatabricksLLM` | `pip install synapsekit[openai]` | `"databricks"` |
+| Baidu ERNIE | `ErnieLLM` | `pip install synapsekit[ernie]` | `"ernie"` |
+| llama.cpp | `LlamaCppLLM` | `pip install synapsekit[llamacpp]` | `"llamacpp"` |
 
 ## Auto-detection
 
@@ -79,6 +84,12 @@ The `RAG` facade auto-detects the provider from the model name:
 | `command-*` | `cohere` |
 | `mistral-*`, `open-mistral-*` | `mistral` |
 | `deepseek-*` | `deepseek` |
+| `moonshot-*` | `moonshot` |
+| `glm-*` | `zhipu` |
+| `jamba-*` | `ai21` |
+| `@cf/*`, `@hf/*` | `cloudflare` |
+| `dbrx-*`, `databricks-*` | `databricks` |
+| `ernie-*` | `ernie` |
 | `llama-*`, `mixtral-*`, `gemma-*` | `groq` |
 | `*/...` (contains `/`) | `openrouter` |
 | everything else | `openai` |
@@ -106,6 +117,10 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [OpenAI](./openai) — GPT-4o, GPT-4o-mini, structured output, vision
 - [Anthropic](./anthropic) — Claude models, extended context, tool use
 - [Ollama](./ollama) — run local models with no API key
+- [AI21 Labs](./ai21) — Jamba models, 256K context
+- [Databricks](./databricks) — DBRX and Llama on your workspace
+- [Baidu ERNIE](./ernie) — Chinese-English bilingual models
+- [llama.cpp](./llamacpp) — run GGUF models fully on-device
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending
