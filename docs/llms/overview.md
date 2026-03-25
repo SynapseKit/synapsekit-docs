@@ -68,6 +68,9 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Perplexity AI | `PerplexityLLM` | `pip install synapsekit[openai]` | `"perplexity"` |
 | Cerebras | `CerebrasLLM` | `pip install synapsekit[openai]` | `"cerebras"` |
 | Google Vertex AI | `VertexAILLM` | `pip install synapsekit[vertexai]` | `"vertexai"` |
+| Moonshot AI | `MoonshotLLM` | `pip install synapsekit[openai]` | `"moonshot"` |
+| Zhipu AI | `ZhipuLLM` | `pip install synapsekit[openai]` | `"zhipu"` |
+| Cloudflare AI | `CloudflareLLM` | built-in | `"cloudflare"` |
 | AI21 Labs | `AI21LLM` | `pip install synapsekit[ai21]` | `"ai21"` |
 | Databricks | `DatabricksLLM` | `pip install synapsekit[openai]` | `"databricks"` |
 | Baidu ERNIE | `ErnieLLM` | `pip install synapsekit[ernie]` | `"ernie"` |
