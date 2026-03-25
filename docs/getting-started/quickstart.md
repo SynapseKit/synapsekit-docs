@@ -104,7 +104,7 @@ answer = rag.ask_sync("What are the key findings?")
 
 ## 5. Use a different LLM
 
-SynapseKit supports 16 providers. Swap the provider with no other code changes:
+SynapseKit supports 23 providers. Swap the provider with no other code changes:
 
 <Tabs groupId="llm-provider">
 <TabItem value="openai" label="OpenAI" default>
@@ -279,4 +279,4 @@ context + query → LLM.stream() → tokens
 | [RAG Pipeline](/docs/rag/pipeline) | Full RAG pipeline docs |
 | [Agents](/docs/agents/overview) | ReAct and function calling agents |
 | [Graph Workflows](/docs/graph/overview) | DAG-based async pipelines |
-| [LLM Providers](/docs/llms/overview) | All 16 providers with examples |
+| [LLM Providers](/docs/llms/overview) | All 23 providers with examples |

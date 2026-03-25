@@ -60,7 +60,7 @@ Choose your agent type based on your LLM and task requirements:
 
 ## Built-in tools
 
-SynapseKit includes 32+ built-in tools organized by category:
+SynapseKit includes 38 built-in tools organized by category:
 
 ### Math and code
 | Tool | Class | Description |
@@ -72,42 +72,56 @@ SynapseKit includes 32+ built-in tools organized by category:
 ### Web and search
 | Tool | Class | Extra | Description |
 |---|---|---|---|
-| Web Search | `WebSearchTool` | `synapsekit[search]` | DuckDuckGo search |
-| Web Fetch | `WebFetchTool` | none | Fetch and parse a URL |
-| Wikipedia | `WikipediaTool` | none | Search Wikipedia |
-| News Search | `NewsSearchTool` | `synapsekit[search]` | Recent news articles |
+| Web Search | `WebSearchTool` | `synapsekit[search]` | DuckDuckGo web search |
+| DuckDuckGo | `DuckDuckGoSearchTool` | `synapsekit[search]` | Text and news search |
+| Wikipedia | `WikipediaTool` | none | Search Wikipedia articles |
+| Arxiv | `ArxivSearchTool` | none | Academic paper search |
+| PubMed | `PubMedSearchTool` | none | Biomedical literature search |
+| Tavily | `TavilySearchTool` | `synapsekit[tavily]` | AI-optimized web search |
+| Brave Search | `BraveSearchTool` | none | Brave Search API |
+| YouTube | `YouTubeSearchTool` | `synapsekit[youtube]` | YouTube video search |
 
 ### File and data
 | Tool | Class | Description |
 |---|---|---|
-| File Read | `FileReadTool` | Read local files (text, JSON, CSV) |
+| File Read | `FileReadTool` | Read local files |
 | File Write | `FileWriteTool` | Write content to local files |
-| Directory List | `DirectoryListTool` | List files in a directory |
-| CSV Reader | `CSVReaderTool` | Load and query CSV files |
-| JSON Parser | `JSONParserTool` | Parse and extract fields from JSON |
+| File List | `FileListTool` | List files in a directory |
+| PDF Reader | `PDFReaderTool` | Extract text from PDFs |
+| JSON Query | `JSONQueryTool` | Query JSON with dot-notation paths |
+| Regex | `RegexTool` | Apply regex (findall, replace, split) |
+| DateTime | `DateTimeTool` | Get/format/parse dates and times |
 
 ### Database
 | Tool | Class | Extra | Description |
 |---|---|---|---|
 | SQL Query | `SQLQueryTool` | `sqlalchemy` optional | SQL SELECT queries |
-| SQLite | `SQLiteTool` | none | SQLite read/write |
-| MongoDB | `MongoDBTool` | `motor` | MongoDB queries |
+| SQL Schema | `SQLSchemaInspectionTool` | `sqlalchemy` optional | Inspect DB schema |
+| GraphQL | `GraphQLTool` | `synapsekit[http]` | Execute GraphQL queries |
+| HTTP Request | `HTTPRequestTool` | none | GET/POST/PUT/DELETE any endpoint |
 
 ### APIs and integrations
 | Tool | Class | Extra | Description |
 |---|---|---|---|
-| HTTP Request | `HTTPRequestTool` | none | GET/POST any HTTP endpoint |
-| GitHub | `GitHubTool` | none | Read repos, issues, PRs |
-| Slack | `SlackTool` | `slack-sdk` | Send Slack messages |
+| GitHub API | `GitHubAPITool` | none | Search repos, issues, PRs |
+| Slack | `SlackTool` | none | Send messages via webhook or bot token |
 | Email | `EmailTool` | none | Send emails via SMTP |
+| Jira | `JiraTool` | none | Search, create, comment on Jira issues |
+| Google Calendar | `GoogleCalendarTool` | `synapsekit[gcal-tool]` | List, create, delete calendar events |
+| AWS Lambda | `AWSLambdaTool` | `synapsekit[aws-lambda]` | Invoke Lambda functions |
+| API Builder | `APIBuilderTool` | none | Execute API calls from OpenAPI specs |
 
 ### AI and ML
-| Tool | Class | Description |
-|---|---|---|
-| Image Describer | `ImageDescriberTool` | Describe images using vision LLM |
-| Text Classifier | `TextClassifierTool` | Zero-shot classification |
-| Embeddings | `EmbeddingsTool` | Compute text embeddings |
-| Vector Search | `VectorSearchTool` | Similarity search over a vector store |
+| Tool | Class | Extra | Description |
+|---|---|---|---|
+| Summarization | `SummarizationTool` | LLM required | Summarize text with an LLM |
+| Sentiment Analysis | `SentimentAnalysisTool` | LLM required | Analyze text sentiment |
+| Translation | `TranslationTool` | LLM required | Translate between languages |
+| Image Analysis | `ImageAnalysisTool` | `synapsekit[openai]` | Analyze images with a vision LLM |
+| Text to Speech | `TextToSpeechTool` | `synapsekit[openai]` | Convert text to audio (OpenAI TTS) |
+| Speech to Text | `SpeechToTextTool` | `synapsekit[openai]` | Transcribe audio (Whisper API/local) |
+| Vector Search | `VectorSearchTool` | none | Similarity search over a vector store |
+| Human Input | `HumanInputTool` | none | Pause to collect user input |
 
 ## ReActAgent vs FunctionCallingAgent vs MCPAgent
 
@@ -175,7 +189,7 @@ config = AgentConfig(
 
 - [ReAct Agent](./react) — prompt-based reasoning loop that works with any LLM
 - [Function Calling Agent](./function-calling) — native tool_calls for OpenAI and Anthropic
-- [Built-in Tools](./tools) — all 32+ tools with usage examples
+- [Built-in Tools](./tools) — all 38 tools with usage examples
 - [AgentExecutor](./executor) — unified runner, multi-step loops, and streaming
 - [Streaming Steps](./streaming-steps) — stream `ThoughtEvent`, `ActionEvent`, `TokenEvent` in real time
 - [Agent Cookbook](./cookbook) — 10 common patterns with full code examples
