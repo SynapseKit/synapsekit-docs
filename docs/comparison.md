@@ -13,11 +13,11 @@ A practical comparison of the three most popular Python LLM frameworks.
 | **Core dependencies** | 2 | 50+ | 20+ |
 | **Async-native** | ✅ Yes (default) | ⚠️ Partial | ⚠️ Partial |
 | **Streaming** | ✅ Token-level, all providers | ✅ Yes | ✅ Yes |
-| **LLM providers** | 23 | 38+ | 20+ |
+| **LLM providers** | 25 | 38+ | 20+ |
 | **RAG pipelines** | ✅ Built-in | ✅ Built-in | ✅ Built-in (focus) |
 | **Agent frameworks** | ✅ ReAct, FuncCall, Multi-agent | ✅ LangGraph | ⚠️ Limited |
 | **Graph workflows** | ✅ Built-in | ✅ LangGraph (separate) | ❌ No |
-| **Built-in tools** | 38 | 50+ | 15+ |
+| **Built-in tools** | 40 | 50+ | 15+ |
 | **Observability** | ✅ OTel, DistributedTracer, CostTracker | ✅ LangSmith (SaaS) | ⚠️ Limited |
 | **Cost tracking** | ✅ CostTracker + BudgetGuard | ❌ Requires LangSmith | ❌ No |
 | **Deployment** | ✅ `synapsekit serve` | ✅ LangServe (deprecated) | ❌ No |

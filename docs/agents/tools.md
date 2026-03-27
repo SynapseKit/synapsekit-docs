@@ -1141,4 +1141,50 @@ r = await tool.run(path="/path/to/audio.mp3", language="fr")
 | `model` | `"whisper-1"` | Model name (`whisper-1` for API; `base`, `small`, `medium`, `large` for local) |
 | `language` | — | Optional language hint (e.g. `"en"`, `"fr"`) |
 
+---
+
+## BingSearchTool
+
+Search the web via the Bing Web Search API v7. Requires an `Ocp-Apim-Subscription-Key`.
+
+```python
+from synapsekit import BingSearchTool
+
+tool = BingSearchTool(api_key="your-bing-subscription-key")
+
+r = await tool.run(query="SynapseKit async RAG framework", max_results=5)
+# r.output → formatted list of results with title, URL, snippet
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `max_results` | `5` | Maximum number of results to return |
+
+The API key can also be set via the `BING_SEARCH_API_KEY` environment variable.
+
+---
+
+## WolframAlphaTool
+
+Query the Wolfram Alpha short-answer API for computational and factual questions.
+
+```python
+from synapsekit import WolframAlphaTool
+
+tool = WolframAlphaTool(app_id="your-wolfram-app-id")
+
+r = await tool.run(query="What is the square root of 144?")
+# r.output → "12"
+
+r = await tool.run(query="Population of France")
+# r.output → "67.97 million people (world rank: 22nd) (2022 estimate)"
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Natural language or math query (required) |
+
+The app ID can also be set via the `WOLFRAM_ALPHA_APP_ID` environment variable.
+
 Supports MP3, WAV, FLAC, M4A, OGG, and other common audio formats.

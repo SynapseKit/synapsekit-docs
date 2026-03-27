@@ -73,6 +73,8 @@ const sidebars: SidebarsConfig = {
         'llms/databricks',
         'llms/ernie',
         'llms/llamacpp',
+        'llms/minimax',
+        'llms/aleph-alpha',
         'llms/caching-retries',
         'llms/cost-router',
       ],

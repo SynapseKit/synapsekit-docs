@@ -310,6 +310,38 @@ Supported formats: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.m4v`
 
 ---
 
+## YAMLLoader
+
+Load YAML files (list-of-objects or single-object) into Documents.
+
+```bash
+pip install synapsekit[yaml]
+```
+
+```python
+from synapsekit import YAMLLoader
+
+# List of objects (each becomes a Document)
+docs = YAMLLoader("data.yaml").load()
+
+# Single object YAML
+docs = YAMLLoader("config.yaml").load()
+
+# Custom key extraction
+docs = YAMLLoader("data.yaml", text_key="content", metadata_keys=["title", "author"]).load()
+
+# Async
+docs = await YAMLLoader("data.yaml").aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` | required | Path to YAML file |
+| `text_key` | `str` | `"text"` | Key to extract as document text |
+| `metadata_keys` | `list[str]` | `[]` | Keys to include in metadata |
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

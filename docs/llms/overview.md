@@ -7,7 +7,7 @@ sidebar_position: 1
 [![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
 [![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
-[![Tests](https://img.shields.io/badge/tests-1327%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+[![Tests](https://img.shields.io/badge/tests-1357%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
 
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
@@ -75,6 +75,8 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Databricks | `DatabricksLLM` | `pip install synapsekit[openai]` | `"databricks"` |
 | Baidu ERNIE | `ErnieLLM` | `pip install synapsekit[ernie]` | `"ernie"` |
 | llama.cpp | `LlamaCppLLM` | `pip install synapsekit[llamacpp]` | `"llamacpp"` |
+| Minimax | `MinimaxLLM` | built-in | `"minimax"` |
+| Aleph Alpha | `AlephAlphaLLM` | `pip install synapsekit[aleph-alpha]` | `"aleph-alpha"` |
 
 ## Auto-detection
 
@@ -93,6 +95,8 @@ The `RAG` facade auto-detects the provider from the model name:
 | `@cf/*`, `@hf/*` | `cloudflare` |
 | `dbrx-*`, `databricks-*` | `databricks` |
 | `ernie-*` | `ernie` |
+| `minimax-*` | `minimax` |
+| `luminous-*`, `pharia-*` | `aleph-alpha` |
 | `llama-*`, `mixtral-*`, `gemma-*` | `groq` |
 | `*/...` (contains `/`) | `openrouter` |
 | everything else | `openai` |
@@ -124,6 +128,8 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [Databricks](./databricks) — DBRX and Llama on your workspace
 - [Baidu ERNIE](./ernie) — Chinese-English bilingual models
 - [llama.cpp](./llamacpp) — run GGUF models fully on-device
+- [Minimax](./minimax) — SSE streaming with group_id auth
+- [Aleph Alpha](./aleph-alpha) — European LLMs, German-language and multilingual
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

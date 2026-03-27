@@ -8,6 +8,25 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.1 — Community Providers, Tools & Examples
+
+**Released:** 2026-03-27
+
+### Added
+- **MinimaxLLM** — Minimax API with SSE streaming; requires `group_id`; auto-detected from `minimax-*`
+- **AlephAlphaLLM** — Aleph Alpha Luminous and Pharia models; auto-detected from `luminous-*`/`pharia-*`
+- **BingSearchTool** — Bing Web Search API v7 with `Ocp-Apim-Subscription-Key` auth
+- **WolframAlphaTool** — Wolfram Alpha short-answer API
+- **YAMLLoader** — load YAML files into Documents; `yaml.safe_load()` based
+- **`examples/`** — 5 runnable scripts (RAG quickstart, agent tools, graph workflow, multi-provider, caching & retries)
+
+### Fixed
+- Missing return type annotations in loader helper functions (`_loader_for`, `__getattr__`)
+
+**Stats:** 1357 tests, 25 LLM providers, 40 tools, 15 loaders
+
+---
+
 ## v1.4.0 — New Providers, Tools & Multimodal
 
 **4 new LLM providers**
