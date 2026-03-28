@@ -60,7 +60,7 @@ Choose your agent type based on your LLM and task requirements:
 
 ## Built-in tools
 
-SynapseKit includes 40 built-in tools organized by category:
+SynapseKit includes 41 built-in tools organized by category:
 
 ### Math and code
 | Tool | Class | Description |
@@ -82,6 +82,7 @@ SynapseKit includes 40 built-in tools organized by category:
 | YouTube | `YouTubeSearchTool` | `synapsekit[youtube]` | YouTube video search |
 | Bing Search | `BingSearchTool` | none | Bing Web Search API v7 |
 | Wolfram Alpha | `WolframAlphaTool` | none | Wolfram Alpha short-answer API |
+| Google Search | `GoogleSearchTool` | `synapsekit[google-search]` | Google web search via SerpAPI |
 
 ### File and data
 | Tool | Class | Description |
@@ -191,7 +192,7 @@ config = AgentConfig(
 
 - [ReAct Agent](./react) — prompt-based reasoning loop that works with any LLM
 - [Function Calling Agent](./function-calling) — native tool_calls for OpenAI and Anthropic
-- [Built-in Tools](./tools) — all 40 tools with usage examples
+- [Built-in Tools](./tools) — all 41 tools with usage examples
 - [AgentExecutor](./executor) — unified runner, multi-step loops, and streaming
 - [Streaming Steps](./streaming-steps) — stream `ThoughtEvent`, `ActionEvent`, `TokenEvent` in real time
 - [Agent Cookbook](./cookbook) — 10 common patterns with full code examples

@@ -8,6 +8,24 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.2 — HuggingFace, Cache Backends, Graph Versioning
+
+**Released:** 2026-03-28
+
+### Added
+- **HuggingFaceLLM** — Hugging Face Inference API via `AsyncInferenceClient`; serverless and Dedicated Endpoint support
+- **DynamoDBCacheBackend** — serverless LLM caching on AWS DynamoDB with TTL (`pip install synapsekit[dynamodb]`)
+- **MemcachedCacheBackend** — distributed LLM caching via aiomcache (`pip install synapsekit[memcached]`)
+- **GoogleSearchTool** — Google web search via SerpAPI (`pip install synapsekit[google-search]`)
+- **Graph versioning + checkpoint migration** — `StateGraph(version=, migrations={...})`; `CompiledGraph.resume()` applies migration chains; missing paths raise `GraphRuntimeError`
+
+### Improved
+- **SQLQueryTool** — parameterized queries via `params` dict; `max_rows` cap; security hardening
+
+**Stats:** 1368 tests · 26 LLM providers · 41 tools · 15 loaders · 6 cache backends
+
+---
+
 ## v1.4.1 — Community Providers, Tools & Examples
 
 **Released:** 2026-03-27

@@ -246,5 +246,71 @@ If the LLM returns invalid JSON, the function retries with feedback asking for v
 | `requests_per_minute` | `int \| None` | `None` | Rate limit (None = unlimited) |
 
 :::info
-These fields work with all 23 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21, Databricks, ERNIE, and llama.cpp. The 4 cache backends (memory, SQLite, filesystem, Redis) are interchangeable across all providers.
+These fields work with all 26 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21, Databricks, ERNIE, llama.cpp, Minimax, Aleph Alpha, and Hugging Face. The 6 cache backends (memory, SQLite, filesystem, Redis, DynamoDB, Memcached) are interchangeable across all providers.
 :::
+
+## DynamoDBCacheBackend
+
+Cache LLM responses in AWS DynamoDB for serverless, distributed deployments.
+
+```bash
+pip install synapsekit[dynamodb]
+```
+
+```python
+from synapsekit import LLMConfig
+from synapsekit.llm._cache_dynamodb import DynamoDBCacheBackend
+
+cache = DynamoDBCacheBackend(
+    table_name="synapsekit-llm-cache",
+    region_name="us-east-1",
+    ttl_seconds=3600,       # optional TTL
+    partition_key="cache_key",  # default
+)
+
+config = LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    cache=cache,
+)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `table_name` | — | DynamoDB table name (required) |
+| `region_name` | `""` | AWS region |
+| `ttl_seconds` | `None` | Cache TTL in seconds |
+| `partition_key` | `"cache_key"` | Partition key attribute name |
+
+---
+
+## MemcachedCacheBackend
+
+High-throughput distributed LLM caching via Memcached.
+
+```bash
+pip install synapsekit[memcached]
+```
+
+```python
+from synapsekit import LLMConfig
+from synapsekit.llm._cache_memcached import MemcachedCacheBackend
+
+cache = MemcachedCacheBackend(
+    host="localhost",
+    port=11211,
+    exptime=3600,  # TTL in seconds
+)
+
+config = LLMConfig(
+    model="gpt-4o-mini",
+    api_key="sk-...",
+    cache=cache,
+)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `host` | `"localhost"` | Memcached host |
+| `port` | `11211` | Memcached port |
+| `exptime` | `0` | TTL in seconds (0 = no expiry) |

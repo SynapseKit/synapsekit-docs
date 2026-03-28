@@ -309,3 +309,81 @@ SynapseKit ships with 5 built-in checkpointers: InMemory, SQLite, JSON file, Red
 |---|---|---|---|
 | `checkpointer` | `BaseCheckpointer \| None` | `None` | Checkpointer backend |
 | `graph_id` | `str \| None` | `None` | Unique ID for this execution (required for checkpointing) |
+
+## Graph Versioning & Migration
+
+When your graph's state schema evolves, use the `version` and `migrations` parameters to upgrade checkpointed state automatically.
+
+### Declaring a version
+
+```python
+graph = (
+    StateGraph(version=2)
+    .add_node("process", process_node)
+    .set_entry_point("process")
+    .set_finish_point("process")
+    .compile()
+)
+```
+
+### Defining migration functions
+
+Migrations are keyed by `(from_version, to_version)` tuples. Each function receives the old state dict and returns the updated state dict:
+
+```python
+def migrate_1_to_2(state: dict) -> dict:
+    # Rename "text" → "content" added in v2
+    state["content"] = state.pop("text", "")
+    return state
+
+graph = (
+    StateGraph(
+        version=2,
+        migrations={
+            (1, 2): migrate_1_to_2,
+        },
+    )
+    .add_node("process", process_node)
+    .set_entry_point("process")
+    .set_finish_point("process")
+    .compile()
+)
+```
+
+### Resuming with migration
+
+When `resume()` loads a checkpoint whose version is lower than the current graph version, it automatically applies the migration chain before re-running:
+
+```python
+cp = SQLiteCheckpointer("checkpoints.db")
+
+# Checkpoint was saved with v1 state (has "text" key)
+# Graph is now v2 (expects "content" key)
+# migrate_1_to_2 is applied automatically before execution resumes
+result = await graph.resume("job-42", cp)
+```
+
+If a required migration path is missing, `GraphRuntimeError` is raised with a descriptive message.
+
+### Migration chaining
+
+Migrations are applied as a chain. To migrate from v1 to v3, define both `(1, 2)` and `(2, 3)` migrations:
+
+```python
+graph = StateGraph(
+    version=3,
+    migrations={
+        (1, 2): migrate_1_to_2,
+        (2, 3): migrate_2_to_3,
+    },
+)
+```
+
+A checkpoint at v1 will have both migrations applied in order.
+
+### StateGraph versioning parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `version` | `int \| None` | `None` | Schema version for this graph |
+| `migrations` | `dict \| None` | `None` | Mapping of `(from, to)` tuples to migration callables |

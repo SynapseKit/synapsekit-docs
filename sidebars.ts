@@ -75,6 +75,7 @@ const sidebars: SidebarsConfig = {
         'llms/llamacpp',
         'llms/minimax',
         'llms/aleph-alpha',
+        'llms/huggingface',
         'llms/caching-retries',
         'llms/cost-router',
       ],

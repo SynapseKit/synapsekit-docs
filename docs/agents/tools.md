@@ -1187,4 +1187,32 @@ r = await tool.run(query="Population of France")
 
 The app ID can also be set via the `WOLFRAM_ALPHA_APP_ID` environment variable.
 
+---
+
+## GoogleSearchTool
+
+Search the web using Google via the SerpAPI.
+
+```bash
+pip install synapsekit[google-search]
+```
+
+```python
+from synapsekit import GoogleSearchTool
+
+tool = GoogleSearchTool(api_key="your-serpapi-key")
+
+r = await tool.run(query="SynapseKit async LLM framework", num_results=5)
+# r.output → "1. **Title**\n   URL: https://...\n   Snippet..."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `query` | — | Search query (required) |
+| `num_results` | `5` | Number of results to return |
+
+The API key is resolved in order:
+1. `api_key` constructor parameter
+2. `SERPAPI_API_KEY` environment variable
+
 Supports MP3, WAV, FLAC, M4A, OGG, and other common audio formats.
