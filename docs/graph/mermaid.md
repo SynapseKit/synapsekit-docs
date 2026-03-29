@@ -32,8 +32,8 @@ Output:
 flowchart TD
     __start__ --> ingest
     ingest --> classify
-    classify -->|approve| approve
-    classify -->|reject| reject
+    classify -.->|route:approve| approve
+    classify -.->|route:reject| reject
     approve --> __end__
     reject --> __end__
 ```
@@ -44,8 +44,8 @@ Which renders as:
 flowchart TD
     __start__ --> ingest
     ingest --> classify
-    classify -->|approve| approve
-    classify -->|reject| reject
+    classify -.->|route:approve| approve
+    classify -.->|route:reject| reject
     approve --> __end__
     reject --> __end__
 ```
@@ -78,7 +78,9 @@ GitHub renders Mermaid diagrams natively.
 
 - The entry point renders as `__start__ --> <entry_node>`
 - `END` renders as `__end__`
-- Conditional edge labels come from the `mapping` keys
+- **Unconditional edges** render as solid arrows (`-->`)
+- **Conditional edges** render as dashed arrows (`-.->`) — visually distinct from deterministic transitions
+- Conditional edge labels are prefixed with the condition function name: `route:approve` instead of just `approve`. Anonymous lambdas show only the branch label.
 - Only static structure is reflected — conditional routing is shown as all possible branches
 
 ## Trace-highlighted Mermaid

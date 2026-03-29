@@ -57,6 +57,12 @@ cp = SQLiteCheckpointer("checkpoints.db")
 
 # Or in-memory for testing
 cp = SQLiteCheckpointer(":memory:")
+
+# Async context manager — connection is closed automatically on exit
+async with SQLiteCheckpointer("checkpoints.db") as cp:
+    graph = compiled.compile(checkpointer=cp)
+    result = await graph.run(state)
+# connection closed here
 ```
 
 The table schema is:

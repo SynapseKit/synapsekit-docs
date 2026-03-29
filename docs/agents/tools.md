@@ -80,12 +80,12 @@ Supports: `+`, `-`, `*`, `/`, `**`, `%`, `sqrt`, `sin`, `cos`, `tan`, `log`, `lo
 
 ## PythonREPLTool
 
-Execute Python code with a persistent namespace and stdout capture.
+Execute Python code with a persistent namespace, stdout capture, and configurable timeout.
 
 ```python
 from synapsekit import PythonREPLTool
 
-repl = PythonREPLTool()
+repl = PythonREPLTool(timeout=5.0)  # default: 5 seconds
 
 r = await repl.run(code="import math\nprint(math.factorial(10))")
 # r.output → "3628800\n"
@@ -95,12 +95,25 @@ await repl.run(code="x = [1, 2, 3, 4, 5]")
 r = await repl.run(code="print(sum(x))")
 # r.output → "15\n"
 
+# Infinite loops are terminated automatically
+r = await repl.run(code="while True: pass")
+# r.is_error → True
+# r.error → "Code execution timed out after 5.0 seconds"
+
 # Reset namespace
 repl.reset()
 ```
 
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `timeout` | `float` | `5.0` | Maximum execution time in seconds |
+
+**Timeout implementation:**
+- **Unix/Linux**: `signal.SIGALRM` — zero overhead, full namespace persistence
+- **Windows**: `multiprocessing.Process` — reliable timeout, namespace limited to picklable objects
+
 :::warning
-`PythonREPLTool` executes real Python code. Only use it in trusted environments.
+`PythonREPLTool` executes real Python code. A security warning is logged on every instantiation. Only use it in trusted environments with controlled input — malicious code can access files, the network, and system resources.
 :::
 
 ---

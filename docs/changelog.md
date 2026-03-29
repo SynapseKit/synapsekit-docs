@@ -8,6 +8,24 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.3 — XMLLoader, DiscordLoader, PythonREPL Timeout, Graph & Windows Fixes
+
+**Released:** 2026-03-29
+
+### Added
+- **XMLLoader** — load XML files via stdlib `xml.etree.ElementTree`; optional `tags` filter; no new dependencies
+- **DiscordLoader** — load messages from Discord channels via bot API; `before_message_id`/`after_message_id` pagination; rich metadata; `pip install synapsekit[discord]`
+- **PythonREPLTool timeout** — `timeout: float = 5.0` parameter; Unix uses `signal.SIGALRM`, Windows uses `multiprocessing.Process`; security warning logged on instantiation
+
+### Improved
+- **Mermaid conditional edges** — render as dashed arrows (`-.->`) to distinguish from deterministic edges; branch labels prefixed with condition function name (e.g. `route:approve`)
+- **SQLiteCheckpointer** — supports `async with` for automatic connection cleanup
+- **Windows compatibility** — `audio/x-wav` MIME normalised to `audio/wav`; shell timeout test uses portable Python sleep; graph tracer uses `time.perf_counter()` for sub-millisecond resolution on Windows
+
+**Stats:** 1403 tests · 26 LLM providers · 41 tools · 17 loaders · 6 cache backends
+
+---
+
 ## v1.4.2 — HuggingFace, Cache Backends, Graph Versioning
 
 **Released:** 2026-03-28

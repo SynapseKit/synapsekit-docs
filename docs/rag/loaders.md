@@ -342,6 +342,86 @@ docs = await YAMLLoader("data.yaml").aload()
 
 ---
 
+## XMLLoader
+
+Load XML files and extract text content using Python's built-in `xml.etree.ElementTree` — no extra dependencies.
+
+```python
+from synapsekit import XMLLoader
+
+# Load all text from an XML file
+docs = XMLLoader("feed.xml").load()
+
+# Extract only specific tags
+docs = XMLLoader("article.xml", tags=["title", "body", "summary"]).load()
+
+# Custom encoding
+docs = XMLLoader("data.xml", encoding="latin-1").load()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str` | required | Path to XML file |
+| `tags` | `list[str] \| None` | `None` | Tag names to extract (all text if omitted) |
+| `encoding` | `str` | `"utf-8"` | File encoding |
+
+---
+
+## DiscordLoader
+
+Load messages from Discord channels using the Discord bot API.
+
+```bash
+pip install synapsekit[discord]
+```
+
+```python
+from synapsekit import DiscordLoader
+
+# Load last 100 messages from a channel
+loader = DiscordLoader(
+    token="your-bot-token",
+    channel_id=1234567890123456789,
+)
+docs = loader.load()  # synchronous
+
+# or async
+docs = await loader.aload()
+
+# Paginate with before/after message IDs
+docs = DiscordLoader(
+    token="your-bot-token",
+    channel_id=1234567890123456789,
+    limit=50,
+    before_message_id=9876543210,
+    after_message_id=1111111111,
+).load()
+
+# Exclude metadata (text only)
+docs = DiscordLoader(
+    token="your-bot-token",
+    channel_id=1234567890123456789,
+    include_metadata=False,
+).load()
+```
+
+Each message becomes one `Document`. Metadata includes author, message ID, channel ID, timestamp, attachments, and reactions.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `token` | `str` | required | Discord bot token |
+| `channel_id` | `int` | required | Channel ID to load from |
+| `limit` | `int` | `100` | Maximum messages to fetch |
+| `before_message_id` | `int \| None` | `None` | Fetch messages before this ID |
+| `after_message_id` | `int \| None` | `None` | Fetch messages after this ID |
+| `include_metadata` | `bool` | `True` | Include author, timestamp, reactions etc. in metadata |
+
+:::info
+The bot must have **Read Message History** permission and **Message Content Intent** enabled in the Discord Developer Portal.
+:::
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:
