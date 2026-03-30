@@ -7,7 +7,7 @@ sidebar_position: 1
 [![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
 [![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
-[![Tests](https://img.shields.io/badge/tests-1368%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+[![Tests](https://img.shields.io/badge/tests-1403%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
 
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
@@ -78,6 +78,7 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Minimax | `MinimaxLLM` | built-in | `"minimax"` |
 | Aleph Alpha | `AlephAlphaLLM` | `pip install synapsekit[aleph-alpha]` | `"aleph-alpha"` |
 | Hugging Face | `HuggingFaceLLM` | `pip install synapsekit[huggingface]` | `"huggingface"` |
+| SambaNova | `SambaNovaLLM` | `pip install synapsekit[openai]` | `"sambanova"` |
 
 ## Auto-detection
 
@@ -101,6 +102,10 @@ The `RAG` facade auto-detects the provider from the model name:
 | `llama-*`, `mixtral-*`, `gemma-*` | `groq` |
 | `*/...` (contains `/`) | `openrouter` |
 | everything else | `openai` |
+
+:::note SambaNova
+**SambaNova** model names (e.g. `Meta-Llama-3.1-8B-Instruct`) don't have a unique prefix — always pass `provider="sambanova"` explicitly.
+:::
 
 Override with the `provider=` argument:
 
@@ -132,6 +137,7 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [Minimax](./minimax) — SSE streaming with group_id auth
 - [Aleph Alpha](./aleph-alpha) — European LLMs, German-language and multilingual
 - [Hugging Face](./huggingface) — thousands of open-source models via Inference API and Dedicated Endpoints
+- [SambaNova](./sambanova) — fast inference on Llama, Qwen, and other open models
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

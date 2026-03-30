@@ -42,9 +42,9 @@ Full retrieval-augmented generation with chunking, embedding, vector search, BM2
 
 → [RAG Pipeline docs](/docs/rag/pipeline)
 
-### 26 LLM providers
+### 27 LLM providers
 
-OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, Minimax, Aleph Alpha, Hugging Face — all behind `BaseLLM`. Auto-detected from the model name.
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, Minimax, Aleph Alpha, Hugging Face, SambaNova — all behind `BaseLLM`. Auto-detected from the model name.
 
 → [LLM Provider docs](/docs/llms/overview)
 
@@ -54,9 +54,9 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 
 → [Vector store docs](/docs/rag/vector-stores)
 
-### 17 document loaders
+### 18 document loaders
 
-`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`.
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `GoogleDriveLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`.
 
 → [Loader docs](/docs/rag/loaders)
 
@@ -94,4 +94,4 @@ Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-sho
 
 ## Version
 
-Current version: **1.4.3** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).
+Current version: **1.4.4** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).

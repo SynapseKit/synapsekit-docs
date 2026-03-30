@@ -19,6 +19,35 @@ class BaseSplitter(ABC):
 
 You can implement your own splitter by subclassing `BaseSplitter` and implementing `split()`.
 
+### split_with_metadata()
+
+All splitters also expose `split_with_metadata()` — a convenience method that runs `split()` and attaches metadata to every chunk:
+
+```python
+from synapsekit import CharacterTextSplitter
+
+splitter = CharacterTextSplitter(separator="\n\n", chunk_size=200, chunk_overlap=0)
+
+chunks = splitter.split_with_metadata(
+    text="Paragraph one.\n\nParagraph two.\n\nParagraph three.",
+    metadata={"source": "report.pdf", "author": "Alice"},
+)
+# [
+#   {"text": "Paragraph one.",   "metadata": {"source": "report.pdf", "author": "Alice", "chunk_index": 0}},
+#   {"text": "Paragraph two.",   "metadata": {"source": "report.pdf", "author": "Alice", "chunk_index": 1}},
+#   {"text": "Paragraph three.", "metadata": {"source": "report.pdf", "author": "Alice", "chunk_index": 2}},
+# ]
+```
+
+Each item in the returned list is a `dict` with two keys:
+
+| Key | Type | Description |
+|---|---|---|
+| `text` | `str` | The chunk text |
+| `metadata` | `dict` | Caller-supplied metadata merged with `chunk_index` |
+
+`chunk_index` is always added automatically. The original `metadata` dict is never mutated. Works on every splitter — `CharacterTextSplitter`, `RecursiveCharacterTextSplitter`, `TokenAwareSplitter`, `SemanticSplitter`, `MarkdownTextSplitter`, and any custom subclass.
+
 ## CharacterTextSplitter
 
 Splits on a **single separator string**. Simple and fast.

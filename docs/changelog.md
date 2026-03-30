@@ -8,6 +8,24 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.4 — SambaNova, GoogleDriveLoader, Metadata-Aware Splitters
+
+**Released:** 2026-03-30
+
+### Added
+- **SambaNova provider** — fast inference on Meta Llama, Qwen, and other open models via OpenAI-compatible API; `pip install synapsekit[openai]`; always specify `provider="sambanova"` (model names have no unique prefix)
+- **GoogleDriveLoader** — load files and folders from Google Drive via service account credentials; supports Google Docs (text export), Sheets (CSV export), PDFs, and text files; `pip install synapsekit[gdrive]`
+- **`split_with_metadata()`** — new method on `BaseSplitter`; returns `list[dict]` with `text` and `metadata` keys; automatically adds `chunk_index`; all splitters inherit it
+
+### Fixed
+- `asyncio.get_event_loop()` → `asyncio.get_running_loop()` in `GoogleDriveLoader` (deprecated in Python 3.10+)
+- `build()` in `GoogleDriveLoader.aload()` wrapped in executor (was blocking the event loop)
+- Failed file downloads in `GoogleDriveLoader._load_folder` now log a warning instead of silently skipping
+
+**Stats:** 1452 tests · 27 LLM providers · 41 tools · 18 loaders · 6 cache backends
+
+---
+
 ## v1.4.3 — XMLLoader, DiscordLoader, PythonREPL Timeout, Graph & Windows Fixes
 
 **Released:** 2026-03-29

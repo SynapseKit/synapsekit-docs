@@ -422,6 +422,65 @@ The bot must have **Read Message History** permission and **Message Content Inte
 
 ---
 
+## GoogleDriveLoader
+
+Load files and folders from **Google Drive** using the Drive API v3. Supports Google Docs (exported as plain text), Google Sheets (exported as CSV), PDFs, and other text files.
+
+```bash
+pip install synapsekit[gdrive]
+```
+
+Requires a **service account** with the Drive API enabled and read access to the target files or folders.
+
+```python
+from synapsekit import GoogleDriveLoader
+
+# Load a single file by ID
+loader = GoogleDriveLoader(
+    credentials_path="service-account.json",
+    file_id="1abc...",
+)
+docs = loader.load()
+
+# Or async
+docs = await loader.aload()
+
+# Load all files from a folder
+loader = GoogleDriveLoader(
+    credentials_path="service-account.json",
+    folder_id="1def...",
+)
+docs = loader.load()
+
+# Pass credentials as a dict (e.g., from env var JSON)
+import json, os
+loader = GoogleDriveLoader(
+    credentials_dict=json.loads(os.environ["GDRIVE_CREDS"]),
+    file_id="1abc...",
+)
+docs = loader.load()
+```
+
+Each file becomes one `Document`. Metadata includes `source`, `file_name`, `mime_type`, `modified`, and `file_id`. Subfolders are skipped when loading a folder. Files that fail to download are skipped with a warning.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `credentials_path` | `str \| None` | `None` | Path to service account JSON file |
+| `credentials_dict` | `dict \| None` | `None` | Service account credentials as a dict |
+| `file_id` | `str \| None` | `None` | ID of a single file to load |
+| `folder_id` | `str \| None` | `None` | ID of a folder — loads all files inside |
+
+Either `credentials_path` or `credentials_dict` is required (not both). Either `file_id` or `folder_id` is required (not both).
+
+:::info Supported MIME types
+- **Google Docs** (`application/vnd.google-apps.document`) — exported as plain text
+- **Google Sheets** (`application/vnd.google-apps.spreadsheet`) — exported as CSV
+- **PDFs and text files** — downloaded directly
+- **Other binary files** — returned as `[Binary file: {mime_type}]`
+:::
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:
