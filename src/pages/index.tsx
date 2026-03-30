@@ -13,7 +13,7 @@ const FEATURES = [
   {
     icon: '🌊',
     title: 'Streaming-first',
-    desc: 'Token-level streaming is the default, not an afterthought. Works identically across all 16 LLM providers.',
+    desc: 'Token-level streaming is the default, not an afterthought. Works identically across all 27 LLM providers.',
   },
   {
     icon: '🪶',
@@ -23,7 +23,7 @@ const FEATURES = [
   {
     icon: '🔌',
     title: 'One interface',
-    desc: '16 LLM providers and 5 vector stores behind the same API. Swap providers without rewriting a single line.',
+    desc: '27 LLM providers and 5 vector stores behind the same API. Swap providers without rewriting a single line.',
   },
   {
     icon: '💰',
@@ -57,7 +57,7 @@ const NAV_CARDS = [
   {
     icon: '🤖',
     title: 'Agents',
-    desc: 'ReAct loop for any LLM. Native function calling for OpenAI, Anthropic, Gemini, and Mistral. 32 built-in tools, fully extensible.',
+    desc: 'ReAct loop for any LLM. Native function calling for OpenAI, Anthropic, Gemini, and Mistral. 41 built-in tools, fully extensible.',
     href: '/docs/agents/overview',
   },
   {
@@ -69,7 +69,7 @@ const NAV_CARDS = [
   {
     icon: '🧠',
     title: 'LLM Providers',
-    desc: 'OpenAI, Anthropic, Ollama, Gemini, Cohere, Mistral, Bedrock, Azure, Groq, DeepSeek, OpenRouter, Together, Fireworks and more — all behind one interface.',
+    desc: 'OpenAI, Anthropic, Ollama, Gemini, Cohere, Mistral, Bedrock, Azure, Groq, DeepSeek, OpenRouter, Together, Fireworks, SambaNova and more — 27 providers behind one interface.',
     href: '/docs/llms/overview',
   },
   {
@@ -99,10 +99,10 @@ const NAV_CARDS = [
 ];
 
 const STATS = [
-  '16 LLM Providers',
-  '32 Built-in Tools',
-  '20 Retrieval Strategies',
-  '1,133 Tests Passing',
+  '27 LLM Providers',
+  '41 Built-in Tools',
+  '18 Loaders',
+  '1,452 Tests Passing',
   'Apache 2.0',
 ];
 
@@ -112,7 +112,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="SynapseKit — Async-first Python framework for LLM applications"
-      description="Build RAG pipelines, agents, and graph workflows in Python. Async-native, streaming-first, 2 core dependencies."
+      description="Build RAG pipelines, AI agents, and graph workflows in Python. 27 LLM providers, 41 tools, 18 loaders. Async-native, streaming-first, 2 core dependencies."
     >
       <div className={styles.page}>
 
@@ -121,8 +121,8 @@ export default function Home(): ReactNode {
           <div className="container">
             <img className="banner" src={bannerUrl} alt="SynapseKit" />
             <p className="tagline">
-              Build RAG pipelines, agents, and graph workflows in Python.<br />
-              Async-native · Streaming-first · 2 core dependencies.
+              Build RAG pipelines, AI agents, and graph workflows in Python.<br />
+              27 providers · 41 tools · 18 loaders · async-native · streaming-first
             </p>
             <div className="ctas">
               <Link className="btn-primary" to="/docs/getting-started/quickstart">
