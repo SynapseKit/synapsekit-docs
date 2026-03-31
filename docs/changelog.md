@@ -8,6 +8,23 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.6 — Subgraph Error Handling
+
+**Released:** 2026-04-01
+
+### Added
+- **`subgraph_node` error strategies** — four keyword-only parameters on `subgraph_node()`:
+  - `on_error="raise"` (default) — re-raise immediately, no overhead
+  - `on_error="retry"` + `max_retries=N` — re-run up to N times before raising
+  - `on_error="fallback"` + `fallback=CompiledGraph` — run an alternative graph on failure
+  - `on_error="skip"` — continue the parent graph silently on failure
+- **`__subgraph_error__`** — on any handled failure, the parent state receives `{"type": ..., "message": ..., "attempts": ...}`
+- Fully backward-compatible: existing `subgraph_node()` calls default to `on_error="raise"` with no behaviour change
+
+**Stats:** 1450 tests · 27 LLM providers · 41 tools · 18 loaders · 9 vector store backends
+
+---
+
 ## v1.4.5 — Weaviate, PGVector, Milvus, LanceDB Vector Store Backends
 
 **Released:** 2026-03-31

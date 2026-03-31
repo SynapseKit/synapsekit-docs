@@ -114,7 +114,7 @@ With `stream=True`, the node emits token-level streaming events. See [Token Stre
 node_fn = llm_node(llm, stream=True)
 ```
 
-### `subgraph_node(compiled_graph, input_mapping, output_mapping)`
+### `subgraph_node(compiled_graph, input_mapping, output_mapping, *, on_error, max_retries, fallback)`
 
 Wrap a `CompiledGraph` as a node for nesting graphs. This lets you compose complex workflows from smaller, independently testable graphs.
 
@@ -156,6 +156,52 @@ print(result["sub_result"])  # "HELLO"
 - `output_mapping` maps subgraph output keys to parent state keys. If omitted, the subgraph result is returned as-is.
 - The subgraph runs with its own internal state, fully isolated from the parent.
 
+#### Error handling strategies
+
+Use the keyword-only `on_error` parameter to control what happens when a subgraph raises an exception.
+
+**`"raise"` (default)** — re-raise the exception immediately:
+
+```python
+parent.add_node("sub", subgraph_node(compiled_sub))
+```
+
+**`"retry"`** — re-run the subgraph up to `max_retries` times before raising:
+
+```python
+parent.add_node("sub", subgraph_node(
+    compiled_sub,
+    on_error="retry",
+    max_retries=5,
+))
+```
+
+**`"fallback"`** — run an alternative `CompiledGraph` on failure:
+
+```python
+parent.add_node("sub", subgraph_node(
+    compiled_sub,
+    on_error="fallback",
+    fallback=fallback_sub,
+))
+```
+
+**`"skip"`** — silently continue the parent graph on failure:
+
+```python
+parent.add_node("sub", subgraph_node(compiled_sub, on_error="skip"))
+```
+
+After any handled failure (`"retry"` exhausted, `"fallback"` used, or `"skip"`), the parent state will contain a `"__subgraph_error__"` key:
+
+```python
+result = await parent.run({"query": "hello"})
+if err := result.get("__subgraph_error__"):
+    print(err["type"])     # exception class name
+    print(err["message"])  # str(exception)
+    print(err["attempts"]) # number of attempts made
+```
+
 ## Parameters
 
 | Helper | Parameter | Default | Description |
@@ -169,6 +215,9 @@ print(result["sub_result"])  # "HELLO"
 | `llm_node` | `stream` | `False` | Enable token-level streaming |
 | `subgraph_node` | `input_mapping` | `None` | Map parent keys to subgraph keys |
 | `subgraph_node` | `output_mapping` | `None` | Map subgraph output keys to parent keys |
+| `subgraph_node` | `on_error` | `"raise"` | Error strategy: `"raise"`, `"retry"`, `"fallback"`, `"skip"` |
+| `subgraph_node` | `max_retries` | `3` | Max attempts when `on_error="retry"` (must be ≥ 1) |
+| `subgraph_node` | `fallback` | `None` | Fallback `CompiledGraph` when `on_error="fallback"` |
 
 ## Token streaming
 
