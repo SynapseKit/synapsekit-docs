@@ -146,7 +146,20 @@ parent.add_node("sub", subgraph_node(
 ))
 ```
 
--> [Subgraphs docs](/docs/graph/nodes#subgraph_nodecompiled_graph-input_mapping-output_mapping)
+`subgraph_node()` also supports error handling strategies via `on_error`:
+
+```python
+# Retry up to 5 times before raising
+parent.add_node("sub", subgraph_node(compiled_sub, on_error="retry", max_retries=5))
+
+# Fall back to a simpler subgraph on failure
+parent.add_node("sub", subgraph_node(compiled_sub, on_error="fallback", fallback=fallback_sub))
+
+# Continue the parent graph silently on failure
+parent.add_node("sub", subgraph_node(compiled_sub, on_error="skip"))
+```
+
+-> [Subgraphs docs](/docs/graph/nodes#subgraph_nodecompiled_graph-input_mapping-output_mapping-on_error-max_retries-fallback)
 
 ## Token streaming
 
