@@ -8,6 +8,22 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.5 — Weaviate, PGVector, Milvus, LanceDB Vector Store Backends
+
+**Released:** 2026-03-31
+
+### Added
+- **WeaviateVectorStore** — Weaviate v4 client; lazy collection creation; cosine vector search via `query.near_vector`; metadata filtering; `pip install synapsekit[weaviate]`
+- **PGVectorStore** — PostgreSQL + pgvector; async psycopg3 connection; cosine/L2/inner-product distance strategies; SQL-injection-safe via `psycopg.sql.Identifier`; metadata JSONB filtering; `pip install synapsekit[pgvector]`
+- **MilvusVectorStore** — IVF_FLAT and HNSW index types; `MilvusIndexType` enum; metadata filtering via Milvus expressions; Zilliz Cloud support; `pip install synapsekit[milvus]`
+- **LanceDBVectorStore** — embedded, no server required; local and cloud (S3/GCS) storage; automatic FTS index; metadata filtering; `pip install synapsekit[lancedb]`
+
+All 4 new backends are included in `synapsekit[all]` and follow the existing lazy-import `_BACKENDS` pattern.
+
+**Stats:** 1433 tests · 27 LLM providers · 41 tools · 18 loaders · 9 vector store backends
+
+---
+
 ## v1.4.4 — SambaNova, GoogleDriveLoader, Metadata-Aware Splitters
 
 **Released:** 2026-03-30

@@ -48,9 +48,9 @@ OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, G
 
 → [LLM Provider docs](/docs/llms/overview)
 
-### 5 vector store backends
+### 9 vector store backends
 
-InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone — all behind `VectorStore`.
+InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone, Weaviate, PGVector, Milvus, LanceDB — all behind `VectorStore`.
 
 → [Vector store docs](/docs/rag/vector-stores)
 
