@@ -115,8 +115,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v142',
-      content: '🎉 SynapseKit v1.4.2 — HuggingFaceLLM, DynamoDB &amp; Memcached cache backends, graph versioning + migration chains, GoogleSearchTool. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
+      id: 'v146',
+      content: '🎉 SynapseKit v1.4.6 — 9 vector stores, subgraph error handling (retry/fallback/skip), SambaNova, GoogleDriveLoader &amp; more. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -144,7 +144,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.4.2</span>',
+          value: '<span class="navbar__version">v1.4.6</span>',
         },
         {
           href: 'https://github.com/SynapseKit/SynapseKit',
