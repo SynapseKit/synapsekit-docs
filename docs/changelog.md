@@ -8,6 +8,19 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.7 — SlackLoader, NotionLoader, NotionTool
+
+**Released:** 2026-04-02
+
+### Added
+- **`SlackLoader`** — load messages from Slack channels via Bot API; sync `load()` and async `aload()`; configurable `limit`; per-message metadata (user, timestamp, thread); `pip install synapsekit[slack]`
+- **`NotionLoader`** — load pages or full databases from Notion via the Notion API; sync `load()` and async `aload()`; configurable retry/timeout; metadata includes page URL and title; `pip install synapsekit[notion]`
+- **`NotionTool`** — agent tool for Notion: `search`, `get_page`, `create_page`, `append_block`; built-in retry with exponential back-off and jitter; `pip install synapsekit[notion]`
+
+**Stats:** 1450 tests · 27 LLM providers · 42 tools · 20 loaders · 9 vector store backends
+
+---
+
 ## v1.4.6 — Subgraph Error Handling
 
 **Released:** 2026-04-01

@@ -60,7 +60,7 @@ Choose your agent type based on your LLM and task requirements:
 
 ## Built-in tools
 
-SynapseKit includes 41 built-in tools organized by category:
+SynapseKit includes 42 built-in tools organized by category:
 
 ### Math and code
 | Tool | Class | Description |
@@ -108,6 +108,7 @@ SynapseKit includes 41 built-in tools organized by category:
 |---|---|---|---|
 | GitHub API | `GitHubAPITool` | none | Search repos, issues, PRs |
 | Slack | `SlackTool` | none | Send messages via webhook or bot token |
+| Notion | `NotionTool` | `synapsekit[notion]` | Search, read, create, and append to Notion pages |
 | Email | `EmailTool` | none | Send emails via SMTP |
 | Jira | `JiraTool` | none | Search, create, comment on Jira issues |
 | Google Calendar | `GoogleCalendarTool` | `synapsekit[gcal-tool]` | List, create, delete calendar events |
@@ -192,7 +193,7 @@ config = AgentConfig(
 
 - [ReAct Agent](./react) — prompt-based reasoning loop that works with any LLM
 - [Function Calling Agent](./function-calling) — native tool_calls for OpenAI and Anthropic
-- [Built-in Tools](./tools) — all 41 tools with usage examples
+- [Built-in Tools](./tools) — all 42 tools with usage examples
 - [AgentExecutor](./executor) — unified runner, multi-step loops, and streaming
 - [Streaming Steps](./streaming-steps) — stream `ThoughtEvent`, `ActionEvent`, `TokenEvent` in real time
 - [Agent Cookbook](./cookbook) — 10 common patterns with full code examples

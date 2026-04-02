@@ -11,16 +11,16 @@ sidebar_position: 1
 ```python
 from synapsekit.memory import ConversationMemory
 
-memory = ConversationMemory(window_size=10)
+memory = ConversationMemory(window=10)
 
-memory.add_user("What is SynapseKit?")
-memory.add_assistant("SynapseKit is an async-first RAG framework.")
+memory.add("user", "What is SynapseKit?")
+memory.add("assistant", "SynapseKit is an async-first RAG framework.")
 
-memory.add_user("How do I install it?")
-memory.add_assistant("Run: pip install synapsekit[openai]")
+memory.add("user", "How do I install it?")
+memory.add("assistant", "Run: pip install synapsekit[openai]")
 
 # Get full history as a list of dicts
-history = memory.get()
+history = memory.get_messages()
 # [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, ...]
 
 # Clear memory
@@ -31,7 +31,7 @@ memory.clear()
 
 | Parameter | Default | Description |
 |---|---|---|
-| `window_size` | `10` | Max number of message pairs to keep |
+| `window` | `10` | Max number of messages to keep in the sliding window |
 
 When the window fills up, the oldest messages are dropped automatically.
 

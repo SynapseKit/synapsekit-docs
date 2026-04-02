@@ -851,6 +851,64 @@ Configuration is resolved in order:
 
 ---
 
+## NotionTool
+
+Interact with Notion pages and databases. Requires `httpx` — no extra install if you already have it, or install via:
+
+```bash
+pip install synapsekit[notion]
+```
+
+```python
+from synapsekit import NotionTool
+
+tool = NotionTool(api_key="secret_...")  # or set NOTION_API_KEY env var
+
+# Search pages
+r = await tool.run(operation="search", query="meeting notes")
+# r.output → "Found pages:\n1. Q1 Planning — abc123\n2. ..."
+
+# Get a page's content
+r = await tool.run(operation="get_page", page_id="abc12345-...")
+# r.output → "Title: Q1 Planning\n\nContent:\n...\n\nURL: https://notion.so/..."
+
+# Create a new page in a database or under a parent page
+r = await tool.run(
+    operation="create_page",
+    parent_id="def67890-...",
+    title="New Report",
+    content="This is the first paragraph.\nThis is the second.",
+)
+# r.output → "Page created successfully:\nhttps://notion.so/..."
+
+# Append content to an existing page
+r = await tool.run(
+    operation="append_block",
+    page_id="abc12345-...",
+    content="Appended paragraph.\nAnother line.",
+)
+# r.output → "Content appended successfully."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `operation` | — | `search`, `get_page`, `create_page`, or `append_block` (required) |
+| `query` | `""` | Search query (for `search`) |
+| `page_id` | `""` | Page ID (for `get_page`, `append_block`) |
+| `parent_id` | `""` | Parent database or page ID (for `create_page`) |
+| `title` | `""` | Page title (for `create_page`) |
+| `content` | `""` | Page content as plain text, one paragraph per line (for `create_page`, `append_block`) |
+
+The API key is resolved in order:
+1. `api_key` constructor parameter
+2. `NOTION_API_KEY` environment variable
+
+:::info
+Create an **internal integration** at [notion.so/my-integrations](https://www.notion.so/my-integrations), then share the target pages or databases with that integration.
+:::
+
+---
+
 ## BraveSearchTool
 
 Web search via the Brave Search API. Stdlib `urllib` only — no extra dependencies.

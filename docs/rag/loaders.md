@@ -422,6 +422,93 @@ The bot must have **Read Message History** permission and **Message Content Inte
 
 ---
 
+## SlackLoader
+
+Load messages from Slack channels using the Slack Bot API.
+
+```bash
+pip install synapsekit[slack]
+```
+
+```python
+from synapsekit import SlackLoader
+
+# Load all messages from a channel
+loader = SlackLoader(
+    bot_token="xoxb-...",
+    channel_id="C1234567890",
+)
+docs = loader.load()         # synchronous
+docs = await loader.aload()  # async
+
+# Limit the number of messages fetched
+loader = SlackLoader(
+    bot_token="xoxb-...",
+    channel_id="C1234567890",
+    limit=200,
+)
+docs = loader.load()
+```
+
+Each message becomes one `Document`. Metadata includes `source` (channel ID), `ts` (timestamp), `user`, and `thread_ts`.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `bot_token` | `str` | required | Slack Bot OAuth token (`xoxb-...`) |
+| `channel_id` | `str` | required | Channel ID to load from (e.g. `C1234567890`) |
+| `limit` | `int \| None` | `None` | Maximum messages to fetch (fetches all if not set) |
+
+:::info
+The bot must have the **channels:history** (public) or **groups:history** (private) OAuth scope, and must be a member of the channel.
+:::
+
+---
+
+## NotionLoader
+
+Load pages or databases from Notion using the Notion API.
+
+```bash
+pip install synapsekit[notion]
+```
+
+```python
+from synapsekit import NotionLoader
+
+# Load a single page by ID
+loader = NotionLoader(
+    api_key="secret_...",
+    page_id="abc12345-...",
+)
+docs = loader.load()         # synchronous
+docs = await loader.aload()  # async
+
+# Load all pages from a database
+loader = NotionLoader(
+    api_key="secret_...",
+    database_id="def67890-...",
+)
+docs = loader.load()
+```
+
+Each page becomes one `Document`. Metadata includes `source` (page URL), `page_id`, and `title`.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `api_key` | `str` | required | Notion integration token (`secret_...`) |
+| `page_id` | `str \| None` | `None` | Load a single Notion page by ID |
+| `database_id` | `str \| None` | `None` | Load all pages from a database |
+| `max_retries` | `int` | `3` | Retry attempts for transient API errors |
+| `timeout` | `float` | `30.0` | HTTP request timeout in seconds |
+
+Exactly one of `page_id` or `database_id` is required.
+
+:::info
+Create an **internal integration** at [notion.so/my-integrations](https://www.notion.so/my-integrations), then share the target page or database with that integration.
+:::
+
+---
+
 ## GoogleDriveLoader
 
 Load files and folders from **Google Drive** using the Drive API v3. Supports Google Docs (exported as plain text), Google Sheets (exported as CSV), PDFs, and other text files.
