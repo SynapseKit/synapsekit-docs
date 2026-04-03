@@ -66,4 +66,4 @@ For bugs or features in the library itself, open an issue in the [main repo](htt
 
 ## License
 
-[MIT](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
+[Apache 2.0](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)

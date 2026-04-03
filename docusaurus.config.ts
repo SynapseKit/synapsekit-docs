@@ -193,7 +193,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} SynapseKit. Released under the MIT License.`,
+      copyright: `Copyright © ${new Date().getFullYear()} SynapseKit. Released under the Apache 2.0 License.`,
     },
     prism: {
       theme: prismThemes.oneLight,
