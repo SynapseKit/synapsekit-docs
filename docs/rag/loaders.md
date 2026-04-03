@@ -509,6 +509,109 @@ Create an **internal integration** at [notion.so/my-integrations](https://www.no
 
 ---
 
+## WikipediaLoader
+
+Load Wikipedia articles as Documents. Accepts a single article title or multiple pipe-delimited titles.
+
+```bash
+pip install synapsekit[wikipedia]
+```
+
+```python
+from synapsekit import WikipediaLoader
+
+# Single article
+loader = WikipediaLoader(query="Python (programming language)")
+docs = loader.load()
+# docs[0].text     → full article text
+# docs[0].metadata → {"source": "wikipedia", "title": "...", "url": "...", "language": "en"}
+
+# Multiple articles (pipe-delimited)
+loader = WikipediaLoader(query="RAG | Vector database | Embeddings", max_results=3)
+docs = loader.load()
+
+# Async
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `query` | `str` | required | Article title(s), pipe-separated for multiple |
+| `language` | `str` | `"en"` | Wikipedia language code |
+| `max_results` | `int` | `3` | Maximum articles to return |
+
+---
+
+## ArXivLoader
+
+Search arXiv and load papers as Documents (downloads PDFs and extracts text).
+
+```bash
+pip install synapsekit[arxiv,pdf]
+```
+
+```python
+from synapsekit import ArXivLoader
+
+loader = ArXivLoader(
+    query="retrieval augmented generation",
+    max_results=5,
+    sort_by="relevance",  # "relevance" | "lastUpdatedDate" | "submittedDate"
+)
+docs = loader.load()
+# docs[0].text     → full paper text
+# docs[0].metadata → {"source": "arxiv", "title": "...", "authors": [...], "arxiv_id": "...", "url": "..."}
+
+# Async
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `query` | `str` | required | Search query |
+| `max_results` | `int` | `5` | Max papers to fetch |
+| `sort_by` | `str` | `"relevance"` | Sort order: `"relevance"`, `"lastUpdatedDate"`, `"submittedDate"` |
+
+---
+
+## EmailLoader
+
+Load emails from an IMAP mailbox (Gmail, Outlook, etc.) as Documents. Uses stdlib only — no extra dependencies.
+
+```bash
+# No extra install needed
+```
+
+```python
+from synapsekit import EmailLoader
+
+loader = EmailLoader(
+    imap_server="imap.gmail.com",
+    email_address="user@gmail.com",
+    password="app_password",       # use an App Password for Gmail
+    folder="INBOX",
+    search='SINCE "01-Jan-2024"',  # standard IMAP search syntax
+    limit=50,
+)
+docs = loader.load()
+# docs[0].text     → email body (plain text)
+# docs[0].metadata → {"source": "email", "subject": "...", "from": "...", "date": "...", "folder": "INBOX", "email_id": "..."}
+
+# Async
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `imap_server` | `str` | required | IMAP hostname, e.g. `imap.gmail.com` |
+| `email_address` | `str` | required | Email address to log in as |
+| `password` | `str` | required | Password or App Password |
+| `folder` | `str` | `"INBOX"` | Mailbox folder to read |
+| `search` | `str` | `"ALL"` | IMAP search query (e.g. `'SINCE "01-Jan-2024"'`, `"UNSEEN"`) |
+| `limit` | `int\|None` | `None` | Max emails to load (most recent first) |
+
+---
+
 ## GoogleDriveLoader
 
 Load files and folders from **Google Drive** using the Drive API v3. Supports Google Docs (exported as plain text), Google Sheets (exported as CSV), PDFs, and other text files.

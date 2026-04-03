@@ -8,6 +8,20 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.4.8 — WikipediaLoader, ArXivLoader, EmailLoader, ColBERT retriever
+
+**Released:** 2026-04-03
+
+### Added
+- **`WikipediaLoader`** — load Wikipedia articles as Documents; single title or pipe-delimited multi-title; async `aload()`; `pip install synapsekit[wikipedia]`
+- **`ArXivLoader`** — search arXiv and load papers as Documents; downloads PDFs and extracts text; async `aload()`; `pip install synapsekit[arxiv,pdf]`
+- **`EmailLoader`** — load emails from IMAP mailboxes (Gmail, Outlook, etc.); stdlib-only, no extra deps; configurable search filters; async `aload()`
+- **`ColBERTRetriever`** — late-interaction ColBERT retrieval via RAGatouille; `add()`, `retrieve()`, `retrieve_with_scores()`; `pip install synapsekit[colbert]`
+
+**Stats:** 1500 tests · 27 LLM providers · 42 tools · 23 loaders · 9 vector store backends
+
+---
+
 ## v1.4.7 — SlackLoader, NotionLoader, NotionTool
 
 **Released:** 2026-04-02
