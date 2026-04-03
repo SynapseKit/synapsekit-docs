@@ -18,7 +18,7 @@ All notable changes to SynapseKit are documented here.
 - **`EmailLoader`** — load emails from IMAP mailboxes (Gmail, Outlook, etc.); stdlib-only, no extra deps; configurable search filters; async `aload()`
 - **`ColBERTRetriever`** — late-interaction ColBERT retrieval via RAGatouille; `add()`, `retrieve()`, `retrieve_with_scores()`; `pip install synapsekit[colbert]`
 
-**Stats:** 1500 tests · 27 LLM providers · 42 tools · 23 loaders · 9 vector store backends
+**Stats:** 1500 tests · 27 LLM providers · 42 tools · 24 loaders · 9 vector store backends
 
 ---
 

@@ -671,6 +671,51 @@ Either `credentials_path` or `credentials_dict` is required (not both). Either `
 
 ---
 
+## ImageLoader
+
+Load images as Documents. Without a vision LLM, returns a metadata-only placeholder. With a vision LLM (any object with an async `generate` method), returns the LLM's description of the image.
+
+```bash
+# No extra install needed — stdlib only
+```
+
+```python
+from synapsekit import ImageLoader
+
+# Without LLM — metadata placeholder
+loader = ImageLoader("path/to/photo.jpg")
+docs = loader.load()
+# docs[0].text     → "[Image: path/to/photo.jpg]"
+# docs[0].metadata → {"source": "...", "media_type": "image/jpeg", "file_size": 102400}
+
+# With vision LLM — async_load() returns a description
+from synapsekit.llm.openai import OpenAILLM
+from synapsekit.llm.base import LLMConfig
+
+llm = OpenAILLM(LLMConfig(model="gpt-4o", api_key="sk-..."))
+loader = ImageLoader(
+    "path/to/diagram.png",
+    llm=llm,
+    prompt="Describe this diagram in detail, including any text visible.",
+)
+docs = await loader.async_load()
+# docs[0].text     → "The diagram shows a RAG pipeline with ..."
+# docs[0].metadata → {"source": "...", "media_type": "image/png", "file_size": ..., "description_prompt": "..."}
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `path` | `str\|Path` | required | Path to the image file |
+| `llm` | `Any\|None` | `None` | Vision LLM with async `generate(prompt, image_url=...)` |
+| `prompt` | `str` | `"Describe this image in detail."` | Prompt sent to the vision LLM |
+
+:::info Async vs sync
+- `load()` — always returns a placeholder `[Image: <path>]` regardless of LLM
+- `async_load()` — uses the LLM to generate a real description (requires a vision model like `gpt-4o`)
+:::
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

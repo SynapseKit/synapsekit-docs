@@ -933,3 +933,63 @@ Use standard retrieval when:
 - Documents are self-contained and don't reference external entities
 - You don't have a pre-built knowledge graph
 - Latency is critical (KG traversal + LLM entity extraction adds overhead)
+
+---
+
+## ColBERT Retrieval (Late Interaction)
+
+`ColBERTRetriever` uses [RAGatouille](https://github.com/bclavie/RAGatouille) to index documents with token-level embeddings and perform ColBERT-style **late interaction** (MaxSim) during search. This gives significantly higher retrieval quality than single-vector methods, especially for long documents.
+
+```bash
+pip install synapsekit[colbert]
+```
+
+```python
+from synapsekit.retrieval.strategies.colbert import ColBERTRetriever
+
+retriever = ColBERTRetriever(
+    model="colbert-ir/colbertv2.0",
+    index_name="my-docs",
+)
+
+# Index documents (downloads model on first use, ~500MB)
+await retriever.add(
+    texts=["SynapseKit is an async RAG framework.", "ColBERT uses late interaction."],
+    metadata=[{"id": "doc-1"}, {"id": "doc-2"}],
+)
+
+# Retrieve top results as strings
+results = await retriever.retrieve("async RAG framework", top_k=3)
+# ["SynapseKit is an async RAG framework.", ...]
+
+# Retrieve with scores and metadata
+results = await retriever.retrieve_with_scores("async RAG framework", top_k=3)
+# [{"text": "...", "score": 24.7, "metadata": {"id": "doc-1"}}, ...]
+```
+
+### Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `model` | `str` | `"colbert-ir/colbertv2.0"` | RAGatouille model name |
+| `index_name` | `str` | `"colbert"` | Name for the local ColBERT index |
+| `index_root` | `str\|None` | `None` | Directory to store the index (default: `.ragatouille/`) |
+
+### Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| `add(texts, metadata=None)` | `None` | Index documents with ColBERT token embeddings (async) |
+| `retrieve(query, top_k=5)` | `list[str]` | Search and return top text results (async) |
+| `retrieve_with_scores(query, top_k=5)` | `list[dict]` | Search with scores + metadata (async) |
+
+### When to use ColBERT
+
+- High-quality retrieval is more important than indexing speed
+- Documents are long (ColBERT token-level matching handles long docs better than single vectors)
+- You have GPU resources (ColBERT indexing is compute-intensive)
+
+Use standard vector search when:
+- Speed and low latency matter more than marginal recall improvement
+- You need to update the index frequently (ColBERT re-indexes from scratch)
+- You're CPU-only and can't afford the ColBERT index overhead
