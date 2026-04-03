@@ -147,6 +147,13 @@ const config: Config = {
           value: '<span class="navbar__version">v1.4.8</span>',
         },
         {
+          href: 'https://discord.gg/unn4cXXH',
+          position: 'right',
+          className: 'navbar__discord',
+          'aria-label': 'Discord',
+          label: 'Discord',
+        },
+        {
           href: 'https://github.com/SynapseKit/SynapseKit',
           position: 'right',
           className: 'navbar__github',
