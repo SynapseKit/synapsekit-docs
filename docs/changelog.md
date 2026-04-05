@@ -14,8 +14,11 @@ All notable changes to SynapseKit are documented here.
 - **`ConfluenceLoader`** — load pages from Atlassian Confluence as Documents; single page by `page_id` or full space by `space_key`; automatic pagination; HTML→text via BeautifulSoup; retry with exponential back-off on rate limits; sync `load()` and async `aload()`; `pip install synapsekit[confluence]`
 - **`RSSLoader`** — load articles from RSS/Atom feeds as Documents; content/summary fallback; metadata includes title, published, link, author; async `aload()`; `pip install synapsekit[rss]`
 - **`SentenceTextSplitter`** — split text into chunks by grouping complete sentences; `chunk_size` and `chunk_overlap` in sentences (not characters); regex-based sentence boundary detection
+- **`CodeSplitter`** — split source code using language-aware separators; supports Python, JavaScript, TypeScript, Go, Rust, Java, C++; preserves logical structures (classes, functions); falls back to recursive character splitting
+- **`SentenceWindowSplitter`** — one chunk per sentence, padded with up to `window_size` surrounding sentences; `split_with_metadata()` adds `target_sentence` to each chunk's metadata; useful for retrieval systems that embed with context but score by target sentence
+- **`TwilioTool`** — send SMS and WhatsApp messages via the Twilio REST API; stdlib `urllib` only, no extra deps; auth via constructor args or env vars; automatic `whatsapp:` prefix handling for both sender and recipient; security warning logged on instantiation
 
-**Stats:** 1500 tests · 27 LLM providers · 42 tools · 26 loaders · 6 text splitters · 9 vector store backends
+**Stats:** 1500 tests · 27 LLM providers · 43 tools · 26 loaders · 8 text splitters · 9 vector store backends
 
 ---
 

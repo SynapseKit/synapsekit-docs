@@ -1287,3 +1287,50 @@ The API key is resolved in order:
 2. `SERPAPI_API_KEY` environment variable
 
 Supports MP3, WAV, FLAC, M4A, OGG, and other common audio formats.
+
+---
+
+## TwilioTool
+
+Send SMS and WhatsApp messages via the Twilio REST API. Uses stdlib `urllib` only — no extra dependencies.
+
+```python
+from synapsekit import TwilioTool
+
+tool = TwilioTool(
+    account_sid="ACxxxxxxxx",
+    auth_token="your-auth-token",
+    from_number="+15550001111",
+)
+
+# Send SMS
+r = await tool.run(action="send_sms", to="+15551234567", body="Hello from SynapseKit!")
+# r.output → "SMS sent to +15551234567 (sid=SMxxx)."
+
+# Send WhatsApp
+r = await tool.run(action="send_whatsapp", to="+15551234567", body="Hello via WhatsApp!")
+# r.output → "WhatsApp message sent to +15551234567 (sid=SMxxx)."
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `send_sms` or `send_whatsapp` (required) |
+| `to` | — | Recipient phone number in E.164 format, e.g. `+15551234567` (required) |
+| `body` | — | Message body text (required) |
+
+Credentials are resolved in order:
+1. Constructor parameters (`account_sid`, `auth_token`, `from_number`)
+2. Environment variables (`TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER`)
+
+The `whatsapp:` prefix is handled automatically — pass a plain E.164 number for both SMS and WhatsApp; `TwilioTool` adds the prefix internally. If you pass a number that already has `whatsapp:`, it won't be doubled.
+
+:::warning
+`TwilioTool` can send messages to arbitrary phone numbers. A security warning is logged on every instantiation. Consider rate-limiting at the agent level when using this tool in automated pipelines.
+
+**WhatsApp caveats:**
+- Sandbox requires recipients to opt in first (send a join code to the sandbox number)
+- Freeform messages are only allowed within 24 hours of the last user message; outside that window, use pre-approved templates
+- Production WhatsApp requires a Twilio WhatsApp Business sender (Meta verification, 1–2 weeks)
+- Tier-based rate limits (1K/10K/100K unique users per 24h) apply to business-initiated conversations only
+- Business-initiated conversations (marketing, utility, authentication) carry an additional per-conversation charge on top of the per-message fee; user-initiated conversations have no per-conversation fee
+:::

@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Text Splitters
 
-Text splitters break documents into chunks for embedding and retrieval. SynapseKit provides six splitters — all extend `BaseSplitter` and share the same `split(text) → list[str]` interface.
+Text splitters break documents into chunks for embedding and retrieval. SynapseKit provides eight splitters — all extend `BaseSplitter` and share the same `split(text) → list[str]` interface.
 
 ## BaseSplitter
 
@@ -205,6 +205,59 @@ chunks = splitter.split(long_document)
 | `chunk_overlap` | `1` | Sentences of overlap between consecutive chunks |
 
 Sentence boundaries are detected with `(?<=[.!?])\s+`. Common abbreviations like "Dr." or "U.S.A." that contain periods may occasionally be treated as sentence endings — for precision-critical tasks, prefer `SemanticSplitter`.
+
+## CodeSplitter
+
+Splits source code using **language-aware separators** that respect logical structure — classes, functions, and blocks are kept together where possible. Falls back to `RecursiveCharacterTextSplitter` for any content that doesn't match language-specific separators.
+
+```python
+from synapsekit import CodeSplitter
+
+splitter = CodeSplitter(language="python", chunk_size=400, chunk_overlap=20)
+chunks = splitter.split(source_code)
+```
+
+Supported languages: `python`, `javascript`, `typescript`, `go`, `rust`, `java`, `cpp`.
+
+| Parameter | Default | Description |
+|---|---|---|
+| `language` | `"python"` | Programming language of the source code |
+| `chunk_size` | `400` | Maximum characters per chunk |
+| `chunk_overlap` | `20` | Characters of overlap between consecutive chunks |
+
+---
+
+## SentenceWindowSplitter
+
+Creates **one chunk per sentence**, where each chunk is padded with up to `window_size` sentences before and after. Useful for retrieval systems that want to embed a sentence with surrounding context but score results against the exact target sentence.
+
+```python
+from synapsekit import SentenceWindowSplitter
+
+splitter = SentenceWindowSplitter(window_size=2)
+chunks = splitter.split(text)
+# Each chunk: [up to 2 preceding sentences] + target + [up to 2 following sentences]
+```
+
+### With metadata
+
+`split_with_metadata()` returns a `target_sentence` key in addition to the standard `chunk_index`:
+
+```python
+results = splitter.split_with_metadata(text, metadata={"source": "doc1.txt"})
+# results[i] → {
+#   "text": "Prev sentence. Target sentence. Next sentence.",
+#   "metadata": {"source": "doc1.txt", "chunk_index": 1, "target_sentence": "Target sentence."}
+# }
+```
+
+This lets you store the full window as the embedded chunk while indexing the answer by `target_sentence` alone.
+
+| Parameter | Default | Description |
+|---|---|---|
+| `window_size` | `2` | Sentences of context to include on each side of the target |
+
+---
 
 ## Using splitters with RAGPipeline
 
