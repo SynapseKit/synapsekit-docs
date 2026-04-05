@@ -716,6 +716,85 @@ docs = await loader.async_load()
 
 ---
 
+## ConfluenceLoader
+
+Load pages from Atlassian Confluence as Documents. Supports loading a single page by ID or an entire space, with automatic pagination and retry on rate limits.
+
+```bash
+pip install synapsekit[confluence]
+```
+
+```python
+from synapsekit import ConfluenceLoader
+
+# Load a single page by ID
+loader = ConfluenceLoader(
+    url="https://yourcompany.atlassian.net/wiki",
+    username="you@example.com",
+    api_token="your-api-token",
+    page_id="123456789",
+)
+docs = loader.load()         # synchronous
+docs = await loader.aload()  # async
+
+# Load all pages in a space
+loader = ConfluenceLoader(
+    url="https://yourcompany.atlassian.net/wiki",
+    username="you@example.com",
+    api_token="your-api-token",
+    space_key="ENG",
+    limit=50,  # optional cap
+)
+docs = loader.load()
+```
+
+Each page becomes one `Document`. Metadata includes `source`, `title`, `page_id`, `space`, `url`, `version`, `author`, and `last_modified`.
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `url` | `str` | required | Base URL of your Confluence instance |
+| `username` | `str` | required | Your Atlassian email address |
+| `api_token` | `str` | required | Atlassian API token |
+| `page_id` | `str \| None` | `None` | Load a single page by its ID |
+| `space_key` | `str \| None` | `None` | Load all pages from a Confluence space |
+| `limit` | `int \| None` | `None` | Max pages to load when fetching a space |
+
+Exactly one of `page_id` or `space_key` is required.
+
+:::info
+Generate an API token at [id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
+Rate-limit errors (HTTP 429) are retried with exponential back-off automatically.
+:::
+
+---
+
+## RSSLoader
+
+Load articles from RSS or Atom feeds as Documents.
+
+```bash
+pip install synapsekit[rss]
+```
+
+```python
+from synapsekit import RSSLoader
+
+loader = RSSLoader("https://feeds.feedburner.com/oreilly/radar")
+docs = loader.load()         # synchronous
+docs = await loader.aload()  # async
+
+# docs[0].text     → article body (full content if available, summary otherwise)
+# docs[0].metadata → {"title": "...", "published": "...", "link": "...", "author": "..."}
+```
+
+Each feed entry becomes one `Document`. Metadata fields (`title`, `published`, `link`, `author`) are omitted when empty.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `url` | `str` | URL of the RSS or Atom feed |
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

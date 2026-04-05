@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Text Splitters
 
-Text splitters break documents into chunks for embedding and retrieval. SynapseKit provides five splitters — all extend `BaseSplitter` and share the same `split(text) → list[str]` interface.
+Text splitters break documents into chunks for embedding and retrieval. SynapseKit provides six splitters — all extend `BaseSplitter` and share the same `split(text) → list[str]` interface.
 
 ## BaseSplitter
 
@@ -46,7 +46,7 @@ Each item in the returned list is a `dict` with two keys:
 | `text` | `str` | The chunk text |
 | `metadata` | `dict` | Caller-supplied metadata merged with `chunk_index` |
 
-`chunk_index` is always added automatically. The original `metadata` dict is never mutated. Works on every splitter — `CharacterTextSplitter`, `RecursiveCharacterTextSplitter`, `TokenAwareSplitter`, `SemanticSplitter`, `MarkdownTextSplitter`, and any custom subclass.
+`chunk_index` is always added automatically. The original `metadata` dict is never mutated. Works on every splitter — `CharacterTextSplitter`, `RecursiveCharacterTextSplitter`, `TokenAwareSplitter`, `SemanticSplitter`, `MarkdownTextSplitter`, `SentenceTextSplitter`, and any custom subclass.
 
 ## CharacterTextSplitter
 
@@ -183,6 +183,28 @@ Set your API key in the config.
 | `headers_to_split_on` | `[("#", "Header1"), ("##", "Header2"), ("###", "Header3"), ("####", "Header4")]` | Header markers and labels to split on |
 
 Oversized sections without headers fall back to `RecursiveCharacterTextSplitter` with `---`, `\n\n`, `\n`, `. `, ` ` as separators.
+
+## SentenceTextSplitter
+
+Splits text into chunks by grouping **complete sentences**. `chunk_size` and `chunk_overlap` are measured in **sentences**, not characters — so chunk boundaries always land at natural sentence endings.
+
+```python
+from synapsekit import SentenceTextSplitter
+
+splitter = SentenceTextSplitter(
+    chunk_size=10,    # 10 sentences per chunk
+    chunk_overlap=1,  # 1 sentence of overlap
+)
+
+chunks = splitter.split(long_document)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `chunk_size` | `10` | Number of sentences per chunk |
+| `chunk_overlap` | `1` | Sentences of overlap between consecutive chunks |
+
+Sentence boundaries are detected with `(?<=[.!?])\s+`. Common abbreviations like "Dr." or "U.S.A." that contain periods may occasionally be treated as sentence endings — for precision-critical tasks, prefer `SemanticSplitter`.
 
 ## Using splitters with RAGPipeline
 

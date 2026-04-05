@@ -8,6 +8,17 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## Unreleased
+
+### Added
+- **`ConfluenceLoader`** — load pages from Atlassian Confluence as Documents; single page by `page_id` or full space by `space_key`; automatic pagination; HTML→text via BeautifulSoup; retry with exponential back-off on rate limits; sync `load()` and async `aload()`; `pip install synapsekit[confluence]`
+- **`RSSLoader`** — load articles from RSS/Atom feeds as Documents; content/summary fallback; metadata includes title, published, link, author; async `aload()`; `pip install synapsekit[rss]`
+- **`SentenceTextSplitter`** — split text into chunks by grouping complete sentences; `chunk_size` and `chunk_overlap` in sentences (not characters); regex-based sentence boundary detection
+
+**Stats:** 1500 tests · 27 LLM providers · 42 tools · 26 loaders · 6 text splitters · 9 vector store backends
+
+---
+
 ## v1.4.8 — WikipediaLoader, ArXivLoader, EmailLoader, ColBERT retriever
 
 **Released:** 2026-04-03
