@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-**SynapseKit** is an async-first Python framework for building LLM applications — RAG pipelines, tool-using agents, and async graph workflows — with a clean, minimal API.
+**SynapseKit** is an async-native Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. Streaming-first, transparent API, 2 hard deps. 27 providers · 43 tools · 26 loaders · 9 vector stores.
 
 It is designed from the ground up to be **async-native** and **streaming-first**. Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state.
 
