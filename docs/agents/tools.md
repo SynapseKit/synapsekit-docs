@@ -1334,3 +1334,93 @@ The `whatsapp:` prefix is handled automatically — pass a plain E.164 number fo
 - Tier-based rate limits (1K/10K/100K unique users per 24h) apply to business-initiated conversations only
 - Business-initiated conversations (marketing, utility, authentication) carry an additional per-conversation charge on top of the per-message fee; user-initiated conversations have no per-conversation fee
 :::
+
+## NewsTool
+
+Fetch news headlines and search articles via NewsAPI. No extra dependencies — stdlib `urllib` only.
+
+```python
+from synapsekit import NewsTool
+
+tool = NewsTool(api_key="your-newsapi-key")
+# or set NEWS_API_KEY env var
+
+# Get top headlines
+result = await tool.run(action="get_headlines", country="us", category="technology")
+
+# Search articles
+result = await tool.run(action="search", query="AI developments", sort_by="publishedAt")
+
+print(result.output)  # JSON array of articles
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `get_headlines` or `search` (required) |
+| `query` | — | Search query (required for `search`) |
+| `country` | `us` | 2-letter country code for headlines |
+| `category` | — | `business`, `entertainment`, `general`, `health`, `science`, `sports`, `technology` |
+| `from_date` | — | Oldest article date (ISO 8601) |
+| `sort_by` | — | `relevancy`, `popularity`, or `publishedAt` |
+
+Auth via constructor arg or `NEWS_API_KEY` env var. Get a free API key at [newsapi.org](https://newsapi.org).
+
+## WeatherTool
+
+Get current weather and short-term forecasts via OpenWeatherMap. No extra dependencies — stdlib `urllib` only.
+
+```python
+from synapsekit import WeatherTool
+
+tool = WeatherTool()
+# set OPENWEATHERMAP_API_KEY env var
+
+# Current weather
+result = await tool.run(action="current", city="London,UK")
+
+# 3-day forecast
+result = await tool.run(action="forecast", city="Tokyo", days=3)
+
+print(result.output)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | `current` | `current` or `forecast` |
+| `city` | — | City name, e.g. `Delhi` or `London,UK` (required) |
+| `days` | `5` | Forecast days 1–5 (for `forecast` action) |
+
+Auth via `OPENWEATHERMAP_API_KEY` env var.
+
+## StripeTool
+
+Read-only Stripe data lookup. No extra dependencies — stdlib `urllib` only.
+
+```python
+from synapsekit import StripeTool
+
+tool = StripeTool()
+# set STRIPE_API_KEY env var
+
+# Look up customer
+result = await tool.run(action="get_customer", id_or_email="cus_123")
+
+# List invoices
+result = await tool.run(action="list_invoices", customer_id="cus_123", limit=5)
+
+# Get charge details
+result = await tool.run(action="get_charge", charge_id="ch_abc")
+
+# List products with pricing
+result = await tool.run(action="list_products", limit=10)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `get_customer`, `list_invoices`, `get_charge`, `list_products` (required) |
+| `id_or_email` | — | Customer ID (`cus_...`) or email for `get_customer` |
+| `customer_id` | — | Stripe customer ID for `list_invoices` |
+| `charge_id` | — | Stripe charge ID for `get_charge` |
+| `limit` | `10` | Max results for list endpoints (max 100) |
+
+Auth via `STRIPE_API_KEY` env var (use restricted read-only keys in production).

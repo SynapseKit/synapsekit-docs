@@ -297,3 +297,24 @@ splitter = SentenceSplitter()
 chunks = splitter.split("First sentence. Second sentence. Third sentence.")
 # ["First sentence.", "Second sentence.", "Third sentence."]
 ```
+
+## HTMLTextSplitter
+
+Splits HTML documents on block-level tags and returns plain-text chunks. Uses stdlib `html.parser` — no extra dependencies.
+
+```python
+from synapsekit import HTMLTextSplitter
+
+splitter = HTMLTextSplitter(chunk_size=512, chunk_overlap=50)
+chunks = splitter.split("<h1>Title</h1><p>First paragraph.</p><p>Second paragraph.</p>")
+# ["Title", "First paragraph.", "Second paragraph."]
+```
+
+Block tags used as split boundaries: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `p`, `div`, `section`, `article`, `li`, `blockquote`, `pre`.
+
+Long sections that exceed `chunk_size` fall back to `RecursiveCharacterTextSplitter`.
+
+| Parameter | Default | Description |
+|---|---|---|
+| `chunk_size` | `512` | Maximum characters per chunk |
+| `chunk_overlap` | `50` | Characters of overlap between consecutive chunks |
