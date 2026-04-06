@@ -79,6 +79,9 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | Aleph Alpha | `AlephAlphaLLM` | `pip install synapsekit[aleph-alpha]` | `"aleph-alpha"` |
 | Hugging Face | `HuggingFaceLLM` | `pip install synapsekit[huggingface]` | `"huggingface"` |
 | SambaNova | `SambaNovaLLM` | `pip install synapsekit[openai]` | `"sambanova"` |
+| xAI (Grok) | `XaiLLM` | `pip install synapsekit[openai]` | `"xai"` |
+| NovitaAI | `NovitaLLM` | `pip install synapsekit[openai]` | `"novita"` |
+| Writer (Palmyra) | `WriterLLM` | `pip install synapsekit[openai]` | `"writer"` |
 
 ## Auto-detection
 
@@ -138,6 +141,9 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [Aleph Alpha](./aleph-alpha) — European LLMs, German-language and multilingual
 - [Hugging Face](./huggingface) — thousands of open-source models via Inference API and Dedicated Endpoints
 - [SambaNova](./sambanova) — fast inference on Llama, Qwen, and other open models
+- [xAI](./xai) — Grok models (grok-2, grok-2-mini)
+- [NovitaAI](./novita) — hosted open models (Llama, Mistral, Qwen, etc.)
+- [Writer](./writer) — Palmyra models including domain-specific (palmyra-med, palmyra-fin)
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending
