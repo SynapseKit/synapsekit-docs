@@ -8,7 +8,9 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
-## Unreleased
+## v1.5.0 — New Loaders, Tools & Providers
+
+**Released:** 2026-04-07
 
 ### Added
 - **`ConfluenceLoader`** — load pages from Atlassian Confluence as Documents; single page by `page_id` or full space by `space_key`; automatic pagination; HTML→text via BeautifulSoup; retry with exponential back-off on rate limits; sync `load()` and async `aload()`; `pip install synapsekit[confluence]`
