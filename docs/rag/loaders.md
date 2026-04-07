@@ -795,6 +795,103 @@ Each feed entry becomes one `Document`. Metadata fields (`title`, `published`, `
 
 ---
 
+## GCSLoader
+
+Load files from a Google Cloud Storage bucket as Documents. Install with `pip install synapsekit[gcs]`.
+
+```python
+from synapsekit import GCSLoader
+
+loader = GCSLoader(
+    bucket_name="my-bucket",
+    prefix="documents/",
+    credentials_path="service-account.json",
+    max_files=100,
+)
+
+docs = await loader.aload()
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `bucket_name` | `str` | GCS bucket name (required) |
+| `prefix` | `str \| None` | Optional prefix filter (e.g. `"documents/"`) |
+| `credentials_path` | `str \| None` | Path to a service account JSON file |
+| `credentials_dict` | `dict \| None` | Service account credentials as a dict |
+| `max_files` | `int \| None` | Maximum number of files to load |
+
+If neither `credentials_path` nor `credentials_dict` is provided, default application credentials are used. Binary files are kept with a placeholder string and their content type in metadata.
+
+---
+
+## SQLLoader
+
+Load rows from any SQLAlchemy-supported database (PostgreSQL, MySQL, SQLite, etc.) as Documents. Install with `pip install synapsekit[sql]`.
+
+```python
+from synapsekit import SQLLoader
+
+loader = SQLLoader(
+    connection_string="postgresql://user:pass@localhost/db",
+    query="SELECT id, title, body, author FROM articles WHERE published = true",
+    text_columns=["title", "body"],
+    metadata_columns=["id", "author"],
+)
+
+docs = await loader.aload()
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `connection_string` | `str` | SQLAlchemy database URL (required) |
+| `query` | `str` | SQL query to execute (required) |
+| `text_columns` | `list[str] \| None` | Columns concatenated into the document text. Defaults to all columns. |
+| `metadata_columns` | `list[str] \| None` | Columns included in metadata. Defaults to all columns. |
+
+Each Document gets `metadata["source"] = "sql"` and `metadata["row_index"]` automatically.
+
+---
+
+## GitHubLoader
+
+Load README, issues, pull requests, or repository files from a GitHub repository via the REST API. Uses the existing `httpx` dependency — no new install needed if you already have `synapsekit[web]`.
+
+```python
+from synapsekit import GitHubLoader
+
+# README
+loader = GitHubLoader(repo="SynapseKit/SynapseKit", content_type="readme")
+
+# Issues (filters out PRs automatically)
+loader = GitHubLoader(repo="SynapseKit/SynapseKit", content_type="issues", limit=20)
+
+# Pull requests
+loader = GitHubLoader(repo="SynapseKit/SynapseKit", content_type="prs", limit=10)
+
+# Repository files (recursive Git Trees API)
+loader = GitHubLoader(
+    repo="SynapseKit/SynapseKit",
+    content_type="files",
+    path="src/synapsekit/llm/",
+    limit=50,
+    token="ghp_...",  # optional but recommended for higher rate limits
+)
+
+docs = await loader.load()
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `repo` | `str` | Repository in `owner/repo` format (required) |
+| `content_type` | `"readme" \| "issues" \| "prs" \| "files"` | What to load. Defaults to `"readme"`. |
+| `token` | `str \| None` | GitHub token for higher rate limits |
+| `path` | `str \| None` | Path prefix filter (only for `files`) |
+| `limit` | `int \| None` | Maximum number of items to load |
+
+Includes retry with exponential back-off for rate limits (HTTP 429) and 5xx errors.
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:
