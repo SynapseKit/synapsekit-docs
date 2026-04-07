@@ -1424,3 +1424,44 @@ result = await tool.run(action="list_products", limit=10)
 | `limit` | `10` | Max results for list endpoints (max 100) |
 
 Auth via `STRIPE_API_KEY` env var (use restricted read-only keys in production).
+
+## LinearTool
+
+Manage Linear issues via the Linear GraphQL API. Stdlib `urllib` only — no extra dependencies.
+
+```python
+from synapsekit import LinearTool
+
+tool = LinearTool()
+# set LINEAR_API_KEY env var
+
+# List issues for a team
+result = await tool.run(action="list_issues", team_id="team-uuid")
+
+# Get a single issue
+result = await tool.run(action="get_issue", issue_id="ISS-42")
+
+# Create an issue
+result = await tool.run(
+    action="create_issue",
+    team_id="team-uuid",
+    title="Add dark mode",
+    description="Users have been asking for it",
+    priority=2,
+)
+
+# Update an issue's state
+result = await tool.run(action="update_issue", issue_id="ISS-42", status="state-uuid")
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `action` | — | `list_issues`, `get_issue`, `create_issue`, `update_issue` (required) |
+| `team_id` | — | Linear team ID (required for `list_issues` and `create_issue`) |
+| `issue_id` | — | Linear issue ID (required for `get_issue` and `update_issue`) |
+| `title` | — | Issue title (required for `create_issue`) |
+| `description` | — | Issue body markdown |
+| `priority` | `0` | `0` none, `1` urgent, `2` high, `3` medium, `4` low |
+| `status` | — | New `stateId` for `update_issue` |
+
+Auth via constructor arg or `LINEAR_API_KEY` env var.

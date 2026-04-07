@@ -17,8 +17,19 @@ All notable changes to SynapseKit are documented here.
 - **`CodeSplitter`** — split source code using language-aware separators; supports Python, JavaScript, TypeScript, Go, Rust, Java, C++; preserves logical structures (classes, functions); falls back to recursive character splitting
 - **`SentenceWindowSplitter`** — one chunk per sentence, padded with up to `window_size` surrounding sentences; `split_with_metadata()` adds `target_sentence` to each chunk's metadata; useful for retrieval systems that embed with context but score by target sentence
 - **`TwilioTool`** — send SMS and WhatsApp messages via the Twilio REST API; stdlib `urllib` only, no extra deps; auth via constructor args or env vars; automatic `whatsapp:` prefix handling for both sender and recipient; security warning logged on instantiation
+- **`NewsTool`** — fetch top headlines and search articles via NewsAPI; actions: `get_headlines`, `search`; stdlib urllib only; auth via constructor arg or `NEWS_API_KEY` env var
+- **`WeatherTool`** — get current weather and short-term forecasts via OpenWeatherMap; actions: `current`, `forecast` (1–5 day); async-safe with `run_in_executor`; auth via `OPENWEATHERMAP_API_KEY`
+- **`StripeTool`** — read-only Stripe data lookup: `get_customer`, `list_invoices`, `get_charge`, `list_products`; stdlib urllib only; auth via `STRIPE_API_KEY`; async-safe with `run_in_executor`
+- **`LinearTool`** — manage Linear issues via the Linear GraphQL API; actions: `list_issues`, `get_issue`, `create_issue`, `update_issue`; stdlib urllib only, no extra deps; auth via constructor arg or `LINEAR_API_KEY`
+- **`XaiLLM`** — xAI Grok LLM provider; OpenAI-compatible API; supports `grok-beta`, `grok-2`, `grok-2-mini`; streaming and tool calling; `pip install synapsekit[openai]`
+- **`NovitaLLM`** — NovitaAI LLM provider; OpenAI-compatible API; supports Llama, Mistral, Qwen, and other open models; streaming and tool calling; `pip install synapsekit[openai]`
+- **`WriterLLM`** — Writer (Palmyra) LLM provider; OpenAI-compatible API; supports `palmyra-x-004`, `palmyra-x-003-instruct`, `palmyra-med`, `palmyra-fin`; streaming and tool calling; `pip install synapsekit[openai]`
+- **`HTMLTextSplitter`** — split HTML documents on block-level tags (h1–h6, p, div, section, article, li, blockquote, pre); strips tags to plain text; falls back to `RecursiveCharacterTextSplitter` for long sections; stdlib `html.parser` only
+- **`GCSLoader`** — load files from Google Cloud Storage buckets as Documents; service account auth (file path or dict) or default credentials; prefix filtering, `max_files` limit, binary file handling; sync `load()` and async `aload()`; `pip install synapsekit[gcs]`
+- **`SQLLoader`** — load rows from any SQLAlchemy-supported database (PostgreSQL, MySQL, SQLite, etc.) as Documents; configurable text/metadata columns; full SQL query support; sync `load()` and async `aload()`; `pip install synapsekit[sql]`
+- **`GitHubLoader`** — load README, issues, pull requests, or repository files from GitHub via the REST API; retry with exponential back-off for rate limits and 5xx; optional token auth for higher rate limits; path filtering and limit for files; uses existing `httpx` dep; sync `load_sync()` and async `load()`
 
-**Stats:** 1500 tests · 27 LLM providers · 43 tools · 26 loaders · 8 text splitters · 9 vector store backends
+**Stats:** 1715 tests · 30 LLM providers · 46 tools · 29 loaders · 9 text splitters · 9 vector store backends
 
 ---
 
