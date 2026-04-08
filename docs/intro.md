@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-**SynapseKit** is an async-native Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. Streaming-first, transparent API, 2 hard deps. 30 providers · 46 tools · 29 loaders · 9 vector stores.
+**SynapseKit** is an async-native Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. Streaming-first, transparent API, 2 hard deps. 30 providers · 46 tools · 33 loaders · 9 vector stores.
 
 It is designed from the ground up to be **async-native** and **streaming-first**. Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state.
 
@@ -54,9 +54,9 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 
 → [Vector store docs](/docs/rag/vector-stores)
 
-### 29 document loaders
+### 33 document loaders
 
-`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`.
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `GoogleSheetsLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`, `GitLoader`, `JiraLoader`, `SupabaseLoader`.
 
 → [Loader docs](/docs/rag/loaders)
 

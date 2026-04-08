@@ -8,6 +8,18 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## Unreleased
+
+### Added
+- **`GitLoader`** — load files from any Git repository (local path or remote URL) at a specific revision; glob pattern filtering; metadata includes path, commit hash, author, date; sync `load()` and async `aload()`; `pip install synapsekit[git]`
+- **`GoogleSheetsLoader`** — load rows from a Google Sheets spreadsheet as Documents; service account auth via credentials file; auto-detects first sheet if none specified; header-based row-to-text formatting; sync `load()` and async `aload()`; `pip install synapsekit[gsheets]`
+- **`JiraLoader`** — load Jira issues via JQL queries; full Atlassian Document Format (ADF) parsing; pagination; rate-limit retry; async `aload()` via httpx; optional `limit`; `pip install synapsekit[jira]`
+- **`SupabaseLoader`** — load rows from a Supabase table as Documents; configurable text/metadata columns; env var auth (`SUPABASE_URL`, `SUPABASE_KEY`); sync `load()` and async `aload()`; `pip install synapsekit[supabase]`
+
+**Stats:** 1752 tests · 30 LLM providers · 46 tools · 33 loaders · 9 text splitters · 9 vector store backends
+
+---
+
 ## v1.5.0 — New Loaders, Tools & Providers
 
 **Released:** 2026-04-07
