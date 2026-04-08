@@ -892,6 +892,150 @@ Includes retry with exponential back-off for rate limits (HTTP 429) and 5xx erro
 
 ---
 
+## GitLoader
+
+Load files from a Git repository — local path or remote URL — at any revision. Supports glob pattern filtering.
+
+```bash
+pip install synapsekit[git]
+```
+
+```python
+from synapsekit import GitLoader
+
+# Local repo, all files at HEAD
+loader = GitLoader("/path/to/repo")
+
+# Remote repo, specific revision, only Python files
+loader = GitLoader(
+    repo="https://github.com/org/repo.git",
+    revision="v2.0.0",
+    glob_pattern="**/*.py",
+)
+
+docs = loader.load()
+# or
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `repo` | `str` | required | Local path or remote URL |
+| `revision` | `str` | `"HEAD"` | Git revision (branch, tag, commit hash) |
+| `glob_pattern` | `str` | `"**/*"` | Glob filter for file paths |
+
+Each document's metadata includes `path`, `commit_hash`, `author`, and `date`.
+
+---
+
+## GoogleSheetsLoader
+
+Load rows from a Google Sheets spreadsheet as Documents. Each row becomes one document; headers become field names.
+
+```bash
+pip install synapsekit[gsheets]
+```
+
+```python
+from synapsekit import GoogleSheetsLoader
+
+loader = GoogleSheetsLoader(
+    spreadsheet_id="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms",
+    sheet_name="Sheet1",               # optional — auto-detects first sheet
+    credentials_path="credentials.json",
+)
+
+docs = loader.load()
+# or
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `spreadsheet_id` | `str` | required | Google Sheets document ID from the URL |
+| `sheet_name` | `str \| None` | `None` | Sheet tab name; first sheet used if omitted |
+| `credentials_path` | `str` | `"credentials.json"` | Path to service account credentials file |
+
+Row text format: `"ColumnA: value, ColumnB: value, ..."`. Metadata includes `source` URL, `sheet`, and `row` index.
+
+---
+
+## JiraLoader
+
+Load Jira issues using a JQL query. Handles Atlassian Document Format (ADF) descriptions, pagination, and rate-limit retry automatically.
+
+```bash
+pip install synapsekit[jira]
+```
+
+```python
+from synapsekit import JiraLoader
+
+loader = JiraLoader(
+    url="https://your-domain.atlassian.net",
+    username="your-email@example.com",
+    api_token="your-api-token",
+    jql="project = MYPROJ AND status = Open",
+    limit=100,  # optional
+)
+
+# Async (recommended)
+docs = await loader.aload()
+
+# Sync
+docs = loader.load()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `url` | `str` | required | Jira instance base URL |
+| `username` | `str` | required | Jira account email |
+| `api_token` | `str` | required | Jira API token |
+| `jql` | `str` | required | JQL query string |
+| `limit` | `int \| None` | `None` | Maximum number of issues to load |
+
+Each document includes the issue summary, description, and comments. Metadata includes `key`, `status`, `assignee`, `priority`, and `source`.
+
+---
+
+## SupabaseLoader
+
+Load rows from a Supabase table as Documents. Supports column selection and environment variable auth.
+
+```bash
+pip install synapsekit[supabase]
+```
+
+```python
+from synapsekit import SupabaseLoader
+
+# All columns, credentials from env vars (SUPABASE_URL, SUPABASE_KEY)
+loader = SupabaseLoader(table="articles")
+
+# Specific text and metadata columns
+loader = SupabaseLoader(
+    table="articles",
+    supabase_url="https://xyz.supabase.co",
+    supabase_key="your-anon-key",
+    text_columns=["title", "content"],
+    metadata_columns=["id", "author", "created_at"],
+)
+
+docs = loader.load()
+# or
+docs = await loader.aload()
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `table` | `str` | required | Supabase table name |
+| `supabase_url` | `str \| None` | `SUPABASE_URL` env | Supabase project URL |
+| `supabase_key` | `str \| None` | `SUPABASE_KEY` env | Supabase anon/service key |
+| `text_columns` | `list[str] \| None` | `None` | Columns to include in document text; all columns used if omitted |
+| `metadata_columns` | `list[str] \| None` | `None` | Columns to include in metadata |
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:
