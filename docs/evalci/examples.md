@@ -158,7 +158,7 @@ jobs:
         with:
           path: tests/evals
           threshold: "0.90"
-          synapsekit-version: "1.5.1"
+          synapsekit-version: "1.5.2"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```

@@ -115,8 +115,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v151',
-      content: '🔒 SynapseKit v1.5.1 — Security hardening: SQL injection, shell injection, path traversal, SSRF, TOCTOU fixes + 4 new loaders. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
+      id: 'v152',
+      content: '🐛 SynapseKit v1.5.2 — Async <code>@eval_case</code> bug fix for EvalCI. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
       backgroundColor: '#161b22',
       textColor: '#8b949e',
       isCloseable: true,
@@ -149,7 +149,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.5.1</span>',
+          value: '<span class="navbar__version">v1.5.2</span>',
         },
         {
           href: 'https://discord.gg/unn4cXXH',

@@ -29,7 +29,7 @@ Complete reference for all EvalCI inputs, outputs, and configuration options.
 | `path` | `.` | Path to eval files or directory. EvalCI discovers all `@eval_case` functions recursively. |
 | `threshold` | `0.7` | Global minimum score (0.0–1.0). Cases scoring below this fail. |
 | `extras` | `openai` | pip extras to install with synapsekit. Use comma-separated values for multiple providers. |
-| `synapsekit-version` | `latest` | Pin a specific synapsekit version (e.g. `1.5.1`) or `latest`. |
+| `synapsekit-version` | `latest` | Pin a specific synapsekit version (e.g. `1.5.2`) or `latest`. |
 | `github-token` | `${{ github.token }}` | GitHub token used to post PR comments. The default works for most repos. |
 | `fail-on-regression` | `false` | Set to `true` to also fail if scores regress compared to a saved baseline. |
 | `token` | _(empty)_ | Reserved for future EvalCI backend API token. Leave blank for now. |
@@ -102,7 +102,7 @@ By default EvalCI always installs the latest `synapsekit`. To pin:
 ```yaml
 - uses: SynapseKit/evalci@v1
   with:
-    synapsekit-version: "1.5.1"
+    synapsekit-version: "1.5.2"
 ```
 
 ---

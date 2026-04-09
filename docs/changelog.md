@@ -8,6 +8,20 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.5.2 — Async eval_case bug fix
+
+**Released:** 2026-04-09
+
+### Fixed
+
+- **`@eval_case` async functions** — the decorator wrapped async functions in a sync `wrapper`, causing `inspect.iscoroutinefunction()` to return `False`; the CLI skipped `asyncio.run()` and passed the raw coroutine to `float()`, raising `TypeError: float() argument must be a string or a real number, not 'coroutine'`. Fixed by adding an `async_wrapper` branch for async eval case functions.
+
+**Upgrade:** `pip install --upgrade synapsekit` or pin `synapsekit-version: "1.5.2"` in your EvalCI workflow.
+
+**Stats:** 1752 tests · 30 LLM providers · 46 tools · 33 loaders · 9 text splitters · 9 vector store backends
+
+---
+
 ## v1.5.1 — Security hardening
 
 **Released:** 2026-04-09
