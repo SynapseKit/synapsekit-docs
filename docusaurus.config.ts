@@ -142,6 +142,11 @@ const config: Config = {
         },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
+          to: '/docs/evalci/overview',
+          label: 'EvalCI',
+          position: 'left',
+        },
+        {
           type: 'html',
           position: 'left',
           value: '<span class="navbar__version">v1.5.1</span>',
@@ -188,6 +193,16 @@ const config: Config = {
             {label: 'FAQ', to: '/docs/faq'},
             {label: 'Roadmap', to: '/docs/roadmap'},
             {label: 'Changelog', href: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md'},
+          ],
+        },
+        {
+          title: 'EvalCI',
+          items: [
+            {label: 'Overview', to: '/docs/evalci/overview'},
+            {label: 'Quickstart', to: '/docs/evalci/quickstart'},
+            {label: 'Action Reference', to: '/docs/evalci/action-reference'},
+            {label: 'Examples', to: '/docs/evalci/examples'},
+            {label: 'GitHub', href: 'https://github.com/SynapseKit/evalci'},
           ],
         },
         {

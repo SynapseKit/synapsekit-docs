@@ -197,6 +197,17 @@ const sidebars: SidebarsConfig = {
         'cookbook/graph-patterns',
       ],
     },
+    {
+      type: 'category',
+      label: 'EvalCI',
+      items: [
+        'evalci/overview',
+        'evalci/quickstart',
+        'evalci/writing-evals',
+        'evalci/action-reference',
+        'evalci/examples',
+      ],
+    },
     'faq',
     'benchmarks',
     'comparison',
