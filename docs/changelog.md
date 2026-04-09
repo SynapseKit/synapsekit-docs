@@ -8,9 +8,21 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
-## Unreleased
+## v1.5.1 — Security hardening
+
+**Released:** 2026-04-09
+
+### Security
+
+- **SQL injection** — `SQLSchemaInspectionTool` now validates table names against `^[A-Za-z0-9_]+$` before PRAGMA interpolation
+- **Shell injection** — `ShellTool` switched from `create_subprocess_shell` to `create_subprocess_exec` + `shlex.split()`; allowlist enforced on `argv[0]`
+- **Path traversal** — `FileReadTool` and `FileWriteTool` accept optional `base_dir`; all paths resolved and checked before I/O
+- **TOCTOU** — replaced `tempfile.mktemp()` with `NamedTemporaryFile(delete=False)` in `VideoLoader`
+- **SSRF** — `WebLoader` and `WebScraperTool` validate URL scheme and block private/internal IP ranges
+- **ReDoS** — `WebScraperTool` limits CSS selector to 200 characters
 
 ### Added
+
 - **`GitLoader`** — load files from any Git repository (local path or remote URL) at a specific revision; glob pattern filtering; metadata includes path, commit hash, author, date; sync `load()` and async `aload()`; `pip install synapsekit[git]`
 - **`GoogleSheetsLoader`** — load rows from a Google Sheets spreadsheet as Documents; service account auth via credentials file; auto-detects first sheet if none specified; header-based row-to-text formatting; sync `load()` and async `aload()`; `pip install synapsekit[gsheets]`
 - **`JiraLoader`** — load Jira issues via JQL queries; full Atlassian Document Format (ADF) parsing; pagination; rate-limit retry; async `aload()` via httpx; optional `limit`; `pip install synapsekit[jira]`

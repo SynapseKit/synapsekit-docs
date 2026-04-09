@@ -120,14 +120,20 @@ repl.reset()
 
 ## FileReadTool
 
-Read local files from disk.
+Read local files from disk. Pass `base_dir` to sandbox reads to a specific directory.
 
 ```python
 from synapsekit import FileReadTool
 
+# Unrestricted read
 r = await FileReadTool().run(path="/path/to/file.txt")
 # r.output → file contents
 # r.is_error → True if file not found
+
+# Sandboxed — rejects any path outside /data
+tool = FileReadTool(base_dir="/data")
+r = await tool.run(path="reports/q1.txt")   # OK
+r = await tool.run(path="../../etc/passwd") # error: outside allowed directory
 ```
 
 ---
@@ -298,20 +304,24 @@ r = await tool.run(
 
 ## FileWriteTool
 
-Write content to a file on disk. Creates parent directories if needed.
+Write content to a file on disk. Creates parent directories if needed. Pass `base_dir` to sandbox writes to a specific directory.
 
 ```python
 from synapsekit import FileWriteTool
 
+# Unrestricted write
 tool = FileWriteTool()
-
-# Write a new file
 r = await tool.run(path="output/result.txt", content="Hello world!")
 # r.output → "Written to output/result.txt (12 chars)"
 
 # Append to existing file
 r = await tool.run(path="log.txt", content="New line\n", append=True)
 # r.output → "Appended to log.txt (9 chars)"
+
+# Sandboxed — rejects any path outside /workspace
+tool = FileWriteTool(base_dir="/workspace")
+r = await tool.run(path="out.txt", content="safe")        # OK
+r = await tool.run(path="../../etc/crontab", content="x") # error: outside allowed directory
 ```
 
 ---
@@ -480,7 +490,7 @@ r = await tool.run(query="machine learning", max_results=3)
 
 ## ShellTool
 
-Execute shell commands with timeout and optional command whitelist.
+Execute shell commands with timeout and optional command allowlist. Commands are parsed safely with `shlex.split()` — no shell injection via metacharacters.
 
 ```python
 from synapsekit import ShellTool
@@ -490,14 +500,15 @@ tool = ShellTool(timeout=30)
 r = await tool.run(command="echo hello world")
 # r.output → "hello world\n"
 
-# Restrict allowed commands for security
+# Restrict to an explicit allowlist (checked against argv[0])
 tool = ShellTool(allowed_commands=["echo", "ls", "cat"])
 r = await tool.run(command="echo safe")    # works
 r = await tool.run(command="rm -rf /")     # error: not in allowed list
+r = await tool.run(command="ls; rm -rf /") # error: 'ls;' not in allowed list
 ```
 
 :::warning
-`ShellTool` executes real shell commands. Use `allowed_commands` to restrict which commands can be run in untrusted environments.
+`ShellTool` executes real OS commands. Always set `allowed_commands` when the command string comes from untrusted input.
 :::
 
 ---
