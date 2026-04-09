@@ -115,10 +115,10 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v152',
-      content: '🐛 SynapseKit v1.5.2 — Async <code>@eval_case</code> bug fix for EvalCI. <a href="/synapsekit-docs/docs/changelog">See what\'s new →</a>',
-      backgroundColor: '#161b22',
-      textColor: '#8b949e',
+      id: 'v152-evalci',
+      content: '🚀 <strong>EvalCI is live on GitHub Marketplace</strong> — LLM quality gates on every PR, zero infra, 2-minute setup. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a> &nbsp;|&nbsp; v1.5.2 released: async <code>@eval_case</code> fix. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      backgroundColor: '#0d1117',
+      textColor: '#e6edf3',
       isCloseable: true,
     },
     navbar: {

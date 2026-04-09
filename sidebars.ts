@@ -206,6 +206,7 @@ const sidebars: SidebarsConfig = {
         'evalci/writing-evals',
         'evalci/action-reference',
         'evalci/examples',
+        'evalci/troubleshooting',
       ],
     },
     'faq',
