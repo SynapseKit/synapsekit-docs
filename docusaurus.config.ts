@@ -88,7 +88,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/SynapseKit/synapsekit-docs/tree/main/',
+          editUrl: 'https://github.com/SynapseKit/synapsekit-docs/edit/main/',
           showLastUpdateTime: true,
         },
         blog: {
@@ -135,6 +135,7 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
+        { to: '/docs/guides', label: 'Guides', position: 'left' },
         {
           to: '/docs/roadmap',
           label: 'Roadmap',
@@ -174,6 +175,7 @@ const config: Config = {
           items: [
             {label: 'Installation', to: '/docs/getting-started/installation'},
             {label: 'Quickstart', to: '/docs/getting-started/quickstart'},
+            {label: 'Guides', to: '/docs/guides'},
             {label: 'Introduction', to: '/docs/intro'},
           ],
         },
