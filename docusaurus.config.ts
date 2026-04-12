@@ -136,11 +136,6 @@ const config: Config = {
           label: 'Docs',
         },
         { to: '/docs/guides', label: 'Guides', position: 'left' },
-        {
-          to: '/docs/roadmap',
-          label: 'Roadmap',
-          position: 'left',
-        },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           to: '/docs/evalci/overview',
@@ -193,7 +188,6 @@ const config: Config = {
           items: [
             {label: 'API Reference', to: '/docs/api/llm'},
             {label: 'FAQ', to: '/docs/faq'},
-            {label: 'Roadmap', to: '/docs/roadmap'},
             {label: 'Changelog', href: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md'},
           ],
         },

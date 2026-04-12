@@ -307,7 +307,6 @@ const sidebars: SidebarsConfig = {
     'benchmarks',
     'comparison',
     'changelog',
-    'roadmap',
   ],
 };
 

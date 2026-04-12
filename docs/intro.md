@@ -4,9 +4,43 @@ sidebar_position: 1
 
 # Introduction
 
-**SynapseKit** is an async-native Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. Streaming-first, transparent API, 2 hard deps. 30 providers · 46 tools · 33 loaders · 9 vector stores.
+**SynapseKit** is the minimal, async-first Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. 2 hard dependencies. No magic. No SaaS lock-in. No 200 MB install.
 
-It is designed from the ground up to be **async-native** and **streaming-first**. Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state.
+> *"LangChain for people who hate LangChain."*
+
+Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state. No LangSmith. Just Python.
+
+---
+
+## Quickstart — RAG in 3 lines
+
+```python
+from synapsekit import RAG
+
+rag = RAG(model="gpt-4o-mini", api_key="sk-...")
+rag.add("./my_docs")  # or a string, URL, PDF, directory...
+async for token in rag.stream("What does the doc say about X?"):
+    print(token, end="", flush=True)
+```
+
+That's it. No chains. No YAML. No global state.
+
+---
+
+## How it compares
+
+| | SynapseKit | LangChain | LlamaIndex |
+|---|---|---|---|
+| Hard dependencies | **2** | 50+ | 20+ |
+| Install size | **~5 MB** | ~200 MB+ | ~100 MB+ |
+| Async-native | **✅ Default** | ⚠️ Partial | ⚠️ Partial |
+| Cost tracking | **✅ Built-in** | ❌ LangSmith (SaaS) | ❌ No |
+| Evaluation | **✅ CLI + GitHub Action** | ❌ LangSmith (SaaS) | ✅ Built-in |
+| Graph workflows | **✅ Built-in** | ✅ LangGraph (separate pkg) | ❌ No |
+| LLM providers | **30** | 38+ | 20+ |
+| Stack traces | **Your code** | Framework internals | Framework internals |
+
+LangChain has more raw integrations. SynapseKit is optimizing for something different: code you can ship, debug at 2am, and maintain without a SaaS subscription.
 
 ---
 
@@ -94,4 +128,4 @@ Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-sho
 
 ## Version
 
-Current version: **1.5.2** — see the [Changelog](/docs/changelog) and [Roadmap](/docs/roadmap).
+Current version: **1.5.3** — see the [Changelog](/docs/changelog).

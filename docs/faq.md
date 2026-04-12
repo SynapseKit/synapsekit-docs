@@ -79,6 +79,6 @@ Yes. SynapseKit includes LLM response caching (memory, SQLite, filesystem, Redis
 <details>
 <summary>Answer</summary>
 
-Check out the [GitHub repo](https://github.com/SynapseKit/SynapseKit) — open issues, submit pull requests, improve documentation, or add new integrations. See the [Roadmap](/docs/roadmap) for planned features.
+Check out the [GitHub repo](https://github.com/SynapseKit/SynapseKit) — open issues, submit pull requests, improve documentation, or add new integrations.
 
 </details>
