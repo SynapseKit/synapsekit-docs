@@ -115,8 +115,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v152-evalci',
-      content: '🚀 <strong>EvalCI is live on GitHub Marketplace</strong> — LLM quality gates on every PR, zero infra, 2-minute setup. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a> &nbsp;|&nbsp; v1.5.2 released: async <code>@eval_case</code> fix. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      id: 'v153',
+      content: '🎉 <strong>v1.5.3 released</strong> — TeamsLoader, CodeInterpreterTool, Windows ShellTool fix. <a href="/synapsekit-docs/docs/changelog">Changelog →</a> &nbsp;|&nbsp; 🚀 <strong>EvalCI</strong> — LLM quality gates on every PR, zero infra. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
@@ -145,7 +145,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.5.2</span>',
+          value: '<span class="navbar__version">v1.5.3</span>',
         },
         {
           href: 'https://discord.gg/unn4cXXH',
