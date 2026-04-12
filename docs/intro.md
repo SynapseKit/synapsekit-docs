@@ -4,9 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-**SynapseKit** is the minimal, async-first Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. 2 hard dependencies. No magic. No SaaS lock-in. No 200 MB install.
-
-> *"LangChain for people who hate LangChain."*
+**SynapseKit** is the minimal, async-first Python framework for production LLM apps — RAG pipelines, tool-using agents, and graph workflows. 2 hard dependencies. No magic. No SaaS lock-in. No 200 MB install.
 
 Every public API is `async`. Streaming tokens is the default, not an opt-in. There are no hidden chains, no magic callbacks, no global state. No LangSmith. Just Python.
 
