@@ -35,7 +35,7 @@ That's it. No chains. No YAML. No global state.
 | Cost tracking | **✅ Built-in** | ❌ LangSmith (SaaS) | ❌ No |
 | Evaluation | **✅ CLI + GitHub Action** | ❌ LangSmith (SaaS) | ✅ Built-in |
 | Graph workflows | **✅ Built-in** | ✅ LangGraph (separate pkg) | ❌ No |
-| LLM providers | **30** | 38+ | 20+ |
+| LLM providers | **31** | 38+ | 20+ |
 | Stack traces | **Your code** | Framework internals | Framework internals |
 
 LangChain has more raw integrations. SynapseKit is optimizing for something different: code you can ship, debug at 2am, and maintain without a SaaS subscription.
@@ -74,9 +74,9 @@ Full retrieval-augmented generation with chunking, embedding, vector search, BM2
 
 → [RAG Pipeline docs](/docs/rag/pipeline)
 
-### 30 LLM providers
+### 31 LLM providers
 
-OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, Minimax, Aleph Alpha, Hugging Face, SambaNova, xAI (Grok), NovitaAI, Writer (Palmyra) — all behind `BaseLLM`. Auto-detected from the model name.
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, LM Studio, Minimax, Aleph Alpha, Hugging Face, SambaNova, xAI (Grok), NovitaAI, Writer (Palmyra) — all behind `BaseLLM`. Auto-detected from the model name.
 
 → [LLM Provider docs](/docs/llms/overview)
 
@@ -86,9 +86,9 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 
 → [Vector store docs](/docs/rag/vector-stores)
 
-### 33 document loaders
+### 43 document loaders
 
-`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `GoogleSheetsLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`, `GitLoader`, `JiraLoader`, `SupabaseLoader`.
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `GoogleSheetsLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`, `GitLoader`, `JiraLoader`, `SupabaseLoader`, `TeamsLoader`, `S3Loader`, `AzureBlobLoader`, `MongoDBLoader`, `DropboxLoader`, `LaTeXLoader`, `TSVLoader`, `RTFLoader`, `EPUBLoader`, `ConfigLoader`, `OneDriveLoader`.
 
 → [Loader docs](/docs/rag/loaders)
 
@@ -97,14 +97,14 @@ InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pin
 `ReActAgent` — Thought → Action → Observation loop, works with any LLM.
 `FunctionCallingAgent` — native `tool_calls` / `tool_use` for OpenAI, Anthropic, Gemini, and Mistral.
 `AgentExecutor` — unified runner, picks the right agent from config.
-46 built-in tools: Calculator, PythonREPL, FileRead, FileWrite, FileList, WebSearch, DuckDuckGoSearch, SQL, HTTP, GraphQL, DateTime, Regex, JSONQuery, HumanInput, Wikipedia, Summarization, SentimentAnalysis, Translation, WebScraper, Shell, SQLSchemaInspection, PDFReader, ArxivSearch, TavilySearch, Email, GitHubAPI, PubMedSearch, VectorSearch, YouTubeSearch, Slack, Notion, Jira, BraveSearch, APIBuilder, GoogleCalendar, AWSLambda, ImageAnalysis, TextToSpeech, SpeechToText, BingSearch, WolframAlpha, GoogleSearch, Twilio, NewsTool, WeatherTool, StripeTool, LinearTool.
+48 built-in tools: Calculator, PythonREPL, CodeInterpreter, FileRead, FileWrite, FileList, WebSearch, DuckDuckGoSearch, SQL, HTTP, GraphQL, DateTime, Regex, JSONQuery, HumanInput, Wikipedia, Summarization, SentimentAnalysis, Translation, WebScraper, Shell, SQLSchemaInspection, PDFReader, ArxivSearch, TavilySearch, Email, GitHubAPI, PubMedSearch, VectorSearch, YouTubeSearch, Slack, Notion, Jira, BraveSearch, APIBuilder, GoogleCalendar, AWSLambda, ImageAnalysis, TextToSpeech, SpeechToText, BingSearch, WolframAlpha, GoogleSearch, Twilio, NewsTool, WeatherTool, StripeTool, LinearTool.
 
 → [Agent docs](/docs/agents/overview)
 
 ### Graph Workflows
 
-`StateGraph` — fluent graph builder with compile-time validation, optional cycle support, typed state with reducers, and configurable step limits.
-`CompiledGraph` — wave-based async executor. Parallel nodes via `asyncio.gather`. Conditional routing, checkpointing, human-in-the-loop interrupts, subgraphs, fan-out/fan-in, SSE streaming, event callbacks, token-level streaming, and Mermaid export.
+`StateGraph` — fluent graph builder with compile-time validation, optional cycle support, typed state with reducers, and configurable step limits. Supports recursive subgraphs with `max_recursion_depth` guard.
+`CompiledGraph` — wave-based async executor. Parallel nodes via `asyncio.gather`. Conditional routing, checkpointing, human-in-the-loop interrupts, subgraphs, recursive subgraphs, fan-out/fan-in, SSE streaming, event callbacks, token-level streaming, and Mermaid export.
 
 → [Graph docs](/docs/graph/overview)
 
@@ -126,4 +126,4 @@ Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-sho
 
 ## Version
 
-Current version: **1.5.3** — see the [Changelog](/docs/changelog).
+Current version: **1.5.5** — see the [Changelog](/docs/changelog).

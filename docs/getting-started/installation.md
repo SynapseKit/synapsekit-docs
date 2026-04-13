@@ -58,6 +58,7 @@ poetry add "synapsekit[all]"         # Everything
 | `mistral` | `mistralai` | Mistral Large, Small, etc. |
 | `gemini` | `google-generativeai` | Gemini 1.5 Pro/Flash |
 | `bedrock` | `boto3` | AWS Bedrock (Claude/Titan/Llama) |
+| `lmstudio` | `openai` | LM Studio local server |
 
 ### Document loaders
 
@@ -66,6 +67,14 @@ poetry add "synapsekit[all]"         # Everything
 | `pdf` | `pypdf` | `PDFLoader` |
 | `html` | `beautifulsoup4`, `lxml` | `HTMLLoader` |
 | `web` | `httpx`, `beautifulsoup4` | `WebLoader` (async URL fetch) |
+| `s3` | `boto3` | `S3Loader` — Amazon S3 |
+| `azure` | `azure-storage-blob` | `AzureBlobLoader` |
+| `mongodb` | `pymongo` | `MongoDBLoader` |
+| `dropbox` | `dropbox` | `DropboxLoader` |
+| `teams` | `httpx` | `TeamsLoader` — Microsoft Teams |
+| `onedrive` | *(stdlib only)* | `OneDriveLoader` — OneDrive/SharePoint |
+| `rtf` | `striprtf` | `RTFLoader` |
+| `epub` | `ebooklib` | `EPUBLoader` |
 
 ### Vector store backends
 
@@ -122,5 +131,5 @@ poetry add "synapsekit[ollama,faiss,semantic]"
 
 ```python
 import synapsekit
-print(synapsekit.__version__)  # 1.2.0
+print(synapsekit.__version__)  # 1.5.5
 ```

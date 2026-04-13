@@ -7,7 +7,7 @@ sidebar_position: 1
 [![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
 [![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
-[![Tests](https://img.shields.io/badge/tests-1403%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+[![Tests](https://img.shields.io/badge/tests-2041%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
 
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
@@ -82,6 +82,7 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | xAI (Grok) | `XaiLLM` | `pip install synapsekit[openai]` | `"xai"` |
 | NovitaAI | `NovitaLLM` | `pip install synapsekit[openai]` | `"novita"` |
 | Writer (Palmyra) | `WriterLLM` | `pip install synapsekit[openai]` | `"writer"` |
+| LM Studio | `LMStudioLLM` | `pip install synapsekit[lmstudio]` | `"lmstudio"` |
 
 ## Auto-detection
 
@@ -144,6 +145,7 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [xAI](./xai) — Grok models (grok-2, grok-2-mini)
 - [NovitaAI](./novita) — hosted open models (Llama, Mistral, Qwen, etc.)
 - [Writer](./writer) — Palmyra models including domain-specific (palmyra-med, palmyra-fin)
+- [LM Studio](./lmstudio) — local models via LM Studio's OpenAI-compatible API; no API key required
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending
