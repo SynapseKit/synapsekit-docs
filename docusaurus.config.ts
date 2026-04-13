@@ -148,7 +148,7 @@ const config: Config = {
           value: '<span class="navbar__version">v1.5.3</span>',
         },
         {
-          href: 'https://discord.gg/unn4cXXH',
+          href: 'https://discord.gg/PSuAXHRywJ',
           position: 'right',
           className: 'navbar__discord',
           'aria-label': 'Discord',
