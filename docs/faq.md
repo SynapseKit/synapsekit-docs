@@ -13,7 +13,7 @@ Below are common questions about SynapseKit.
 <details>
 <summary>Answer</summary>
 
-SynapseKit requires **Python 3.14 or newer**.
+SynapseKit requires **Python 3.10 or newer**.
 
 </details>
 

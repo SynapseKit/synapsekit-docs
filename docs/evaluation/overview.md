@@ -51,8 +51,8 @@ from synapsekit import GroundednessMetric
 metric = GroundednessMetric(llm=llm)
 
 score = await metric.score(
-    answer="SynapseKit supports 15 LLM providers.",
-    contexts=["SynapseKit supports 15 LLM providers including OpenAI, Anthropic, and Gemini."],
+    answer="SynapseKit supports 31 LLM providers.",
+    contexts=["SynapseKit supports 31 LLM providers including OpenAI, Anthropic, and Gemini."],
 )
 # score → 1.0 (fully grounded)
 ```

@@ -62,7 +62,7 @@ Lazy imports mean unused optional backends don't affect startup time.
 git clone https://github.com/SynapseKit/SynapseKit
 cd SynapseKit
 pip install -e ".[all]"
-pytest tests/ -q --tb=no  # 1100+ tests, proxy for correctness benchmarks
+pytest tests/ -q --tb=no  # 2041 tests, proxy for correctness benchmarks
 
 # Time a single RAG query yourself:
 python -c "

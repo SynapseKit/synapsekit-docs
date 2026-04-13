@@ -60,7 +60,7 @@ Choose your agent type based on your LLM and task requirements:
 
 ## Built-in tools
 
-SynapseKit includes 42 built-in tools organized by category:
+SynapseKit includes 48 built-in tools organized by category:
 
 ### Math and code
 | Tool | Class | Description |

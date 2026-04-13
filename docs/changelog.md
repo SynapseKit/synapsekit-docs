@@ -8,6 +8,59 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.5.5 — LM Studio, 10 new loaders, EvalDataset, FineTuner, recursive subgraphs, MCPServer SSE
+
+**Released:** 2026-04-13
+
+### Added
+
+- **`LMStudioLLM`** — local model provider via LM Studio's OpenAI-compatible API; connects to a running LM Studio server (default `http://localhost:1234/v1`); supports streaming, tool calling, and custom `base_url` via constructor kwarg; no API key required; `pip install synapsekit[lmstudio]`
+- **`S3Loader`** — load files from Amazon S3 buckets; supports text, binary fallback, and rich extraction (PDF, DOCX, XLSX, PPTX, CSV, JSON, HTML); prefix/extension filtering, `max_files`; credential chain (explicit keys, session tokens, or ambient IAM role); `pip install synapsekit[s3]`
+- **`AzureBlobLoader`** — load blobs from Azure Blob Storage; connection-string and account URL + credential auth; same extraction chain as S3Loader; `pip install synapsekit[azure]`
+- **`MongoDBLoader`** — load documents from a MongoDB collection; configurable `text_fields` and `metadata_fields`; optional `query_filter`; `pip install synapsekit[mongodb]`
+- **`DropboxLoader`** — load files from a Dropbox folder; 20+ text/code extensions; pagination via cursor; `pip install synapsekit[dropbox]`
+- **`OneDriveLoader`** — load files from OneDrive and SharePoint via Microsoft Graph API; folder traversal with optional recursion; extension filtering; no external SDK required
+- **`ConfigLoader`** — load `.env`, `.ini`, `.cfg`, `.toml`, and environment-specific dotfiles (`.env.local`, `.env.staging`, `.env.production`) into Documents; redacts sensitive keys automatically
+- **`RTFLoader`** — load RTF files as plain text via `striprtf`; default encoding `latin-1` for real-world Office files; `pip install synapsekit[rtf]`
+- **`EPUBLoader`** — load EPUB files chapter-by-chapter; extracts title, author, and chapter name into metadata; `pip install synapsekit[epub]`
+- **`LaTeXLoader`** — load `.tex` files as plain text; strips commands, environments, math, and comments; no external deps required
+- **`TSVLoader`** — load tab-separated files one Document per row; configurable `text_column`; remaining columns become metadata
+- **`EvalDataset` / `EvalRecord`** — filterable, exportable collection of eval result records; `export()` writes fine-tuning datasets in OpenAI, Anthropic, Together, JSONL, and DPO pair formats; `from_snapshot()` loads from existing EvalCI snapshots
+- **`FineTuner`** — orchestrates fine-tuning jobs against OpenAI and Together AI; `submit()`, `status()`, `wait()` (polls until terminal state)
+- **`@eval_case(capture_io=True)`** — opt-in capture of `input`, `output`, and `ideal` fields; required for `EvalDataset.export()`
+- **`synapsekit eval` CLI** — `report`, `export`, `compare` subcommands for eval snapshots
+- **`synapsekit finetune` CLI** — `submit`, `status`, `wait` subcommands for fine-tuning jobs
+- **Recursive subgraph support** — pass a `StateGraph` to `subgraph_node()` for self-referential / recursive workflows; `max_recursion_depth` guard (default 10); `RecursionDepthError` on limit breach
+- **`MCPServer` SSE transport** — `run_sse(host, port, api_key)` for HTTP/SSE MCP serving with optional Bearer auth; `MCPServer` package refactored to `synapsekit.mcp.server`
+
+### Fixed
+
+- **`LMStudioLLM` `base_url`** — `LLMConfig` has no `base_url` field; passing it via `LLMConfig(base_url=...)` raised `TypeError`. Fixed by adding `base_url: str | None = None` as a keyword argument to `LMStudioLLM.__init__` directly
+- **`LMStudioLLM` stream stability** — removed `stream_options={"include_usage": True}` which caused API errors on older LM Studio builds; usage tracking now reads `chunk.usage` defensively via `getattr`
+- **`ConfigLoader` rejects `.env.local` / `.env.staging`** — `os.path.splitext(".env.local")` returns `('.env', '.local')` making `ext = '.local'` which raised `ValueError`. Fixed by detecting any filename starting with `.env` and treating it as env format
+- **`RTFLoader` default encoding** — changed default from `"utf-8"` to `"latin-1"` since real-world RTF files from Office/WordPad are Windows-encoded
+
+**Stats:** 2041 tests · 31 LLM providers · 48 tools · 43 loaders
+
+---
+
+## v1.5.3 — TeamsLoader, CodeInterpreterTool, Windows ShellTool fix
+
+**Released:** 2026-04-11
+
+### Added
+
+- **`TeamsLoader`** — load messages from Microsoft Teams channels via the Microsoft Graph API; automatic pagination; HTML-to-plain-text conversion; exponential backoff retry for 429 and 5xx responses; `pip install synapsekit[teams]`
+- **`CodeInterpreterTool`** — execute Python code in an isolated subprocess; captures stdout, stderr, generated files, matplotlib plot artifacts, and pandas dataframe reprs; configurable timeout (default 5s) and memory limit (default 256 MB); workspace isolation via `tempfile.TemporaryDirectory`; structured JSON output
+
+### Fixed
+
+- **`ShellTool` Windows compatibility** — use `asyncio.create_subprocess_shell()` on Windows so shell builtins (`echo`, `dir`, etc.) work correctly; keep `create_subprocess_exec()` on Unix
+
+**Stats:** 1950 tests · 30 LLM providers · 46 tools · 33 loaders
+
+---
+
 ## v1.5.2 — Async eval_case bug fix
 
 **Released:** 2026-04-09

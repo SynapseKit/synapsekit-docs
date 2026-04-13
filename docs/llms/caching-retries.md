@@ -246,7 +246,7 @@ If the LLM returns invalid JSON, the function retries with feedback asking for v
 | `requests_per_minute` | `int \| None` | `None` | Rate limit (None = unlimited) |
 
 :::info
-These fields work with all 27 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21, Databricks, ERNIE, llama.cpp, Minimax, Aleph Alpha, Hugging Face, and SambaNova. The 6 cache backends (memory, SQLite, filesystem, Redis, DynamoDB, Memcached) are interchangeable across all providers.
+These fields work with all 31 LLM providers: OpenAI, Anthropic, Gemini, Mistral, Ollama, Cohere, Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21, Databricks, ERNIE, llama.cpp, LM Studio, Minimax, Aleph Alpha, Hugging Face, SambaNova, xAI, NovitaAI, and Writer. The 6 cache backends (memory, SQLite, filesystem, Redis, DynamoDB, Memcached) are interchangeable across all providers.
 :::
 
 ## DynamoDBCacheBackend
