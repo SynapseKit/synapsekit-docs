@@ -159,7 +159,7 @@ parent.add_node("sub", subgraph_node(compiled_sub, on_error="fallback", fallback
 parent.add_node("sub", subgraph_node(compiled_sub, on_error="skip"))
 ```
 
--> [Subgraphs docs](/docs/graph/nodes#subgraph_nodecompiled_graph-input_mapping-output_mapping-on_error-max_retries-fallback)
+-> [Subgraphs docs](/docs/graph/nodes#subgraph_node)
 
 ## Token streaming
 

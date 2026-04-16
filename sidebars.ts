@@ -119,7 +119,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Concepts',
-      link: { type: 'doc', id: 'concepts/rag' },
+      link: { type: 'doc', id: 'concepts/index' },
       items: [
         'concepts/rag',
         'concepts/agents',
@@ -130,7 +130,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'RAG',
-      link: { type: 'doc', id: 'rag/pipeline' },
+      link: { type: 'doc', id: 'rag/index' },
       items: [
         'rag/pipeline',
         'rag/loaders',
@@ -145,7 +145,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'LLMs',
-      link: { type: 'doc', id: 'llms/overview' },
+      link: { type: 'doc', id: 'llms/index' },
       items: [
         'llms/overview',
         'llms/openai',
@@ -188,7 +188,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Agents',
-      link: { type: 'doc', id: 'agents/overview' },
+      link: { type: 'doc', id: 'agents/index' },
       items: [
         'agents/overview',
         'agents/react',
@@ -204,37 +204,37 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Multi-Agent',
-      link: { type: 'doc', id: 'multi-agent/overview' },
+      link: { type: 'doc', id: 'multi-agent/index' },
       items: ['multi-agent/overview', 'multi-agent/a2a'],
     },
     {
       type: 'category',
       label: 'Evaluation',
-      link: { type: 'doc', id: 'evaluation/overview' },
+      link: { type: 'doc', id: 'evaluation/index' },
       items: ['evaluation/overview'],
     },
     {
       type: 'category',
       label: 'Guardrails',
-      link: { type: 'doc', id: 'guardrails/overview' },
+      link: { type: 'doc', id: 'guardrails/index' },
       items: ['guardrails/overview'],
     },
     {
       type: 'category',
       label: 'Observability',
-      link: { type: 'doc', id: 'observability/overview' },
+      link: { type: 'doc', id: 'observability/index' },
       items: ['observability/overview', 'observability/cost-tracker', 'observability/audit-log'],
     },
     {
       type: 'category',
       label: 'Multimodal',
-      link: { type: 'doc', id: 'multimodal/overview' },
+      link: { type: 'doc', id: 'multimodal/index' },
       items: ['multimodal/overview'],
     },
     {
       type: 'category',
       label: 'Graph Workflows',
-      link: { type: 'doc', id: 'graph/overview' },
+      link: { type: 'doc', id: 'graph/index' },
       items: [
         'graph/overview',
         'graph/state-graph',
@@ -249,14 +249,14 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'CLI',
-      link: { type: 'doc', id: 'cli/overview' },
+      link: { type: 'doc', id: 'cli/index' },
       items: ['cli/overview', 'cli/serve', 'cli/test'],
     },
     'plugins',
     {
       type: 'category',
       label: 'Memory & Tracing',
-      link: { type: 'generated-index', title: 'Memory & Tracing' },
+      link: { type: 'doc', id: 'memory/index' },
       items: ['memory/conversation', 'memory/token-tracer'],
     },
     {
@@ -279,7 +279,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'API Reference',
-      link: { type: 'doc', id: 'api/llm' },
+      link: { type: 'doc', id: 'api/index' },
       items: [
         'api/llm',
         'api/rag-pipeline',
@@ -295,7 +295,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Reference',
-      link: { type: 'doc', id: 'reference/env-vars' },
+      link: { type: 'doc', id: 'reference/index' },
       items: [
         'reference/env-vars',
         'reference/errors',
@@ -317,7 +317,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'EvalCI',
-      link: { type: 'doc', id: 'evalci/overview' },
+      link: { type: 'doc', id: 'evalci/index' },
       items: [
         'evalci/overview',
         'evalci/quickstart',
