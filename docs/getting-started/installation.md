@@ -131,5 +131,5 @@ poetry add "synapsekit[ollama,faiss,semantic]"
 
 ```python
 import synapsekit
-print(synapsekit.__version__)  # 1.5.5
+print(synapsekit.__version__)  # 1.5.6
 ```

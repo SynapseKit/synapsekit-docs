@@ -8,6 +8,28 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.5.6 — GPT4All, vLLM, SQLiteVecStore, 4 new loaders, bug fixes
+
+**Released:** 2026-04-16
+
+### Added
+
+- **`GPT4AllLLM`** — local model provider via GPT4All Python bindings; no API key; streaming via callback shim wrapped in `run_in_executor`; `pip install synapsekit[gpt4all]`
+- **`VLLMLlm`** — high-throughput local/self-hosted inference via vLLM's OpenAI-compatible API; `pip install synapsekit[vllm]`
+- **`SQLiteVecStore`** — zero-infra vector store backed by `sqlite-vec`; local SQLite file persistence; drop-in for `InMemoryVectorStore`; `pip install synapsekit[sqlite-vec]`
+- **`ParquetLoader`** — load Parquet files as Documents; configurable `text_column`; `pip install synapsekit[parquet]`
+- **`RedisLoader`** — load key/value pairs from Redis; supports string, hash, and JSON value types; `pip install synapsekit[redis]`
+- **`ElasticsearchLoader`** — load documents from an Elasticsearch index; search and scan modes; `pip install synapsekit[elasticsearch]`
+- **`DynamoDBLoader`** — load items from AWS DynamoDB; scan and query modes with auto-pagination; `pip install synapsekit[dynamodb]`
+- **Production-grade test suite** — preflight, E2E, behavioral, and API endpoint tests; 120 new tests; zero API calls
+
+### Fixed
+
+- **Stream disconnect race condition** — client disconnects during streaming now terminate cleanly
+- **Summary buffer memory corruption** — fixed mutation of buffer before summarisation LLM call completed
+
+---
+
 ## v1.5.5 — LM Studio, 10 new loaders, EvalDataset, FineTuner, recursive subgraphs, MCPServer SSE
 
 **Released:** 2026-04-13

@@ -115,8 +115,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v155',
-      content: '🎉 <strong>v1.5.5 released</strong> — LM Studio, 10 new loaders, EvalDataset, FineTuner, recursive subgraphs. <a href="/synapsekit-docs/docs/changelog">Changelog →</a> &nbsp;|&nbsp; 🚀 <strong>EvalCI</strong> — LLM quality gates on every PR, zero infra. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a>',
+      id: 'v156',
+      content: '🎉 <strong>v1.5.6 released</strong> — GPT4All &amp; vLLM providers, SQLiteVecStore, 4 new loaders (Parquet, Redis, Elasticsearch, DynamoDB). <a href="/synapsekit-docs/docs/changelog">Changelog →</a> &nbsp;|&nbsp; 🚀 <strong>EvalCI</strong> — LLM quality gates on every PR, zero infra. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
@@ -145,7 +145,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.5.5</span>',
+          value: '<span class="navbar__version">v1.5.6</span>',
         },
         {
           href: 'https://discord.gg/PSuAXHRywJ',
