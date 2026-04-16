@@ -1036,6 +1036,333 @@ docs = await loader.aload()
 
 ---
 
+## TeamsLoader
+
+Load messages from Microsoft Teams channels via the Microsoft Graph API.
+
+```bash
+pip install synapsekit[teams]
+```
+
+```python
+from synapsekit.loaders import TeamsLoader
+
+loader = TeamsLoader(
+    team_id="your-team-id",
+    channel_id="your-channel-id",
+    access_token="Bearer ...",
+    max_messages=500,
+)
+docs = loader.load()
+# Each doc: message body as text, metadata includes author, timestamp, channel_id
+```
+
+- Automatic pagination via `@odata.nextLink`
+- HTML-to-plain-text conversion
+- Exponential backoff for 429 / 5xx responses
+
+---
+
+## S3Loader
+
+Load files from Amazon S3 buckets.
+
+```bash
+pip install synapsekit[s3]
+```
+
+```python
+from synapsekit.loaders import S3Loader
+
+loader = S3Loader(
+    bucket="my-bucket",
+    prefix="docs/",                   # optional key prefix
+    extensions=[".pdf", ".txt"],      # optional filter
+    max_files=100,
+    aws_access_key_id="AKI...",
+    aws_secret_access_key="...",
+)
+docs = loader.load()
+```
+
+Supports text files directly and PDF / DOCX / XLSX / PPTX / CSV / JSON / HTML via the corresponding loaders. Falls back to raw binary read for unknown types. Uses ambient IAM role if no explicit credentials are given.
+
+---
+
+## AzureBlobLoader
+
+Load blobs from Azure Blob Storage containers.
+
+```bash
+pip install synapsekit[azure]
+```
+
+```python
+from synapsekit.loaders import AzureBlobLoader
+
+loader = AzureBlobLoader(
+    container="my-container",
+    connection_string="DefaultEndpointsProtocol=https;...",
+    prefix="reports/",
+    max_files=50,
+)
+docs = loader.load()
+```
+
+Also accepts `account_url` + `credential` for token-based auth.
+
+---
+
+## MongoDBLoader
+
+Load documents from a MongoDB collection.
+
+```bash
+pip install synapsekit[mongodb]
+```
+
+```python
+from synapsekit.loaders import MongoDBLoader
+
+loader = MongoDBLoader(
+    uri="mongodb://localhost:27017",
+    database="mydb",
+    collection="articles",
+    text_fields=["title", "body"],
+    metadata_fields=["author", "created_at"],
+    query_filter={"published": True},
+)
+docs = loader.load()
+```
+
+---
+
+## DropboxLoader
+
+Load files from a Dropbox folder.
+
+```bash
+pip install synapsekit[dropbox]
+```
+
+```python
+from synapsekit.loaders import DropboxLoader
+
+loader = DropboxLoader(
+    access_token="sl.xxx",
+    folder_path="/Reports",
+    extensions=[".txt", ".md", ".pdf"],
+    limit=200,
+)
+docs = loader.load()
+```
+
+Supports 20+ text and code extensions. Skips files that fail to download instead of raising.
+
+---
+
+## EPUBLoader
+
+Load EPUB files chapter-by-chapter.
+
+```bash
+pip install synapsekit[epub]
+```
+
+```python
+from synapsekit.loaders import EPUBLoader
+
+loader = EPUBLoader("book.epub")
+docs = loader.load()
+# One Document per chapter; metadata: title, author, chapter_name
+```
+
+---
+
+## LaTeXLoader
+
+Load `.tex` files as plain text. No external dependencies.
+
+```python
+from synapsekit.loaders import LaTeXLoader
+
+loader = LaTeXLoader("paper.tex")
+docs = loader.load()
+# Strips commands, environments, math, and comments; captures section titles in metadata
+```
+
+---
+
+## TSVLoader
+
+Load tab-separated files, one Document per row.
+
+```python
+from synapsekit.loaders import TSVLoader
+
+loader = TSVLoader("data.tsv", text_column="description")
+docs = loader.load()
+# text_column becomes the document body; all other columns become metadata
+```
+
+---
+
+## RTFLoader
+
+Load RTF files as plain text via `striprtf`.
+
+```bash
+pip install synapsekit[rtf]
+```
+
+```python
+from synapsekit.loaders import RTFLoader
+
+loader = RTFLoader("document.rtf")
+docs = loader.load()
+```
+
+Default encoding is `latin-1` (Windows-1252 superset) — the encoding used by Office and WordPad.
+
+---
+
+## ConfigLoader
+
+Load `.env`, `.ini`, `.cfg`, `.toml`, and environment-specific dotfiles into Documents.
+
+```python
+from synapsekit.loaders import ConfigLoader
+
+loader = ConfigLoader(".env.production")
+docs = loader.load()
+# Sensitive keys (password, secret, token, api_key, auth) are redacted automatically
+```
+
+Supported: `.env`, `.env.local`, `.env.staging`, `.env.production`, `.ini`, `.cfg`, `.toml`.
+
+---
+
+## OneDriveLoader
+
+Load files from OneDrive and SharePoint via Microsoft Graph API.
+
+```python
+from synapsekit.loaders import OneDriveLoader
+
+loader = OneDriveLoader(
+    access_token="Bearer ...",
+    folder_path="/Documents/Reports",
+    recursive=True,
+    extensions=[".pdf", ".docx"],
+    max_files=100,
+)
+docs = loader.load()
+```
+
+Extracts PDF, DOCX, XLSX, PPTX, CSV, JSON, HTML via existing loaders. Uses stdlib HTTP — no external SDK required.
+
+---
+
+## ParquetLoader
+
+Load Parquet files as Documents, one Document per row.
+
+```bash
+pip install synapsekit[parquet]
+```
+
+```python
+from synapsekit.loaders import ParquetLoader
+
+loader = ParquetLoader("data.parquet", text_column="content")
+docs = loader.load()
+# text_column becomes the document body; remaining columns become metadata
+```
+
+Supports local files and remote URLs via `pandas.read_parquet`.
+
+---
+
+## RedisLoader
+
+Load key/value pairs from a Redis database as Documents.
+
+```bash
+pip install synapsekit[redis]
+```
+
+```python
+from synapsekit.loaders import RedisLoader
+
+loader = RedisLoader(
+    host="localhost",
+    port=6379,
+    pattern="docs:*",       # key pattern filter
+    value_type="hash",      # "string", "hash", or "json"
+)
+docs = loader.load()
+# Each doc: key as metadata, value as text
+```
+
+---
+
+## ElasticsearchLoader
+
+Load documents from an Elasticsearch index.
+
+```bash
+pip install synapsekit[elasticsearch]
+```
+
+```python
+from synapsekit.loaders import ElasticsearchLoader
+
+loader = ElasticsearchLoader(
+    hosts=["http://localhost:9200"],
+    index="my-index",
+    text_field="content",
+    metadata_fields=["author", "timestamp"],
+    query={"match_all": {}},   # optional DSL query; omit for full scan
+)
+docs = loader.load()
+```
+
+---
+
+## DynamoDBLoader
+
+Load items from an AWS DynamoDB table.
+
+```bash
+pip install synapsekit[dynamodb]
+```
+
+```python
+from synapsekit.loaders import DynamoDBLoader
+
+# Full table scan
+loader = DynamoDBLoader(
+    table_name="my-table",
+    text_fields=["title", "body"],
+    metadata_fields=["author", "created_at"],
+    region_name="us-east-1",
+)
+docs = loader.load()
+
+# Query mode (specific partition)
+loader = DynamoDBLoader(
+    table_name="my-table",
+    text_fields=["body"],
+    key_condition_expression="pk = :pk",
+    expression_attribute_values={":pk": {"S": "user#123"}},
+)
+docs = loader.load()
+```
+
+Automatically paginates using `LastEvaluatedKey`. Deserialises typed DynamoDB attribute values (S, N, BOOL, L, M, etc.).
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

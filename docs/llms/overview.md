@@ -7,7 +7,7 @@ sidebar_position: 1
 [![PyPI](https://img.shields.io/pypi/v/synapsekit)](https://pypi.org/project/synapsekit/)
 [![Python](https://img.shields.io/pypi/pyversions/synapsekit)](https://pypi.org/project/synapsekit/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/SynapseKit/SynapseKit/blob/main/LICENSE)
-[![Tests](https://img.shields.io/badge/tests-2041%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
+[![Tests](https://img.shields.io/badge/tests-2161%20passing-brightgreen)](https://github.com/SynapseKit/SynapseKit/actions)
 
 All LLMs in SynapseKit extend `BaseLLM` and share the same interface.
 
@@ -83,6 +83,8 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | NovitaAI | `NovitaLLM` | `pip install synapsekit[openai]` | `"novita"` |
 | Writer (Palmyra) | `WriterLLM` | `pip install synapsekit[openai]` | `"writer"` |
 | LM Studio | `LMStudioLLM` | `pip install synapsekit[lmstudio]` | `"lmstudio"` |
+| GPT4All | `GPT4AllLLM` | `pip install synapsekit[gpt4all]` | `"gpt4all"` |
+| vLLM | `VLLMLlm` | `pip install synapsekit[vllm]` | `"vllm"` |
 
 ## Auto-detection
 
@@ -146,6 +148,8 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [NovitaAI](./novita) — hosted open models (Llama, Mistral, Qwen, etc.)
 - [Writer](./writer) — Palmyra models including domain-specific (palmyra-med, palmyra-fin)
 - [LM Studio](./lmstudio) — local models via LM Studio's OpenAI-compatible API; no API key required
+- [GPT4All](./gpt4all) — fully on-device GGUF models via GPT4All Python bindings; no API key, no internet
+- [vLLM](./vllm) — high-throughput self-hosted inference via vLLM's OpenAI-compatible API
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

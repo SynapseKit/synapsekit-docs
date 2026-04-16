@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Vector Store Backends
 
-9 backends available. All implement the `VectorStore` ABC and share the same interface.
+10 backends available. All implement the `VectorStore` ABC and share the same interface.
 
 ```python
 from synapsekit.retrieval.base import VectorStore
@@ -352,6 +352,39 @@ results = await store.search("query", metadata_filter={"topic": "ai"})
 
 :::note
 LanceDB is embedded — no separate server process needed. Tables are created on the first `add()` call. FTS index is built automatically for full-text search.
+:::
+
+---
+
+## SQLiteVecStore
+
+Zero-infrastructure vector store backed by [`sqlite-vec`](https://github.com/asg017/sqlite-vec). Stores embeddings in a local SQLite file — persistent across sessions, no server needed.
+
+```bash
+pip install synapsekit[sqlite-vec]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.sqlite_vec import SQLiteVecStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = SQLiteVecStore(embeddings, db_path="./my_store.db")
+
+await store.add(["chunk one", "chunk two"], metadata=[{"src": "doc1"}, {"src": "doc2"}])
+
+results = await store.search("my query", top_k=3)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `embedding_backend` | — | `SynapsekitEmbeddings` instance |
+| `db_path` | `"synapsekit.db"` | Path to the SQLite database file |
+| `table_name` | `"vectors"` | Table name within the database |
+
+:::note
+`SQLiteVecStore` is a drop-in replacement for `InMemoryVectorStore` when you need persistence between process restarts without running a separate vector database server.
 :::
 
 ---
