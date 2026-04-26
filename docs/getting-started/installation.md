@@ -84,6 +84,13 @@ poetry add "synapsekit[all]"         # Everything
 | `faiss` | `faiss-cpu` | `FAISSVectorStore` |
 | `qdrant` | `qdrant-client` | `QdrantVectorStore` |
 | `pinecone` | `pinecone` | `PineconeVectorStore` |
+| `cassandra` | `cassandra-driver` | `CassandraVectorStore` |
+| `clickhouse` | `clickhouse-connect` | `ClickHouseVectorStore` |
+| `duckdb-vector` | `duckdb` | `DuckDBVectorStore` |
+| `marqo` | `marqo` | `MarqoVectorStore` |
+| `opensearch` | `opensearch-py` | `OpenSearchVectorStore` |
+| `vespa` | `pyvespa` | `VespaVectorStore` |
+| `replicate` | `replicate` | `ReplicateLLM` |
 
 ### Search
 
@@ -131,5 +138,5 @@ poetry add "synapsekit[ollama,faiss,semantic]"
 
 ```python
 import synapsekit
-print(synapsekit.__version__)  # 1.5.6
+print(synapsekit.__version__)  # 1.6.0
 ```

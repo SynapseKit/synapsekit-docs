@@ -8,6 +8,95 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.6.0 — 11 new vector stores, 9 loaders, SwarmAgent, RAPTOR RAG, PluginRegistry, ReplicateLLM
+
+**Released:** 2026-04-26
+
+### Added — Vector Stores (11 new, 22 total)
+
+- **`VespaVectorStore`** — Vespa.ai vector search with BM25+ANN hybrid; `pip install synapsekit[vespa]`
+- **`RedisVectorStore`** — Redis Stack vector similarity search via RediSearch module; `pip install synapsekit[redis]`
+- **`ElasticsearchVectorStore`** — Elasticsearch dense_vector kNN search; `pip install synapsekit[elasticsearch]`
+- **`OpenSearchVectorStore`** — OpenSearch kNN plugin with HNSW and IVF index support; `pip install synapsekit[opensearch]`
+- **`SupabaseVectorStore`** — Supabase pgvector backend via the Supabase Python client; `pip install synapsekit[supabase]`
+- **`TypesenseVectorStore`** — Typesense hybrid vector + keyword search; `pip install synapsekit[typesense]`
+- **`MarqoVectorStore`** — Marqo multimodal search with built-in embedding; `pip install synapsekit[marqo]`
+- **`ZillizVectorStore`** — Zilliz Cloud (managed Milvus) dedicated vector store class; `pip install synapsekit[milvus]`
+- **`DuckDBVectorStore`** — in-process analytical vector store backed by DuckDB; `pip install synapsekit[duckdb-vector]`
+- **`ClickHouseVectorStore`** — ClickHouse cosine/L2 vector search for high-throughput workloads; `pip install synapsekit[clickhouse]`
+- **`CassandraVectorStore`** — Apache Cassandra / DataStax Astra DB SAI vector index; `pip install synapsekit[cassandra]`
+
+### Added — Document Loaders (9 new, 64 total)
+
+- **`FirestoreLoader`** — load documents from a Google Firestore collection; `pip install synapsekit[firestore]`
+- **`ZendeskLoader`** — load Zendesk tickets via the Support API; `pip install synapsekit[zendesk]`
+- **`IntercomLoader`** — load Intercom conversations via the REST API; `pip install synapsekit[intercom]`
+- **`FreshdeskLoader`** — load Freshdesk tickets via the v2 API; `pip install synapsekit[freshdesk]`
+- **`HackerNewsLoader`** — load HN stories and comments via the Firebase API; no extra deps
+- **`RedditLoader`** — load Reddit posts and comments via PRAW; `pip install synapsekit[reddit]`
+- **`TwitterLoader`** — load tweets via the Twitter API v2; `pip install synapsekit[twitter]`
+- **`GoogleCalendarLoader`** — load calendar events via Google Calendar API v3; `pip install synapsekit[gcal]`
+- **`TrelloLoader`** — load Trello cards and boards via the REST API; `pip install synapsekit[trello]`
+
+### Added — Retrieval Strategies (4 new)
+
+- **`RAPTORRetriever`** — recursive abstractive processing: cluster → summarize → embed → multi-level retrieval for long-document tasks
+- **`AgenticRAGRetriever`** — LLM agent controls the retrieval loop; decides when to search, what to fetch, and when to stop
+- **`DocumentAugmentationRetriever`** — augments each document with LLM-generated questions before embedding for higher recall
+- **`LateChunkingRetriever`** — embeds full documents first, then chunks from the contextual embedding space
+
+### Added — Memory Backends (3 new)
+
+- **`VectorMemory`** — stores conversation turns as embeddings for semantic retrieval of past context
+- **`KnowledgeGraphMemory`** — extracts entities and relationships from messages into a knowledge graph; retrieves by entity match
+- **`ReadonlySharedMemory`** — read-only view of another memory instance, safe to share across concurrent agents
+
+### Added — Agents / Triggers
+
+- **`SwarmAgent`** — lightweight multi-agent swarm coordination: agents hand off tasks using tool calls with shared context
+- **`EventTrigger`** — trigger graph or agent execution from an external event source (webhook, queue, file watch)
+- **`StreamTrigger`** — trigger execution on each item from an async generator or data stream
+
+### Added — LLM Provider
+
+- **`ReplicateLLM`** — run any Replicate-hosted model (Llama, Mistral, SDXL, etc.) via the Replicate REST API; `pip install synapsekit[replicate]`
+
+### Added — Graph
+
+- **`TimedResumeGraph`** — compiled graph that can suspend itself and automatically resume after a specified delay (e.g. for scheduled retry workflows)
+
+### Added — Plugin System
+
+- **`PluginRegistry`** — discover and load community plugins via `synapsekit.plugins` entry-point group; `register()`, `get()`, `list_plugins()`
+- **`BasePlugin`** — base class for third-party SynapseKit plugins; defines `name`, `version`, and `setup()`
+
+### Also included — v1.5.7 batch (previously unreleased)
+
+- **`VoiceAgent`** — end-to-end voice pipeline: audio in → STT → agent → TTS → audio out
+- **`AgentMemory`** — persistent episodic + semantic memory; 4 backends: SQLite, Redis, Postgres, in-memory
+- **`BrowserTool`** — Playwright-based browser automation tool; domain allow/block lists; `pip install synapsekit[browser]`
+- **`MongoDBAtlasVectorStore`** — Atlas Vector Search backend; `pip install synapsekit[mongodb]`
+- **`CronTrigger`** — cron-expression-based graph/agent scheduler
+- **`SimpleAgent`** + **`agent()` factory** — zero-boilerplate one-liner agent construction
+- **Auto-eval metrics** — `CoherenceMetric`, `CompletenessMetric`, `HallucinationMetric` run automatically in eval suites
+- **`YouTubeLoader`** — load transcripts from YouTube videos via `youtube-transcript-api`; `pip install synapsekit[youtube]`
+- **`ObsidianLoader`** — load an Obsidian vault directory; resolves `[[wikilinks]]` and YAML frontmatter
+- **`AirtableLoader`** — load Airtable base records via the REST API; `pip install synapsekit[airtable]`
+- **`SitemapLoader`** — crawl a sitemap XML and load all linked pages; `pip install synapsekit[web]`
+- **`HubSpotLoader`** — load HubSpot contacts, companies, and deals; `pip install synapsekit[hubspot]`
+- **`SalesforceLoader`** — load Salesforce objects via SOQL queries; `pip install synapsekit[salesforce]`
+- **`BigQueryLoader`** — load rows from a Google BigQuery table or query; `pip install synapsekit[bigquery]`
+- **`ImageGenerationTool`** — generate images via DALL-E 3 or Stable Diffusion; `pip install synapsekit[openai]`
+- **`PubMedLoader`** — load PubMed abstracts and metadata by PMID list or text search; no extra deps
+- **`SnowflakeLoader`** — load rows from Snowflake via a SQL query; `pip install synapsekit[snowflake]`
+- **Visual Graph Builder** — `synapsekit graph-builder` CLI command launches an interactive graph construction UI
+- **Agent Benchmarking Suite** — `synapsekit benchmark agents` runs standard multi-step reasoning benchmarks
+- **12 performance fixes** — async connection pooling, embedding batch sizing, reduced lock contention in checkpointers
+
+**Stats:** 34 LLM providers · 64 loaders · 22 vector stores · 48+ tools
+
+---
+
 ## v1.5.6 — GPT4All, vLLM, SQLiteVecStore, 4 new loaders, bug fixes
 
 **Released:** 2026-04-16

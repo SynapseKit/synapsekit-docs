@@ -181,6 +181,7 @@ const sidebars: SidebarsConfig = {
         'llms/lmstudio',
         'llms/gpt4all',
         'llms/vllm',
+        'llms/replicate',
         'llms/caching-retries',
         'llms/cost-router',
       ],

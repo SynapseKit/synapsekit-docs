@@ -35,7 +35,7 @@ That's it. No chains. No YAML. No global state.
 | Cost tracking | **✅ Built-in** | ❌ LangSmith (SaaS) | ❌ No |
 | Evaluation | **✅ CLI + GitHub Action** | ❌ LangSmith (SaaS) | ✅ Built-in |
 | Graph workflows | **✅ Built-in** | ✅ LangGraph (separate pkg) | ❌ No |
-| LLM providers | **31** | 38+ | 20+ |
+| LLM providers | **34** | 38+ | 20+ |
 | Stack traces | **Your code** | Framework internals | Framework internals |
 
 LangChain has more raw integrations. SynapseKit is optimizing for something different: code you can ship, debug at 2am, and maintain without a SaaS subscription.
@@ -74,21 +74,21 @@ Full retrieval-augmented generation with chunking, embedding, vector search, BM2
 
 → [RAG Pipeline docs](/docs/rag/pipeline)
 
-### 31 LLM providers
+### 34 LLM providers
 
-OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, LM Studio, Minimax, Aleph Alpha, Hugging Face, SambaNova, xAI (Grok), NovitaAI, Writer (Palmyra) — all behind `BaseLLM`. Auto-detected from the model name.
+OpenAI, Anthropic, Ollama, Cohere, Mistral, Gemini, AWS Bedrock, Azure OpenAI, Groq, DeepSeek, OpenRouter, Together, Fireworks, Perplexity, Cerebras, Vertex AI, Moonshot, Zhipu, Cloudflare, AI21 Labs, Databricks, Baidu ERNIE, llama.cpp, LM Studio, Minimax, Aleph Alpha, Hugging Face, SambaNova, xAI (Grok), NovitaAI, Writer (Palmyra), GPT4All, vLLM, Replicate — all behind `BaseLLM`. Auto-detected from the model name.
 
 → [LLM Provider docs](/docs/llms/overview)
 
-### 9 vector store backends
+### 22 vector store backends
 
-InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone, Weaviate, PGVector, Milvus, LanceDB — all behind `VectorStore`.
+InMemoryVectorStore (built-in, `.npz` persistence), ChromaDB, FAISS, Qdrant, Pinecone, Weaviate, PGVector, Milvus, LanceDB, SQLiteVec, MongoDBAtlas, Vespa, Redis, Elasticsearch, OpenSearch, Supabase, Typesense, Marqo, Zilliz, DuckDB, ClickHouse, Cassandra — all behind `VectorStore`.
 
 → [Vector store docs](/docs/rag/vector-stores)
 
-### 43 document loaders
+### 64 document loaders
 
-`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `GoogleSheetsLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`, `GitLoader`, `JiraLoader`, `SupabaseLoader`, `TeamsLoader`, `S3Loader`, `AzureBlobLoader`, `MongoDBLoader`, `DropboxLoader`, `LaTeXLoader`, `TSVLoader`, `RTFLoader`, `EPUBLoader`, `ConfigLoader`, `OneDriveLoader`.
+`TextLoader`, `StringLoader`, `PDFLoader`, `HTMLLoader`, `CSVLoader`, `JSONLoader`, `YAMLLoader`, `XMLLoader`, `DiscordLoader`, `SlackLoader`, `NotionLoader`, `GoogleDriveLoader`, `GoogleSheetsLoader`, `DirectoryLoader`, `WebLoader`, `ExcelLoader`, `PowerPointLoader`, `DocxLoader`, `MarkdownLoader`, `AudioLoader`, `VideoLoader`, `WikipediaLoader`, `ArXivLoader`, `EmailLoader`, `ImageLoader`, `ConfluenceLoader`, `RSSLoader`, `GCSLoader`, `SQLLoader`, `GitHubLoader`, `GitLoader`, `JiraLoader`, `SupabaseLoader`, `TeamsLoader`, `S3Loader`, `AzureBlobLoader`, `MongoDBLoader`, `DropboxLoader`, `LaTeXLoader`, `TSVLoader`, `RTFLoader`, `EPUBLoader`, `ConfigLoader`, `OneDriveLoader`, `ParquetLoader`, `RedisLoader`, `ElasticsearchLoader`, `DynamoDBLoader`, `YouTubeLoader`, `ObsidianLoader`, `AirtableLoader`, `SitemapLoader`, `HubSpotLoader`, `SalesforceLoader`, `BigQueryLoader`, `PubMedLoader`, `SnowflakeLoader`, `FirestoreLoader`, `ZendeskLoader`, `IntercomLoader`, `FreshdeskLoader`, `HackerNewsLoader`, `RedditLoader`, `TwitterLoader`, `GoogleCalendarLoader`, `TrelloLoader`.
 
 → [Loader docs](/docs/rag/loaders)
 
@@ -126,4 +126,4 @@ Output parsers (JSON, Pydantic, List), prompt templates (standard, chat, few-sho
 
 ## Version
 
-Current version: **1.5.6** — see the [Changelog](/docs/changelog).
+Current version: **1.6.0** — see the [Changelog](/docs/changelog).

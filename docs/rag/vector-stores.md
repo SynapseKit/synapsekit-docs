@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Vector Store Backends
 
-10 backends available. All implement the `VectorStore` ABC and share the same interface.
+22 backends available. All implement the `VectorStore` ABC and share the same interface.
 
 ```python
 from synapsekit.retrieval.base import VectorStore
@@ -386,6 +386,339 @@ results = await store.search("my query", top_k=3)
 :::note
 `SQLiteVecStore` is a drop-in replacement for `InMemoryVectorStore` when you need persistence between process restarts without running a separate vector database server.
 :::
+
+---
+
+## MongoDBAtlasVectorStore
+
+[MongoDB Atlas Vector Search](https://www.mongodb.com/docs/atlas/atlas-vector-search/) — managed cloud vector search on your Atlas cluster.
+
+```bash
+pip install synapsekit[mongodb]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.mongodb_atlas import MongoDBAtlasVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = MongoDBAtlasVectorStore(
+    embeddings,
+    connection_string="mongodb+srv://user:pass@cluster.mongodb.net",
+    database="mydb",
+    collection="documents",
+    index_name="vector_index",
+)
+
+await store.add(["doc text..."], metadata=[{"topic": "ai"}])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## VespaVectorStore
+
+[Vespa](https://vespa.ai/) — open-source search and recommendation engine with BM25+ANN hybrid retrieval.
+
+```bash
+pip install synapsekit[vespa]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.vespa import VespaVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = VespaVectorStore(
+    embeddings,
+    url="http://localhost:8080",
+    application="myapp",
+    schema="doc",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## RedisVectorStore
+
+Redis Stack with the RediSearch module for vector similarity search.
+
+```bash
+pip install synapsekit[redis]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.redis_vector import RedisVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = RedisVectorStore(
+    embeddings,
+    url="redis://localhost:6379",
+    index_name="synapsekit_idx",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## ElasticsearchVectorStore
+
+Elasticsearch 8+ dense_vector kNN search.
+
+```bash
+pip install synapsekit[elasticsearch]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.elasticsearch_vector import ElasticsearchVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = ElasticsearchVectorStore(
+    embeddings,
+    hosts=["http://localhost:9200"],
+    index_name="synapsekit_docs",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## OpenSearchVectorStore
+
+OpenSearch with the kNN plugin using HNSW or IVF index.
+
+```bash
+pip install synapsekit[opensearch]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.opensearch import OpenSearchVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = OpenSearchVectorStore(
+    embeddings,
+    hosts=[{"host": "localhost", "port": 9200}],
+    index_name="synapsekit_docs",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## SupabaseVectorStore
+
+[Supabase](https://supabase.com/) pgvector backend via the Supabase Python client.
+
+```bash
+pip install synapsekit[supabase]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.supabase_vector import SupabaseVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = SupabaseVectorStore(
+    embeddings,
+    supabase_url="https://xyz.supabase.co",
+    supabase_key="your-service-key",
+    table_name="documents",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## TypesenseVectorStore
+
+[Typesense](https://typesense.org/) hybrid vector + keyword search.
+
+```bash
+pip install synapsekit[typesense]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.typesense import TypesenseVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = TypesenseVectorStore(
+    embeddings,
+    api_key="xyz",
+    host="localhost",
+    port=8108,
+    collection_name="synapsekit_docs",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## MarqoVectorStore
+
+[Marqo](https://www.marqo.ai/) multimodal search with built-in embedding generation.
+
+```bash
+pip install synapsekit[marqo]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.marqo import MarqoVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = MarqoVectorStore(
+    embeddings,
+    url="http://localhost:8882",
+    index_name="synapsekit-docs",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## ZillizVectorStore
+
+[Zilliz Cloud](https://zilliz.com/) — managed Milvus with a dedicated cluster class.
+
+```bash
+pip install synapsekit[milvus]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.zilliz import ZillizVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = ZillizVectorStore(
+    embeddings,
+    uri="https://your-cluster.zillizcloud.com",
+    token="your-api-token",
+    collection_name="synapsekit",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## DuckDBVectorStore
+
+In-process analytical vector store backed by DuckDB. Embedded, no server required.
+
+```bash
+pip install synapsekit[duckdb-vector]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.duckdb import DuckDBVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = DuckDBVectorStore(embeddings, db_path="./vectors.duckdb")
+
+await store.add(["chunk one", "chunk two"])
+results = await store.search("query", top_k=5)
+```
+
+| Parameter | Default | Description |
+|---|---|---|
+| `embedding_backend` | — | `SynapsekitEmbeddings` instance |
+| `db_path` | `":memory:"` | DuckDB database path; `":memory:"` for ephemeral |
+| `table_name` | `"vectors"` | Table name |
+
+---
+
+## ClickHouseVectorStore
+
+ClickHouse cosine/L2 vector search for high-throughput analytical workloads.
+
+```bash
+pip install synapsekit[clickhouse]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.clickhouse import ClickHouseVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+store = ClickHouseVectorStore(
+    embeddings,
+    host="localhost",
+    port=8123,
+    database="default",
+    table="synapsekit_vectors",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
+
+---
+
+## CassandraVectorStore
+
+Apache Cassandra / DataStax Astra DB with SAI (Storage-Attached Index) vector search.
+
+```bash
+pip install synapsekit[cassandra]
+```
+
+```python
+from synapsekit import SynapsekitEmbeddings
+from synapsekit.retrieval.cassandra import CassandraVectorStore
+
+embeddings = SynapsekitEmbeddings()
+
+# Local Cassandra
+store = CassandraVectorStore(
+    embeddings,
+    contact_points=["127.0.0.1"],
+    keyspace="synapsekit",
+    table_name="vectors",
+)
+
+# DataStax Astra DB
+store = CassandraVectorStore(
+    embeddings,
+    astra_db_id="your-db-id",
+    astra_token="AstraCS:...",
+    keyspace="synapsekit",
+)
+
+await store.add(["doc text..."])
+results = await store.search("query", top_k=5)
+```
 
 ---
 

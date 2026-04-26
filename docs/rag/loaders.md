@@ -1363,6 +1363,395 @@ Automatically paginates using `LastEvaluatedKey`. Deserialises typed DynamoDB at
 
 ---
 
+## YouTubeLoader
+
+Load transcripts from YouTube videos via the `youtube-transcript-api` library.
+
+```bash
+pip install synapsekit[youtube]
+```
+
+```python
+from synapsekit.loaders import YouTubeLoader
+
+loader = YouTubeLoader(video_id="dQw4w9WgXcQ", language="en")
+docs = loader.load()
+# docs[0].text     → transcript text
+# docs[0].metadata → {"source": "youtube", "video_id": "...", "language": "en"}
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `video_id` | `str` | required | YouTube video ID |
+| `language` | `str` | `"en"` | Preferred transcript language |
+
+---
+
+## ObsidianLoader
+
+Load an Obsidian vault directory, resolving `[[wikilinks]]` and YAML frontmatter.
+
+```bash
+# No extra install needed
+```
+
+```python
+from synapsekit.loaders import ObsidianLoader
+
+loader = ObsidianLoader("/path/to/vault")
+docs = loader.load()
+# One Document per note; frontmatter promoted to metadata; [[links]] resolved to titles
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `vault_path` | `str` | required | Path to the Obsidian vault root |
+| `recursive` | `bool` | `True` | Traverse subdirectories |
+
+---
+
+## AirtableLoader
+
+Load records from an Airtable base via the Airtable REST API.
+
+```bash
+pip install synapsekit[airtable]
+```
+
+```python
+from synapsekit.loaders import AirtableLoader
+
+loader = AirtableLoader(
+    api_key="keyXXX",
+    base_id="appXXX",
+    table_name="Tasks",
+)
+docs = loader.load()
+```
+
+---
+
+## SitemapLoader
+
+Crawl a sitemap XML and load all linked pages.
+
+```bash
+pip install synapsekit[web]
+```
+
+```python
+from synapsekit.loaders import SitemapLoader
+
+loader = SitemapLoader("https://example.com/sitemap.xml", max_pages=50)
+docs = await loader.aload()
+```
+
+---
+
+## HubSpotLoader
+
+Load HubSpot contacts, companies, or deals via the HubSpot API.
+
+```bash
+pip install synapsekit[hubspot]
+```
+
+```python
+from synapsekit.loaders import HubSpotLoader
+
+loader = HubSpotLoader(
+    api_key="pat-...",
+    object_type="contacts",  # "contacts", "companies", "deals"
+)
+docs = loader.load()
+```
+
+---
+
+## SalesforceLoader
+
+Load Salesforce records via SOQL queries using the simple-salesforce client.
+
+```bash
+pip install synapsekit[salesforce]
+```
+
+```python
+from synapsekit.loaders import SalesforceLoader
+
+loader = SalesforceLoader(
+    username="user@example.com",
+    password="...",
+    security_token="...",
+    soql="SELECT Id, Name, Description FROM Account LIMIT 100",
+)
+docs = loader.load()
+```
+
+---
+
+## BigQueryLoader
+
+Load rows from a Google BigQuery table or SQL query.
+
+```bash
+pip install synapsekit[bigquery]
+```
+
+```python
+from synapsekit.loaders import BigQueryLoader
+
+loader = BigQueryLoader(
+    project="my-gcp-project",
+    query="SELECT title, body FROM `my_dataset.articles` LIMIT 500",
+    credentials_path="service-account.json",
+)
+docs = loader.load()
+```
+
+---
+
+## PubMedLoader
+
+Load PubMed abstracts and metadata by PMID list or free-text search. No extra dependencies.
+
+```bash
+# No extra install needed
+```
+
+```python
+from synapsekit.loaders import PubMedLoader
+
+# Search by keyword
+loader = PubMedLoader(query="retrieval augmented generation", max_results=10)
+docs = loader.load()
+
+# Load specific PMIDs
+loader = PubMedLoader(pmids=["37160872", "36823232"])
+docs = loader.load()
+```
+
+---
+
+## SnowflakeLoader
+
+Load rows from Snowflake via a SQL query.
+
+```bash
+pip install synapsekit[snowflake]
+```
+
+```python
+from synapsekit.loaders import SnowflakeLoader
+
+loader = SnowflakeLoader(
+    account="myaccount.us-east-1",
+    user="myuser",
+    password="...",
+    warehouse="COMPUTE_WH",
+    database="MY_DB",
+    schema="PUBLIC",
+    query="SELECT title, content FROM articles WHERE active = TRUE",
+)
+docs = loader.load()
+```
+
+---
+
+## FirestoreLoader
+
+Load documents from a Google Firestore collection.
+
+```bash
+pip install synapsekit[firestore]
+```
+
+```python
+from synapsekit.loaders import FirestoreLoader
+
+loader = FirestoreLoader(
+    collection="articles",
+    credentials_path="service-account.json",
+    text_fields=["title", "body"],
+)
+docs = loader.load()
+```
+
+---
+
+## ZendeskLoader
+
+Load tickets from Zendesk via the Support API.
+
+```bash
+pip install synapsekit[zendesk]
+```
+
+```python
+from synapsekit.loaders import ZendeskLoader
+
+loader = ZendeskLoader(
+    subdomain="mycompany",
+    email="agent@example.com",
+    api_token="your-api-token",
+    status="open",   # "open", "pending", "solved", "closed", or None for all
+)
+docs = loader.load()
+```
+
+---
+
+## IntercomLoader
+
+Load conversations from Intercom via the REST API.
+
+```bash
+pip install synapsekit[intercom]
+```
+
+```python
+from synapsekit.loaders import IntercomLoader
+
+loader = IntercomLoader(access_token="dG9rXXX", max_results=200)
+docs = loader.load()
+# Each Document contains one conversation thread
+```
+
+---
+
+## FreshdeskLoader
+
+Load tickets from Freshdesk via the v2 API.
+
+```bash
+pip install synapsekit[freshdesk]
+```
+
+```python
+from synapsekit.loaders import FreshdeskLoader
+
+loader = FreshdeskLoader(
+    domain="mycompany.freshdesk.com",
+    api_key="your-api-key",
+    status=2,  # 2 = open; see Freshdesk docs for other status codes
+)
+docs = loader.load()
+```
+
+---
+
+## HackerNewsLoader
+
+Load HN stories and comments via the Firebase REST API. No extra dependencies.
+
+```bash
+# No extra install needed
+```
+
+```python
+from synapsekit.loaders import HackerNewsLoader
+
+# Top stories
+loader = HackerNewsLoader(story_type="top", max_stories=30)
+docs = loader.load()
+
+# Load a specific item by ID
+loader = HackerNewsLoader(item_id=39443107)
+docs = loader.load()
+```
+
+---
+
+## RedditLoader
+
+Load Reddit posts and comments via PRAW.
+
+```bash
+pip install synapsekit[reddit]
+```
+
+```python
+from synapsekit.loaders import RedditLoader
+
+loader = RedditLoader(
+    client_id="...",
+    client_secret="...",
+    user_agent="synapsekit/1.0",
+    subreddit="MachineLearning",
+    post_limit=25,
+    include_comments=True,
+)
+docs = loader.load()
+```
+
+---
+
+## TwitterLoader
+
+Load tweets via the Twitter API v2.
+
+```bash
+pip install synapsekit[twitter]
+```
+
+```python
+from synapsekit.loaders import TwitterLoader
+
+loader = TwitterLoader(
+    bearer_token="AAAA...",
+    query="retrieval augmented generation lang:en",
+    max_results=50,
+)
+docs = loader.load()
+```
+
+---
+
+## GoogleCalendarLoader
+
+Load events from Google Calendar via the Calendar API v3.
+
+```bash
+pip install synapsekit[gcal]
+```
+
+```python
+from synapsekit.loaders import GoogleCalendarLoader
+
+loader = GoogleCalendarLoader(
+    credentials_path="service-account.json",
+    calendar_id="primary",
+    time_min="2026-01-01T00:00:00Z",
+    max_results=100,
+)
+docs = loader.load()
+# Each event becomes one Document; metadata: summary, start, end, location, attendees
+```
+
+---
+
+## TrelloLoader
+
+Load Trello cards and boards via the Trello REST API.
+
+```bash
+pip install synapsekit[trello]
+```
+
+```python
+from synapsekit.loaders import TrelloLoader
+
+loader = TrelloLoader(
+    api_key="...",
+    api_token="...",
+    board_id="...",
+)
+docs = loader.load()
+# Each card becomes one Document; metadata: list_name, labels, due_date, url
+```
+
+---
+
 ## Loading into the RAG facade
 
 All loaders return `List[Document]`, which you can pass directly to `add_documents()`:

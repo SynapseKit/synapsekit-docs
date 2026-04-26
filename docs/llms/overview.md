@@ -85,6 +85,7 @@ See [Caching & Retries](/docs/llms/caching-retries) for details on response cach
 | LM Studio | `LMStudioLLM` | `pip install synapsekit[lmstudio]` | `"lmstudio"` |
 | GPT4All | `GPT4AllLLM` | `pip install synapsekit[gpt4all]` | `"gpt4all"` |
 | vLLM | `VLLMLlm` | `pip install synapsekit[vllm]` | `"vllm"` |
+| Replicate | `ReplicateLLM` | `pip install synapsekit[replicate]` | `"replicate"` |
 
 ## Auto-detection
 
@@ -150,6 +151,7 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [LM Studio](./lmstudio) — local models via LM Studio's OpenAI-compatible API; no API key required
 - [GPT4All](./gpt4all) — fully on-device GGUF models via GPT4All Python bindings; no API key, no internet
 - [vLLM](./vllm) — high-throughput self-hosted inference via vLLM's OpenAI-compatible API
+- [Replicate](./replicate) — hosted open models (Llama, Mistral, SDXL, etc.) via the Replicate REST API
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending
