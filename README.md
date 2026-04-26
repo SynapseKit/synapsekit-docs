@@ -26,7 +26,7 @@ Official documentation site for [SynapseKit](https://github.com/SynapseKit/Synap
 | [RAG Pipelines](https://synapsekit.github.io/synapsekit-docs/docs/rag/pipeline) | Loaders, chunking, embeddings, retrieval, vector stores, memory |
 | [Agents](https://synapsekit.github.io/synapsekit-docs/docs/agents/overview) | ReAct, function calling, built-in tools, custom tools, executor |
 | [Graph Workflows](https://synapsekit.github.io/synapsekit-docs/docs/graph/overview) | StateGraph, parallel execution, conditional routing, Mermaid export |
-| [LLM Providers](https://synapsekit.github.io/synapsekit-docs/docs/llms/overview) | All 9 providers with configuration examples |
+| [LLM Providers](https://synapsekit.github.io/synapsekit-docs/docs/llms/overview) | All 34 providers with configuration examples |
 | [API Reference](https://synapsekit.github.io/synapsekit-docs/docs/api/llm) | Full class and method reference |
 
 ---
