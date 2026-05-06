@@ -8,6 +8,31 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.7.0 — ReasoningLLM, CostQualityRouter, FederatedRetriever, performance suite
+
+**Released:** 2026-05-06
+
+### New Features
+
+- **`ReasoningLLM`** — unified adapter for o1/o3, Claude, Gemini, DeepSeek R1, Qwen QwQ; returns `ReasoningResponse` with answer, thinking trace, and token counts
+- **`CostQualityRouter`** — explore/exploit LLM router; routes to the cheapest model meeting your quality threshold; Pareto frontier stats
+- **`PromptOptimizer`** — score prompt variants against an `@eval_case` suite; supports LLM-generated or manual variants; budget-aware
+- **`FederatedRetriever`** — fan-out retrieval across local retrievers and remote HTTP endpoints; RRF, score fusion, interleave; dedup; closes #595
+- **Fine-tune data flywheel** — `EvalDataset` → `FineTuner`; export to OpenAI, Anthropic, Together AI, DPO; CLI commands; closes #515
+
+### Performance
+
+- `orjson` fast JSON across all hot paths; `uvloop` event loop; `xxhash` cache key hashing (5–10× faster)
+- Pre-allocated vector buffer (O(1) amortised inserts) + vectorised MMR in `InMemoryVectorStore`
+- `__slots__` on hot classes (~30% less memory); Rust extension for chunking, hashing, metadata serialisation
+- `pip install synapsekit[performance]` for orjson + uvloop + xxhash
+
+### Fixed
+
+- README Integrations icons — replaced SimpleIcons CDN (blocked by GitHub camo) with Google Favicons
+
+---
+
 ## v1.6.0 — 11 new vector stores, 9 loaders, SwarmAgent, RAPTOR RAG, PluginRegistry, ReplicateLLM
 
 **Released:** 2026-04-26
