@@ -140,6 +140,7 @@ const sidebars: SidebarsConfig = {
         'rag/parsers',
         'rag/prompts',
         'rag/prompt-hub',
+        'rag/knowledge-graph',
       ],
     },
     {
@@ -200,6 +201,8 @@ const sidebars: SidebarsConfig = {
         'agents/cookbook',
         'agents/tool-authoring',
         'agents/streaming-steps',
+        'agents/reasoning-agent',
+        'agents/federation',
       ],
     },
     {
@@ -212,7 +215,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Evaluation',
       link: { type: 'doc', id: 'evaluation/index' },
-      items: ['evaluation/overview'],
+      items: ['evaluation/overview', 'evaluation/rag-evaluator'],
     },
     {
       type: 'category',
@@ -291,6 +294,8 @@ const sidebars: SidebarsConfig = {
         'api/vector-store',
         'api/evaluation',
         'api/observability',
+        'api/structured-output',
+        'api/continuous-trainer',
       ],
     },
     {

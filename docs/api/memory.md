@@ -254,6 +254,93 @@ memory = WindowMemory(window_size: int = 10)
 
 ---
 
+---
+
+## `SmartContextManager`
+
+Hierarchical context window management with sliding window pruning, automatic summarization, and prompt caching tags. Manages four context tiers in priority order:
+
+1. System prompt (static, cached)
+2. Conversation summary (updated, cached)
+3. Search results (dynamic, bounded)
+4. Recent messages (sliding window)
+
+`cache_control: {"type": "ephemeral"}` is injected on the system and summary blocks for Anthropic models, enabling up to 80% cost reduction via prompt caching. For non-Anthropic providers the `cache_control` key is ignored by the API.
+
+```python
+from synapsekit.memory import SmartContextManager
+
+manager = SmartContextManager(
+    cheap_llm: BaseLLM | None = None,
+    max_recent_tokens: int = 4000,
+    max_search_tokens: int = 2000,
+    chars_per_token: int = 4,
+)
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `cheap_llm` | `BaseLLM \| None` | `None` | LLM used to summarize old messages when the recent buffer overflows; if `None`, oldest messages are dropped without summarization |
+| `max_recent_tokens` | `int` | `4000` | Maximum tokens in the recent messages buffer before summarization triggers |
+| `max_search_tokens` | `int` | `2000` | Maximum tokens of search result context to include |
+| `chars_per_token` | `int` | `4` | Character-to-token ratio used for estimation |
+
+### Methods
+
+- `set_system(content: str) -> None` — set the static system prompt
+- `set_search_results(content: str) -> None` — replace the current search results block
+- `clear_search_results() -> None` — remove search results from the context
+- `add(role: str, content: str) -> None` — append a message to the recent buffer
+- `async get_messages() -> list[dict]` — return the full hierarchical message list; summarizes older messages if the buffer is over budget; injects `cache_control` on system and summary blocks
+- `clear() -> None` — reset all context including messages, summary, system, and search results
+- `summary` — (property) the current running summary string
+- `len(manager)` — number of messages in the recent buffer
+
+```python
+import asyncio
+from synapsekit import AnthropicLLM, LLMConfig
+from synapsekit.memory import SmartContextManager
+
+async def main():
+    cheap_llm = AnthropicLLM(LLMConfig(model="claude-3-haiku-20240307", api_key="sk-ant-..."))
+    main_llm = AnthropicLLM(LLMConfig(model="claude-3-5-sonnet-20241022", api_key="sk-ant-..."))
+
+    manager = SmartContextManager(
+        cheap_llm=cheap_llm,
+        max_recent_tokens=4000,
+        max_search_tokens=2000,
+    )
+
+    # Set a static system prompt (will be cached by Anthropic)
+    manager.set_system(
+        "You are a helpful research assistant. "
+        "Answer questions based on the provided search results."
+    )
+
+    # Inject search results for the current query
+    manager.set_search_results(
+        "SynapseKit v1.9.0 adds SmartContextManager, PrometheusMetrics, "
+        "and ContinuousTrainer to its feature set."
+    )
+
+    # Add conversation turns
+    manager.add("user", "What is new in SynapseKit v1.9.0?")
+    manager.add("assistant", "SynapseKit v1.9.0 introduces SmartContextManager, "
+                             "PrometheusMetrics, and ContinuousTrainer.")
+    manager.add("user", "How does SmartContextManager reduce costs?")
+
+    # get_messages() may summarize old messages and always injects cache_control
+    messages = await manager.get_messages()
+
+    # Pass directly to the Anthropic LLM
+    response = await main_llm.generate_with_messages(messages)
+    print(response)
+
+asyncio.run(main())
+```
+
+---
+
 ## See also
 
 - [Memory guide](../memory/conversation)

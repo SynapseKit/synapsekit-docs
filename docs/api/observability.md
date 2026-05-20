@@ -281,6 +281,87 @@ class TraceSpan:
 
 ---
 
+## `PrometheusMetrics`
+
+Exports LLM cost, token, and latency metrics to Prometheus. Metrics are labelled by `model` and `provider`.
+
+**Metrics exported:**
+
+| Metric | Type | Description |
+|---|---|---|
+| `synapsekit_cost_usd_total` | Counter | Cumulative LLM cost in USD |
+| `synapsekit_tokens_total` | Counter | Cumulative LLM tokens |
+| `synapsekit_latency_seconds` | Histogram | LLM latency in seconds (standard buckets up to 10s) |
+
+**Install:** `pip install synapsekit[observe]` (includes `prometheus-client>=0.20`)
+
+A Helm chart for a full Prometheus + Grafana stack is available at `assets/helm/synapsekit-observability/`.
+
+```python
+from synapsekit.observability import PrometheusMetrics
+
+metrics = PrometheusMetrics(
+    *,
+    enabled: bool = True,
+    namespace: str = "synapsekit",
+    registry: Any | None = None,
+    start_server: bool = False,
+    host: str = "0.0.0.0",
+    port: int = 8000,
+)
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `bool` | `True` | Set to `False` to disable all metric recording (no-op) |
+| `namespace` | `str` | `"synapsekit"` | Prometheus metric name prefix |
+| `registry` | `Any \| None` | `None` | Custom `CollectorRegistry`; defaults to a new private registry |
+| `start_server` | `bool` | `False` | Start an HTTP metrics server on construction |
+| `host` | `str` | `"0.0.0.0"` | Bind address for the HTTP server |
+| `port` | `int` | `8000` | Port for the HTTP server |
+
+### Methods
+
+- `start_http_server(*, host: str = "0.0.0.0", port: int = 8000) -> None` — start the Prometheus HTTP scrape endpoint; no-op if already started
+- `record_llm(*, model: str, provider: str, cost_usd: float | None, total_tokens: int | None, latency_ms: float | None) -> None` — record a single LLM call; `None` values are silently skipped
+- `record_span(span: Span) -> None` — extract metrics from a `Span`; only processes spans with `name="llm.generate"`
+
+```python
+import asyncio
+from synapsekit import OpenAILLM, LLMConfig
+from synapsekit.observability import PrometheusMetrics, CostTracker
+
+async def main():
+    llm = OpenAILLM(LLMConfig(model="gpt-4o-mini", api_key="sk-..."))
+
+    # Start a Prometheus HTTP server on port 8000
+    prom = PrometheusMetrics(start_server=True, port=8000)
+
+    # Wrap with CostTracker to get cost data
+    tracker = CostTracker(llm)
+
+    questions = ["What is RAG?", "Explain embeddings.", "What is an LLM?"]
+    for question in questions:
+        response = await tracker.generate(question)
+
+        # Record metrics after each call
+        last_record = tracker.records[-1]
+        prom.record_llm(
+            model=last_record.model,
+            provider=last_record.provider,
+            cost_usd=last_record.total_cost_usd,
+            total_tokens=last_record.input_tokens + last_record.output_tokens,
+            latency_ms=None,  # CostTracker does not record latency; use TracingMiddleware if needed
+        )
+
+    print(f"Total cost: ${tracker.cost_so_far:.4f}")
+    # Prometheus scrape endpoint is now live at http://0.0.0.0:8000
+
+asyncio.run(main())
+```
+
+---
+
 ## Full observability setup example
 
 ```python
