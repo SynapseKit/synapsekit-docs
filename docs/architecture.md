@@ -13,7 +13,7 @@ SynapseKit is structured as a set of loosely-coupled, composable layers. You can
 ## Core abstractions
 
 ### `BaseLLM`
-All 33 LLM providers implement `BaseLLM`. The interface is:
+All 33 LLM providers implement `BaseLLM` (v1.9.0). The interface is:
 ```python
 class BaseLLM:
     async def generate(self, prompt: str, **kwargs) -> str: ...

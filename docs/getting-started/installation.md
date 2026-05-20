@@ -99,6 +99,21 @@ poetry add "synapsekit[all]"         # Everything
 | `search` | `duckduckgo-search` | `WebSearchTool`, `DuckDuckGoSearchTool` |
 | `tavily` | `tavily-python` | `TavilySearchTool` (AI-optimized search) |
 
+### Observability & infrastructure
+
+| Extra | Installs | Use case |
+|---|---|---|
+| `observe` | `prometheus-client`, `opentelemetry-sdk` | `PrometheusMetrics` + Grafana dashboards, `OTelExporter` |
+| `redis` | `redis` | `AgentRegistry` (Redis), `RedisCheckpointer`, `AgentMemory` Redis backend |
+| `graph` | `networkx` | `KnowledgeGraphBuilder`, `KGRetriever`, `HybridKGRetriever` |
+
+### Training & benchmarking
+
+| Extra | Installs | Use case |
+|---|---|---|
+| `training` | `openai`, `together` | `ContinuousTrainer`, `FeedbackCollector`, `AutoRolloutManager`, `CostBenefitAnalyzer` |
+| `bench` | `pytest-benchmark`, `asv` | Benchmark harness — latency, throughput, and memory profiling via `synapsekit benchmark` |
+
 ### Embeddings
 
 | Extra | Installs | Use case |
@@ -138,5 +153,5 @@ poetry add "synapsekit[ollama,faiss,semantic]"
 
 ```python
 import synapsekit
-print(synapsekit.__version__)  # 1.7.0
+print(synapsekit.__version__)  # 1.9.0
 ```

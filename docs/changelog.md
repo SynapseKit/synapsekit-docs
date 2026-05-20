@@ -8,6 +8,46 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.9.0 — SmartContextManager, StructuredOutput, AgentFederation, ContinuousTrainer, Benchmark harness
+
+**Released:** 2026-05-20
+
+### New Features
+
+- **`SmartContextManager`** — hierarchical context with Anthropic prompt caching support; auto-evicts stale context to stay within token budgets; `pip install synapsekit[anthropic]`
+- **`PrometheusMetrics`** — Prometheus/Grafana observability with Helm chart; expose LLM latency, cost, and throughput as Prometheus metrics; `pip install synapsekit[observe]` (now includes `prometheus-client`)
+- **`StructuredOutput`** + **`IncrementalJSONBuffer`** — provider-agnostic Pydantic validation with retries and streaming partial JSON; works across all `BaseLLM` providers
+- **`AgentFederation`** + **`AgentRegistry`** — distributed agent routing with in-memory and Redis backends; fan-out tasks to remote agents and aggregate results; `pip install synapsekit[redis]`
+- **`ContinuousTrainer`** pipeline — `FeedbackCollector`, A/B testing, `AutoRolloutManager`, `CostBenefitAnalyzer`; closed-loop fine-tuning and rollout automation; `pip install synapsekit[training]`
+- **Benchmark harness** — pytest-benchmark + ASV config + CI workflow; run `synapsekit benchmark` for latency, throughput, and memory profiles; `pip install synapsekit[bench]`
+
+**Stats:** 33 LLM providers · 53 loaders · 11 vector stores · 47+ tools
+
+---
+
+## v1.8.0 — KnowledgeGraph, RAGEvaluator, ReasoningAgent, VoicePipeline
+
+**Released:** 2026-05-17
+
+### New Features
+
+- **`KnowledgeGraphBuilder`** + **`KGRetriever`** + **`HybridKGRetriever`** — build and query knowledge graphs for multi-hop RAG; `HybridKGRetriever` fuses graph traversal with vector retrieval using RRF; `pip install synapsekit[graph]`
+- **`RAGEvaluator`** — evaluate RAG pipeline quality end-to-end; computes faithfulness, relevancy, context precision, and answer correctness; integrates with `@eval_case` suites
+- **`ReasoningAgent`** — agent with explicit chain-of-thought reasoning steps; surfaces intermediate reasoning traces alongside final answers; works with any `BaseLLM`
+- **`VoicePipeline`** performance enhancements — reduced latency via streaming STT/TTS handoff; `piper-tts` support for local offline synthesis; `pip install synapsekit[voice-piper]`
+
+### Changed
+
+- **`FederatedRetriever`** input coercion — retriever inputs are now coerced to the expected type automatically, removing the need for manual wrapping
+
+### Fixed
+
+- **`tzdata` on Windows** — `tzdata` is now installed as a dependency on Windows to fix timezone-aware datetime handling in schedulers and `CronTrigger`
+
+**Stats:** 33 LLM providers · 53 loaders · 11 vector stores · 47+ tools
+
+---
+
 ## v1.7.0 — ReasoningLLM, CostQualityRouter, FederatedRetriever, performance suite
 
 **Released:** 2026-05-06
