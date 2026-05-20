@@ -116,7 +116,7 @@ const config: Config = {
     },
     announcementBar: {
       id: 'v190',
-      content: '🎉 <strong>v1.9.0 released</strong> — SmartContextManager, StructuredOutput, AgentFederation + AgentRegistry, ContinuousTrainer pipeline, Benchmark harness. <a href="/synapsekit-docs/docs/changelog">Changelog →</a> &nbsp;|&nbsp; 🚀 <strong>EvalCI</strong> — LLM quality gates on every PR, zero infra. <a href="/synapsekit-docs/docs/evalci/overview">Get started →</a>',
+      content: '🎉 <strong>v1.8.0 + v1.9.0 released</strong> — KnowledgeGraph, RAGEvaluator, ReasoningAgent, SmartContextManager, StructuredOutput, AgentFederation, ContinuousTrainer &amp; more. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
