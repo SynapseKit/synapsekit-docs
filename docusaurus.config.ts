@@ -115,8 +115,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v190',
-      content: '🎉 <strong>v1.8.0 + v1.9.0 released</strong> — KnowledgeGraph, RAGEvaluator, ReasoningAgent, SmartContextManager, StructuredOutput, AgentFederation, ContinuousTrainer &amp; more. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      id: 'v191',
+      content: '🔧 <strong>v1.9.1 released</strong> — patch release with bug fixes: Ollama async stream, voice lazy imports, <code>__version__</code> mismatch, uv.lock drift. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
@@ -145,7 +145,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.9.0</span>',
+          value: '<span class="navbar__version">v1.9.1</span>',
         },
         {
           href: 'https://discord.gg/PSuAXHRywJ',

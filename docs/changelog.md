@@ -8,6 +8,19 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v1.9.1 — Bug fixes
+
+**Released:** 2026-05-27
+
+### Fixed
+
+- **Ollama async stream** — `AsyncClient.chat()` returns a coroutine in newer ollama-python SDK versions; the result was not being awaited before iteration, causing `TypeError`. Fixed by awaiting in `stream_with_messages`.
+- **Voice lazy imports** — importing `synapsekit` unconditionally pulled in the full voice module tree on startup. All 17 voice exports are now lazy-loaded to keep import time fast for users who don't use voice features.
+- **`__version__` mismatch** — `synapsekit.__version__` was stuck at `1.7.0` despite the installed package being on `1.9.x`. Version string now reads from package metadata at runtime.
+- **`uv.lock` drift** — lock file was out of sync after `prometheus-client` was added as a dependency in v1.9.0. Lock file regenerated and committed.
+
+---
+
 ## v1.9.0 — SmartContextManager, StructuredOutput, AgentFederation, ContinuousTrainer, Benchmark harness
 
 **Released:** 2026-05-20
