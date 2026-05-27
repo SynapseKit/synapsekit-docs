@@ -19,6 +19,8 @@ class BaseLLM(ABC):
     def tokens_used(self) -> dict: ...  # {"input": int, "output": int}
 ```
 
+> **Note (v1.9.1):** `stream_with_messages` on `OllamaLLM` now correctly awaits `AsyncClient.chat()` before iterating the response stream. Earlier versions raised `TypeError: 'async for' requires an object with __aiter__ method, got coroutine` on recent `ollama-python` SDK releases. Upgrade to `synapsekit>=1.9.1` to get the fix.
+
 ## `LLMConfig`
 
 ```python
@@ -104,3 +106,25 @@ Available on providers that support native function calling:
 result = await llm.call_with_tools(messages, tools)
 # Returns: {"content": str | None, "tool_calls": list | None}
 ```
+
+
+## Voice exports (lazy-loaded)
+
+The following voice symbols are exported from the top-level `synapsekit` namespace but are **lazily imported** — they are only loaded from disk when first accessed:
+
+| Symbol | Category |
+|---|---|
+| `VoicePipeline` | Pipeline orchestrator |
+| `BaseSTT` | Base speech-to-text |
+| `BaseTTS` | Base text-to-speech |
+| `LocalWhisperSTT` | Local Whisper STT |
+| `OpenAIWhisperSTT` | OpenAI Whisper STT |
+| `DeepgramSTT` | Deepgram STT |
+| `OpenAITTS` | OpenAI TTS |
+| `ElevenLabsTTS` | ElevenLabs TTS |
+| `CartesiaTTS` | Cartesia TTS |
+| `PiperTTS` | Piper (local, offline) TTS |
+| `EnergyVAD` | Energy-based voice activity detection |
+| `SileroVAD` | Silero VAD model |
+
+> **Note (v1.9.1):** Prior to v1.9.1, `import synapsekit` eagerly imported the entire voice module tree, which pulled in `sounddevice` and other audio dependencies at startup even for users who never use voice features. All voice exports are now lazily loaded — `sounddevice` and other voice deps are only imported when a voice symbol is first accessed.

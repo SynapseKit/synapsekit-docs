@@ -195,6 +195,18 @@ except LLMError as e:
         raise
 ```
 
+:::note v1.9.1 — Async stream fix
+
+If you see `TypeError: 'async for' requires an object with __aiter__ method, got coroutine` when streaming from Ollama, upgrade to `synapsekit>=1.9.1`:
+
+```bash
+pip install --upgrade "synapsekit[ollama]"
+```
+
+This was caused by a breaking change in the `ollama-python` SDK where `AsyncClient.chat()` changed from an async generator function to a coroutine returning an async generator. SynapseKit now correctly awaits the coroutine before iterating over the result.
+
+:::
+
 :::tip
 To list all locally available models: `ollama list`
 :::

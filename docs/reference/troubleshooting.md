@@ -421,3 +421,54 @@ guard = BudgetGuard(limit, model="gpt-4o-mini")  # uses gpt-4o-mini pricing
 ```
 
 See [Observability — Cost Tracker](../observability/cost-tracker) for the full BudgetGuard reference.
+
+
+---
+
+## `TypeError: 'async for' requires an object with __aiter__ method, got coroutine` (Ollama)
+
+**Symptoms:** Streaming from `OllamaLLM` (via `stream()`, `stream_with_messages()`, or the RAG facade with `provider="ollama"`) raises:
+
+```
+TypeError: 'async for' requires an object with __aiter__ method, got coroutine
+```
+
+**Cause:** A breaking change in `ollama-python` SDK changed `AsyncClient.chat()` from an async generator function to a regular coroutine that *returns* an async generator. The previous SynapseKit implementation iterated the coroutine directly rather than awaiting it first, causing this error on newer `ollama-python` versions.
+
+**Fix:** Upgrade to `synapsekit>=1.9.1`, which correctly awaits the coroutine before iterating:
+
+```bash
+pip install --upgrade "synapsekit[ollama]"
+```
+
+---
+
+## `sounddevice` import error on `import synapsekit` (non-voice users)
+
+**Symptoms:** Users who do **not** use SynapseKit's voice features see an import error such as:
+
+```
+ImportError: No module named 'sounddevice'
+```
+
+or:
+
+```
+OSError: PortAudio library not found
+```
+
+immediately on `import synapsekit`, even though they never use `VoicePipeline` or any STT/TTS class.
+
+**Cause:** Prior to v1.9.1, the top-level `synapsekit` package eagerly imported the voice module tree at startup, which in turn imported `sounddevice` and other native audio dependencies. This caused failures in environments where those libraries are not installed (CI, serverless, Docker images without PortAudio, etc.).
+
+**Fix:** Upgrade to `synapsekit>=1.9.1`. All voice exports (`VoicePipeline`, `BaseSTT`, `BaseTTS`, `LocalWhisperSTT`, `OpenAIWhisperSTT`, `DeepgramSTT`, `OpenAITTS`, `ElevenLabsTTS`, `CartesiaTTS`, `PiperTTS`, `EnergyVAD`, `SileroVAD`, and associated types) are now lazily loaded — they are only imported from disk when first accessed. `import synapsekit` no longer triggers any audio library loading.
+
+```bash
+pip install --upgrade synapsekit
+```
+
+If you actively use voice features and want to ensure the extras are present:
+
+```bash
+pip install "synapsekit[voice]"
+```
