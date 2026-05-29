@@ -4,6 +4,7 @@ const sidebars: SidebarsConfig = {
   docsSidebar: [
     'intro',
     'architecture',
+    'architecture-deep-dive',
     {
       type: 'category',
       label: 'Getting Started',

@@ -6,6 +6,9 @@ sidebar_position: 3
 
 SynapseKit is structured as a set of loosely-coupled, composable layers. You can use each layer independently or compose them together.
 
+Looking for internals, execution flow, and extension points? Read the Architecture Deep Dive.
+
+
 ## Layer overview
 
 ![SynapseKit layer architecture](/img/architecture-layers.svg)
