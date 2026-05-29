@@ -277,6 +277,7 @@ const sidebars: SidebarsConfig = {
         'how-to/error-handling',
         'how-to/testing',
         'how-to/production',
+        'how-to/cost-optimization',
         'how-to/migrate-from-langchain',
       ],
     },
