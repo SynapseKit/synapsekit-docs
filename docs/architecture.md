@@ -1,5 +1,8 @@
 ---
 sidebar_position: 3
+title: "Architecture — SynapseKit Python LLM Framework"
+description: "SynapseKit's layered architecture: async-native core, pluggable LLM providers, RAG pipeline, agent executor, and graph engine. Minimal, composable design."
+keywords: [llm framework architecture, python llm layers, synapsekit architecture, async python ai framework, composable llm python]
 ---
 
 # Architecture

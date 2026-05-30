@@ -1,5 +1,8 @@
 ---
 sidebar_position: 2
+title: "RAG Patterns — SynapseKit Python LLM Framework"
+description: "20 copy-paste RAG patterns in Python: basic, hybrid, streaming, metadata-filtered, multi-query, and more. Production-ready retrieval augmented generation."
+keywords: [rag patterns python, advanced rag python, hybrid rag python, rag cookbook python, retrieval patterns python llm]
 ---
 
 # RAG Patterns

@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "EvalCI — LLM Evaluation in CI/CD | SynapseKit"
+description: "Run LLM quality gates on every pull request with EvalCI. Block merges when quality drops. GitHub Actions integration, no infrastructure required."
+keywords: [llm evaluation python, evalci, llm ci cd, llm testing github actions, llm quality gates python]
 ---
 
 # EvalCI — LLM Quality Gates

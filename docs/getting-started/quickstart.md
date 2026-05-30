@@ -1,5 +1,8 @@
 ---
 sidebar_position: 2
+title: "Quickstart — SynapseKit Python LLM Framework"
+description: "Get a working RAG pipeline or LLM agent in under 5 minutes with SynapseKit. Install, configure a provider, and stream your first response."
+keywords: [synapsekit quickstart, python llm getting started, rag pipeline python tutorial, llm agent quickstart, python ai framework tutorial]
 ---
 
 # Quickstart

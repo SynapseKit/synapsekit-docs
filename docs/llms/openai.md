@@ -1,5 +1,8 @@
 ---
 sidebar_position: 2
+title: "OpenAI GPT — SynapseKit Python LLM Framework"
+description: "Use OpenAI GPT-4o and GPT-4o-mini in Python with SynapseKit. Streaming, function calling, vision, structured output. Simpler than the raw OpenAI SDK."
+keywords: [openai python llm, gpt4 python framework, openai langchain alternative, gpt4o python, openai function calling python]
 ---
 
 # OpenAI

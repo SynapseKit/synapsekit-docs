@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "RAG Pipeline — SynapseKit Python LLM Framework"
+description: "Build RAG pipelines in Python with SynapseKit. Async-native, hybrid BM25+vector search, 53 loaders, 11 vector stores. LangChain RAG alternative."
+keywords: [rag pipeline python, retrieval augmented generation python, langchain rag alternative, python rag framework, async rag python]
 ---
 
 # RAG Pipeline

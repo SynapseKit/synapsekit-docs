@@ -1,5 +1,8 @@
 ---
 sidebar_position: 3
+title: "Document Q&A Tutorial — SynapseKit Python LLM"
+description: "Build a multi-format document Q&A system in Python with SynapseKit. Ingest PDFs, Word docs, and web pages. Hybrid retrieval and streaming answers."
+keywords: [document qa python llm, question answering python, pdf qa python, rag question answering python, document search python]
 ---
 
 # Tutorial: Document Q&A System

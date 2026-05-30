@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "LLM Providers — SynapseKit Python Framework"
+description: "33 LLM providers in one Python framework: OpenAI, Anthropic, Gemini, Mistral, Groq, Ollama, and more. Unified async API, streaming, and fallback chains."
+keywords: [python llm providers, openai anthropic python wrapper, llm api python, langchain llm alternative, synapsekit llm providers]
 ---
 
 # LLM Overview

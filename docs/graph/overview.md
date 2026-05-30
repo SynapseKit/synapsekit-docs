@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "Graph Workflows — SynapseKit Python LLM Framework"
+description: "Define async LLM pipelines as directed graphs in Python. Parallel execution, conditional routing, cycles, and checkpointing. LangGraph alternative."
+keywords: [llm graph workflow python, dag pipeline python, graph ai agents python, langgraph alternative, async workflow python llm]
 ---
 
 # Graph Workflows Overview

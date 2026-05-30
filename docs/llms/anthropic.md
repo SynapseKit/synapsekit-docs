@@ -1,5 +1,8 @@
 ---
 sidebar_position: 3
+title: "Anthropic Claude — SynapseKit Python LLM Framework"
+description: "Use Claude 3.5 Sonnet and Claude 3 Opus in Python with SynapseKit. Streaming, tool use, vision, and large 200K context windows. Async-native."
+keywords: [anthropic claude python, claude api python framework, claude 3 python, anthropic langchain alternative, claude tool use python]
 ---
 
 # Anthropic

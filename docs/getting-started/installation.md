@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "Install SynapseKit — Python LLM Framework"
+description: "Install SynapseKit with pip or uv. Optional extras for OpenAI, Anthropic, Chroma, agents, and more. Python 3.10+ required. 2 hard dependencies."
+keywords: [install synapsekit, pip install synapsekit, python llm framework install, synapsekit extras, uv install synapsekit]
 ---
 
 # Installation

@@ -1,5 +1,8 @@
 ---
 sidebar_position: 4
+title: "Retriever — Hybrid Search | SynapseKit RAG Python"
+description: "Hybrid BM25 + vector search retriever in Python. MMR diversity, metadata filtering, and async retrieval for production RAG pipelines with SynapseKit."
+keywords: [hybrid search python, bm25 vector search python, rag retriever python, semantic search python, hybrid retrieval python llm]
 ---
 
 # Retriever

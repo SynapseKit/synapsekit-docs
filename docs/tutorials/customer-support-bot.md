@@ -1,5 +1,8 @@
 ---
 sidebar_position: 2
+title: "Customer Support Bot Tutorial — SynapseKit Python"
+description: "Build a production customer support chatbot in Python with SynapseKit. RAG over product docs, conversation memory, guardrails, and cost tracking."
+keywords: [customer support bot python llm, chatbot python, rag chatbot python, support bot python framework, llm chatbot production python]
 ---
 
 # Tutorial: Customer Support Bot

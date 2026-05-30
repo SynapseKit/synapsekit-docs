@@ -1,5 +1,8 @@
 ---
 sidebar_position: 97
+title: "FAQ — SynapseKit Python LLM Framework"
+description: "Answers to common questions about SynapseKit: Python version, async support, LangChain migration, provider setup, and production deployment."
+keywords: [synapsekit faq, python llm framework questions, langchain alternative faq, synapsekit help, python ai framework faq]
 ---
 
 # FAQ

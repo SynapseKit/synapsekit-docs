@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "AI Agents — SynapseKit Python LLM Framework"
+description: "Build async AI agents in Python with SynapseKit. ReAct, function calling, multi-agent, and tool use. LangChain agent alternative with 47+ built-in tools."
+keywords: [llm agents python, react agent python, ai agent framework python, langchain agent alternative, function calling agent python]
 ---
 
 # Agents Overview

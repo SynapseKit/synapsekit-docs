@@ -1,5 +1,8 @@
 ---
 sidebar_position: 4
+title: "Research Agent Tutorial — SynapseKit Python LLM"
+description: "Build an autonomous research agent in Python that searches the web, Wikipedia, and arXiv, synthesises findings, and writes reports. Under $0.50 per run."
+keywords: [ai research agent python, autonomous agent python, web search agent python, langchain research agent alternative, llm research automation]
 ---
 
 # Tutorial: Research Agent

@@ -1,5 +1,8 @@
 ---
 sidebar_position: 97
+title: "SynapseKit vs LangChain vs LlamaIndex — 2025 Comparison"
+description: "Detailed comparison of SynapseKit, LangChain, and LlamaIndex. Async, dependencies, providers, RAG, agents, and performance benchmarks for Python LLM frameworks."
+keywords: [langchain alternative python, llamaindex alternative, best python llm framework 2025, synapsekit vs langchain, python llm framework comparison]
 ---
 
 # SynapseKit vs LangChain vs LlamaIndex

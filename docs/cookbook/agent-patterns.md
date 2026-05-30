@@ -1,5 +1,8 @@
 ---
 sidebar_position: 3
+title: "Agent Patterns Cookbook — SynapseKit Python"
+description: "15 copy-paste agent patterns in Python: ReAct, multi-agent, supervisor, tool use, and more. Build AI agents from single-step to complex orchestration."
+keywords: [agent patterns python, llm agent design patterns, multi-agent python patterns, react agent patterns python, ai agent cookbook python]
 ---
 
 # Agent Patterns

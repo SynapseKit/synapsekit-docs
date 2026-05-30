@@ -1,5 +1,8 @@
 ---
 sidebar_position: 1
+title: "SynapseKit — Python LLM Framework | Docs"
+description: "SynapseKit is the async-first Python LLM framework for RAG pipelines, AI agents, and graph workflows. 2 dependencies, 33 providers, production-ready."
+keywords: [python llm framework, langchain alternative, open source llm, async llm python, llm orchestration python, synapsekit]
 ---
 
 # Introduction
