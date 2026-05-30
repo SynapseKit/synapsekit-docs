@@ -1,0 +1,71 @@
+# SynapseKit
+
+> Async-native Python framework for building production-grade LLM applications. RAG pipelines, ReAct agents, graph workflows, and AgentFederation — with only 2 hard dependencies and no lock-in. Apache 2.0.
+
+## Overview
+
+SynapseKit is an open-source Python library that replaces heavyweight LLM frameworks like LangChain with a minimal, async-first design. It provides composable building blocks for RAG, agents, and graph-based workflows.
+
+- GitHub: https://github.com/SynapseKit/SynapseKit
+- PyPI: https://pypi.org/project/synapsekit/
+- Website: https://synapse-kit.com
+- License: Apache 2.0
+- Current version: 1.9.1
+- Hard dependencies: numpy, rank-bm25 (only 2)
+
+## Key Capabilities
+
+- **RAG Pipelines** — 53 document loaders, 11 vector stores, hybrid BM25+vector search, reranking
+- **ReAct Agents** — function calling, 47+ built-in tools, episodic+semantic memory, 4 backends
+- **Graph Workflows** — DAG-based pipelines, parallel branches, conditional routing, recursive subgraphs
+- **AgentFederation** — distributed agent routing with in-memory or Redis registry
+- **33 LLM Providers** — OpenAI, Anthropic, Gemini, Ollama, Mistral, Cohere, Groq, xAI, AWS Bedrock, Azure OpenAI, and 23 more
+- **EvalCI** — GitHub Action for LLM evaluation on every pull request
+- **Async-native** — every API is async/await by default; sync wrappers available
+- **Cost tracking** — built-in, no SaaS required
+
+## Installation
+
+```
+pip install synapsekit
+pip install synapsekit[openai]
+pip install synapsekit[all]
+uv add synapsekit
+```
+
+## Architecture
+
+Six composable layers (top to bottom):
+1. Application Layer — scripts, FastAPI, Jupyter notebooks
+2. Tools & CLI — CLI commands, PromptHub, 47+ tools
+3. Core Orchestration — RAGPipeline, Agent, StateGraph, AgentFederation
+4. Data & Memory — 53 loaders, 11 stores, hybrid search, 9 memory backends
+5. LLM Providers — 33 providers, one BaseLLM interface
+6. Async Core — numpy + rank-bm25 only
+
+## Documentation
+
+- [Getting Started](https://synapsekit.github.io/synapsekit-docs/docs/getting-started/quickstart)
+- [RAG Pipeline Guide](https://synapsekit.github.io/synapsekit-docs/docs/rag/pipeline)
+- [Agents Overview](https://synapsekit.github.io/synapsekit-docs/docs/agents/overview)
+- [Graph Workflows](https://synapsekit.github.io/synapsekit-docs/docs/graph/overview)
+- [LLM Providers](https://synapsekit.github.io/synapsekit-docs/docs/llms/overview)
+- [EvalCI](https://synapsekit.github.io/synapsekit-docs/docs/evalci/overview)
+- [API Reference](https://synapsekit.github.io/synapsekit-docs/docs/api/llm)
+- [Changelog](https://synapsekit.github.io/synapsekit-docs/docs/changelog)
+
+## Comparison vs LangChain / LlamaIndex
+
+| Feature | SynapseKit | LangChain | LlamaIndex |
+|---|---|---|---|
+| Hard dependencies | 2 | 50+ | 20+ |
+| Async-native | Yes | Partial | Partial |
+| Cost tracking | Built-in | SaaS add-on | No |
+| Agent federation | Yes | No | No |
+| License | Apache 2.0 | MIT | MIT |
+
+## Community
+
+- Discord: https://discord.gg/PSuAXHRywJ
+- GitHub Discussions: https://github.com/SynapseKit/SynapseKit/discussions
+- Contributing: https://github.com/SynapseKit/SynapseKit/blob/main/CONTRIBUTING.md

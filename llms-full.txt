@@ -1,0 +1,165 @@
+# SynapseKit — Full Reference for LLMs
+
+> Async-native Python framework for building production-grade LLM applications. RAG pipelines, ReAct agents, graph workflows, and AgentFederation — with only 2 hard dependencies and no lock-in. Apache 2.0.
+
+## Identity
+
+- Name: SynapseKit
+- Type: Open-source Python library
+- Version: 1.9.1
+- License: Apache 2.0
+- Hard dependencies: numpy, rank-bm25
+- Install: `pip install synapsekit`
+- GitHub: https://github.com/SynapseKit/SynapseKit
+- PyPI: https://pypi.org/project/synapsekit/
+- Docs: https://synapsekit.github.io/synapsekit-docs/
+- Website: https://synapse-kit.com
+- Discord: https://discord.gg/PSuAXHRywJ
+
+## RAG Pipeline Example
+
+```python
+from synapsekit import RAGPipeline
+from synapsekit.loaders import PDFLoader
+from synapsekit.llms import OpenAILLM
+from synapsekit.stores import ChromaStore
+
+llm = OpenAILLM(model="gpt-4o-mini", api_key="sk-...")
+store = ChromaStore(collection="docs")
+loader = PDFLoader("report.pdf")
+
+docs = await loader.load()
+await store.add(docs)
+
+pipeline = RAGPipeline(llm=llm, store=store)
+result = await pipeline.query("What changed in Q1 2025?")
+print(result.answer)
+```
+
+## ReAct Agent Example
+
+```python
+from synapsekit import agent, tool
+from synapsekit.llms import OpenAILLM
+
+@tool
+def get_weather(city: str) -> str:
+    return f"Sunny, 22°C in {city}"
+
+@tool
+def search_web(query: str) -> str:
+    return f"Results for: {query}"
+
+llm = OpenAILLM(model="gpt-4o-mini", api_key="sk-...")
+my_agent = agent(llm=llm, tools=[get_weather, search_web])
+result = await my_agent.run("What's the weather in Tokyo and latest AI news?")
+print(result)
+```
+
+## Graph Workflow Example
+
+```python
+from synapsekit.graph import Graph, node
+
+@node
+async def fetch_data(state):
+    return {**state, "data": "..."}
+
+@node
+async def summarize(state):
+    return {**state, "summary": "..."}
+
+@node
+async def classify(state):
+    return {**state, "category": "..."}
+
+graph = Graph()
+graph.add_edge(fetch_data, summarize)
+graph.add_edge(fetch_data, classify)  # parallel branch
+result = await graph.run({"query": "Q1 report"})
+```
+
+## EvalCI Example
+
+```python
+from synapsekit.eval import eval_case, EvalDataset
+
+@eval_case(expected="Paris")
+async def test_capital_france(pipeline):
+    result = await pipeline.query("What is the capital of France?")
+    return result.answer
+
+dataset = EvalDataset(cases=[test_capital_france])
+report = await dataset.run(pipeline)
+print(report.summary())
+```
+
+## All 33 LLM Providers
+
+OpenAI, Anthropic Claude, Google Gemini, Ollama, AWS Bedrock, Cohere, Mistral, xAI Grok, Together AI, DeepSeek, Groq, Replicate, HuggingFace, Writer, Novita, LM Studio, GPT4All, vLLM, Azure OpenAI, Vertex AI, Fireworks, Perplexity, Anyscale, DeepInfra, OpenRouter, Cerebras, AI21, Cloudflare AI, Aleph Alpha, Voyage AI, MosaicML, Predibase, Databricks
+
+## All 53 Document Loaders
+
+PDF, Word (DOCX), Excel (XLSX), PowerPoint (PPTX), HTML, Markdown, Text, CSV, JSON, JSONL, XML, YAML, TSV, RTF, LaTeX, EPUB, Config files, YouTube, Web (URL), Sitemap, S3, Azure Blob, Google Drive, OneDrive, Dropbox, Notion, Airtable, HubSpot, Salesforce, MongoDB, PostgreSQL, MySQL, SQLite, Redis, Elasticsearch, DynamoDB, BigQuery, Parquet, Obsidian, GitHub, Jira, Confluence, Slack, Discord, Email (IMAP), RSS/Atom, Wikipedia, ArXiv, PubMed, SEC EDGAR, Hacker News, Twitter/X, Images (OCR)
+
+## All 11 Vector Stores
+
+Chroma, Pinecone, Weaviate, Qdrant, pgvector (PostgreSQL), Redis, MongoDB Atlas Vector Search, SQLiteVec, FAISS, Milvus, OpenSearch
+
+## Architecture — Six Layers
+
+```
+┌─────────────────────────────────────────┐
+│  Application Layer                      │
+│  Scripts · FastAPI · Jupyter · Services │
+├─────────────────────────────────────────┤
+│  Tools & CLI                            │
+│  CLI · PromptHub · Plugins · 47+ Tools  │
+├─────────────────────────────────────────┤
+│  Core Orchestration                     │
+│  RAGPipeline · Agent · StateGraph       │
+│  AgentFederation · AgentRegistry        │
+├─────────────────────────────────────────┤
+│  Data & Memory                          │
+│  53 Loaders · 11 Stores · Hybrid Search │
+│  9 Memory Backends · SmartContext       │
+├─────────────────────────────────────────┤
+│  LLM Providers                          │
+│  33 Providers · One BaseLLM Interface   │
+│  Streaming · Structured Output          │
+├─────────────────────────────────────────┤
+│  Async Core                             │
+│  numpy · rank-bm25 · async/await        │
+└─────────────────────────────────────────┘
+```
+
+## Detailed Comparison
+
+| Feature | SynapseKit | LangChain | LlamaIndex |
+|---|---|---|---|
+| Hard dependencies | 2 | 50+ | 20+ |
+| Install size | ~5 MB | ~200 MB+ | ~100 MB+ |
+| Async-native | Yes (default) | Partial | Partial |
+| Streaming | Yes (default) | Varies | Varies |
+| Cost tracking | Built-in | SaaS add-on | No |
+| Evaluation / EvalCI | CLI + GitHub Action | SaaS add-on | Built-in |
+| Graph workflows | Built-in | Separate package | No |
+| Agent federation | Yes | No | No |
+| Reasoning LLMs | Unified adapter | Manual | Manual |
+| License | Apache 2.0 | MIT | MIT |
+
+## Key Documentation Pages
+
+- Quickstart: https://synapsekit.github.io/synapsekit-docs/docs/getting-started/quickstart
+- Installation: https://synapsekit.github.io/synapsekit-docs/docs/getting-started/installation
+- RAG Pipeline: https://synapsekit.github.io/synapsekit-docs/docs/rag/pipeline
+- Loaders: https://synapsekit.github.io/synapsekit-docs/docs/rag/loaders
+- Vector Stores: https://synapsekit.github.io/synapsekit-docs/docs/rag/vector-stores
+- Agents Overview: https://synapsekit.github.io/synapsekit-docs/docs/agents/overview
+- Graph Workflows: https://synapsekit.github.io/synapsekit-docs/docs/graph/overview
+- LLM Providers: https://synapsekit.github.io/synapsekit-docs/docs/llms/overview
+- EvalCI: https://synapsekit.github.io/synapsekit-docs/docs/evalci/overview
+- API Reference: https://synapsekit.github.io/synapsekit-docs/docs/api/llm
+- Architecture: https://synapsekit.github.io/synapsekit-docs/docs/architecture
+- Changelog: https://synapsekit.github.io/synapsekit-docs/docs/changelog
+- FAQ: https://synapsekit.github.io/synapsekit-docs/docs/faq
