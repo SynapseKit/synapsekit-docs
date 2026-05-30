@@ -4,11 +4,12 @@
 
 <div align="center">
 
+[![Website](https://img.shields.io/badge/website-synapse--kit.com-0a7bbd?logo=googlechrome&logoColor=white)](https://synapse-kit.com)
 [![Live](https://img.shields.io/badge/docs-live-0a7bbd?logo=github&logoColor=white)](https://synapsekit.github.io/synapsekit-docs/)
 [![Built with Docusaurus](https://img.shields.io/badge/built%20with-Docusaurus%203-25c2a0?logo=docusaurus&logoColor=white)](https://docusaurus.io/)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-181717?logo=github&logoColor=white)](https://pages.github.com/)
 
-**[Live Site](https://synapsekit.github.io/synapsekit-docs/) · [Getting Started](https://synapsekit.github.io/synapsekit-docs/docs/getting-started/quickstart) · [API Reference](https://synapsekit.github.io/synapsekit-docs/docs/api/llm) · [Main Repo](https://github.com/SynapseKit/SynapseKit)**
+**[Website](https://synapse-kit.com) · [Live Docs](https://synapsekit.github.io/synapsekit-docs/) · [Getting Started](https://synapsekit.github.io/synapsekit-docs/docs/getting-started/quickstart) · [API Reference](https://synapsekit.github.io/synapsekit-docs/docs/api/llm) · [Main Repo](https://github.com/SynapseKit/SynapseKit)**
 
 </div>
 
