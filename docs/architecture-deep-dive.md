@@ -663,11 +663,11 @@ It lists the actual files you touch and the typical sequence.
 
 Minimal steps:
 
-1) Create src/synapsekit/llm/<provider>.py and implement BaseLLM
-2) Wire it into the factory (src/synapsekit/llm/_factory.py)
+1) Create `src/synapsekit/llm/<provider>.py` and implement BaseLLM
+2) Wire it into the factory (`src/synapsekit/llm/_factory.py`)
 3) Add optional dependency in pyproject.toml extras
 4) Add tests under tests/llm
-5) Add docs under synapsekit-docs/docs/llms/<provider>.md
+5) Add docs under `synapsekit-docs/docs/llms/<provider>.md`
 
 Key file: src/synapsekit/llm/_factory.py (provider auto-detection)
 
@@ -678,7 +678,7 @@ If your models follow a unique prefix, add it there.
 
 Minimal steps:
 
-1) Create src/synapsekit/retrieval/<backend>.py
+1) Create `src/synapsekit/retrieval/<backend>.py`
 2) Implement VectorStore.add/search/search_mmr/save/load
 3) Add optional dependency in pyproject.toml extras
 4) Add tests under tests/retrieval
