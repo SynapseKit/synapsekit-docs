@@ -19,54 +19,122 @@ const config: Config = {
   onBrokenMarkdownLinks: 'warn',
 
   headTags: [
+    // Google Search Console verification — docs property
     {
       tagName: 'meta',
-      attributes: {
-        name: 'google-site-verification',
-        content: 'HVS4Mx40XNoVDW9HMBUFlnZHlosMQD5ypP3TfLDpNtw',
-      },
+      attributes: { name: 'google-site-verification', content: 'HVS4Mx40XNoVDW9HMBUFlnZHlosMQD5ypP3TfLDpNtw' },
     },
+    // Google Search Console verification — synapse-kit.com property
+    {
+      tagName: 'meta',
+      attributes: { name: 'google-site-verification', content: 'rfOuzYkjAnTjrKutZc_XBacKwHSuCUBAvymUdcvtdwc' },
+    },
+    // Canonical base
+    { tagName: 'link', attributes: { rel: 'canonical', href: 'https://synapsekit.github.io/synapsekit-docs/' } },
+    // Description
     {
       tagName: 'meta',
       attributes: {
         name: 'description',
-        content: 'SynapseKit is an async-native Python framework for building production-grade LLM applications. RAG pipelines, AI agents, graph workflows, 15 LLM providers, 29 tools. 2 dependencies. pip install synapsekit.',
+        content: 'Official documentation for SynapseKit — async-native Python LLM framework. RAG pipelines, ReAct agents, graph workflows, 33 LLM providers, 53 loaders, 11 vector stores. Apache 2.0.',
       },
     },
+    // Keywords
     {
       tagName: 'meta',
       attributes: {
-        property: 'og:title',
-        content: 'SynapseKit — Python LLM Framework',
+        name: 'keywords',
+        content: 'synapsekit docs, python llm framework, rag pipeline python, llm agents python, langchain alternative, async llm python, graph workflow llm, vector store python, llm orchestration, retrieval augmented generation, open source llm framework, llm evaluation python',
       },
     },
+    // Author
+    { tagName: 'meta', attributes: { name: 'author', content: 'SynapseKit Contributors' } },
+    // OpenGraph
+    { tagName: 'meta', attributes: { property: 'og:type', content: 'website' } },
+    { tagName: 'meta', attributes: { property: 'og:site_name', content: 'SynapseKit Docs' } },
+    { tagName: 'meta', attributes: { property: 'og:title', content: 'SynapseKit — Python LLM Framework Documentation' } },
     {
       tagName: 'meta',
       attributes: {
         property: 'og:description',
-        content: 'Async-first Python framework for building production-grade LLM apps. RAG, agents, graph workflows. pip install synapsekit.',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 33 providers. 2 dependencies. Open source.',
       },
     },
+    { tagName: 'meta', attributes: { property: 'og:url', content: 'https://synapsekit.github.io/synapsekit-docs/' } },
+    { tagName: 'meta', attributes: { property: 'og:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg' } },
+    { tagName: 'meta', attributes: { property: 'og:image:width', content: '1200' } },
+    { tagName: 'meta', attributes: { property: 'og:image:height', content: '630' } },
+    { tagName: 'meta', attributes: { property: 'og:locale', content: 'en_US' } },
+    // Twitter
+    { tagName: 'meta', attributes: { name: 'twitter:card', content: 'summary_large_image' } },
+    { tagName: 'meta', attributes: { name: 'twitter:site', content: '@synapsekitai' } },
+    { tagName: 'meta', attributes: { name: 'twitter:creator', content: '@synapsekitai' } },
+    { tagName: 'meta', attributes: { name: 'twitter:title', content: 'SynapseKit — Python LLM Framework Documentation' } },
     {
       tagName: 'meta',
       attributes: {
-        property: 'og:image',
-        content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg',
+        name: 'twitter:description',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 33 providers. 2 dependencies. Open source.',
       },
     },
+    { tagName: 'meta', attributes: { name: 'twitter:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg' } },
+    // Robots
+    { tagName: 'meta', attributes: { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' } },
+    // JSON-LD: TechArticle/Documentation site
     {
-      tagName: 'meta',
-      attributes: {
-        name: 'twitter:image',
-        content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg',
-      },
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'SynapseKit Documentation',
+        url: 'https://synapsekit.github.io/synapsekit-docs/',
+        description: 'Official documentation for SynapseKit — async-native Python LLM framework.',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://synapsekit.github.io/synapsekit-docs/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      }),
     },
     {
-      tagName: 'meta',
-      attributes: {
-        property: 'og:type',
-        content: 'website',
-      },
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'SynapseKit',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Linux, macOS, Windows',
+        programmingLanguage: 'Python',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        license: 'https://opensource.org/licenses/Apache-2.0',
+        url: 'https://synapse-kit.com',
+        downloadUrl: 'https://pypi.org/project/synapsekit/',
+        softwareVersion: '1.9.1',
+        description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 33 LLM providers. No lock-in.',
+        featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '53 Document Loaders', '33 LLM Providers', '11 Vector Stores', '47+ Built-in Tools', 'Async-native', 'EvalCI GitHub Action'],
+        releaseNotes: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md',
+        author: { '@type': 'Organization', name: 'SynapseKit Contributors', url: 'https://github.com/SynapseKit' },
+        sameAs: ['https://github.com/SynapseKit/SynapseKit', 'https://pypi.org/project/synapsekit/'],
+      }),
+    },
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'SynapseKit',
+        url: 'https://synapse-kit.com',
+        logo: 'https://synapse-kit.com/logo.svg',
+        sameAs: [
+          'https://github.com/SynapseKit/SynapseKit',
+          'https://pypi.org/project/synapsekit/',
+          'https://discord.gg/PSuAXHRywJ',
+          'https://www.linkedin.com/company/synapsekitai/',
+        ],
+      }),
     },
   ],
 
@@ -100,6 +168,15 @@ const config: Config = {
         },
         theme: {
           customCss: './src/css/custom.css',
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.8,
+          ignorePatterns: ['/tags/**'],
+        },
+        gtag: {
+          trackingID: 'G-NYPGFHGHKN',
+          anonymizeIP: false,
         },
       } satisfies Preset.Options,
     ],
