@@ -12,6 +12,17 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Interactive Notebooks',
+      link: { type: 'doc', id: 'playground/index' },
+      items: [
+        'playground/index',
+        'playground/rag-playground',
+        'playground/agents-playground',
+        'playground/graphs-playground',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Guides',
       link: { type: 'doc', id: 'guides/index' },
       items: [
