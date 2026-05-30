@@ -702,7 +702,7 @@ Tip: keep tools pure and side-effect free when possible.
 
 1) Implement a node function that accepts and returns dict state
 2) Register it with StateGraph.add_node()
-3) If it needs metadata, attach metadata on add_node(..., metadata={...})
+3) If it needs metadata, attach metadata on `add_node(..., metadata={...})`
 4) Use TypedState when merging needs reducers
 
 Tip: use EventHooks to debug node ordering.
