@@ -14,15 +14,21 @@ A practical comparison of the three most popular Python LLM frameworks.
 | | SynapseKit | LangChain | LlamaIndex |
 |---|---|---|---|
 | **Core dependencies** | 2 | 50+ | 20+ |
+| **Install size** | ~5 MB | ~200 MB+ | ~100 MB+ |
 | **Async-native** | ✅ Yes (default) | ⚠️ Partial | ⚠️ Partial |
 | **Streaming** | ✅ Token-level, all providers | ✅ Yes | ✅ Yes |
 | **LLM providers** | **33** | 38+ | 20+ |
 | **RAG pipelines** | ✅ Built-in | ✅ Built-in | ✅ Built-in (focus) |
 | **Agent frameworks** | ✅ ReAct, FuncCall, Swarm, Multi-agent | ✅ LangGraph | ⚠️ Limited |
 | **Graph workflows** | ✅ Built-in | ✅ LangGraph (separate) | ❌ No |
+| **Agent federation** | ✅ Built-in (in-memory + Redis) | ❌ No | ❌ No |
+| **Agent memory backends** | ✅ 4 built-in (SQLite, Redis, Postgres, memory) | ⚠️ Community plugins | ⚠️ Community plugins |
+| **Reasoning LLMs** | ✅ Unified adapter (o1, Claude thinking, Gemini, R1) | ⚠️ Manual | ⚠️ Manual |
+| **Structured output** | ✅ Provider-agnostic Pydantic + retries | ⚠️ Provider-specific | ⚠️ Provider-specific |
 | **Built-in tools** | 47+ | 50+ | 15+ |
-| **Observability** | ✅ OTel, DistributedTracer, CostTracker | ✅ LangSmith (SaaS) | ⚠️ Limited |
+| **Observability** | ✅ Prometheus + Grafana + CostTracker | ✅ LangSmith (SaaS) | ⚠️ Limited |
 | **Cost tracking** | ✅ CostTracker + BudgetGuard | ❌ Requires LangSmith | ❌ No |
+| **Type safety** | ✅ Strict dataclasses | ⚠️ Partial | ⚠️ Partial |
 | **Deployment** | ✅ `synapsekit serve` | ✅ LangServe (deprecated) | ❌ No |
 | **Evaluation** | ✅ `@eval_case` + `synapsekit test` | ✅ LangSmith (SaaS) | ✅ Built-in |
 | **Prompt management** | ✅ PromptHub (local) | ✅ LangChain Hub (SaaS) | ❌ No |
