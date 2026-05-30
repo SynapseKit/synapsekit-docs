@@ -32,20 +32,26 @@ jobs:
             if (authorType === 'Bot') return;
 
             // Check if this is their first issue/PR
-            const endpoint = isIssue ? 'issues' : 'pulls';
-            const { data: items } = await github.rest[endpoint === 'issues' ? 'issues' : 'pulls'].listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              creator: author,
-              state: 'all',
-              per_page: 2,
-            });
+            const { data: items } = isIssue
+              ? await github.rest.issues.listForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  creator: author,
+                  state: 'all',
+                  per_page: 2,
+                })
+              : await github.rest.pulls.list({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'all',
+                  per_page: 100,
+                }).then(r => ({ data: r.data.filter(p => p.user.login === author) }));
 
             if (items.length > 1) return;
 
             const body = isIssue
-              ? `👋 Welcome @${author}! Thanks for opening your first issue.\n\nA maintainer will review this shortly. In the meantime, follow us on [LinkedIn](https://www.linkedin.com/company/synapsekitai/) to stay updated on releases and announcements!`
-              : `👋 Welcome @${author}! Thanks for your first pull request.\n\nA maintainer will review this shortly. In the meantime, follow us on [LinkedIn](https://www.linkedin.com/company/synapsekitai/) to stay updated on releases and announcements!`;
+              ? `👋 Welcome @${author}! Thanks for opening your first issue.\n\nA maintainer will review this shortly.`
+              : `👋 Welcome @${author}! Thanks for your first pull request.\n\nA maintainer will review this shortly.`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
