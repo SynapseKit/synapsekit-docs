@@ -7,7 +7,7 @@ const config: Config = {
   tagline: 'Async-first Python framework for building production-grade LLM applications with RAG, agents, and graph workflows.',
   favicon: 'img/favicon.svg',
 
-  future: { v4: true },
+  // future: { v4: true },
 
   url: 'https://synapsekit.github.io',
   baseUrl: '/synapsekit-docs/',
@@ -138,7 +138,6 @@ const config: Config = {
                   { to: '/docs/guides', label: 'Guides', position: 'left' },
           { to: '/docs/changelog', label: 'Changelog', position: 'left' },
           { to: '/blog', label: 'Blog', position: 'left' },
-        { to: '/blog', label: 'Blog', position: 'left' },
         {
           to: '/docs/evalci/overview',
           label: 'EvalCI',

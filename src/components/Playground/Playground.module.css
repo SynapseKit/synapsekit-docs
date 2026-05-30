@@ -1,0 +1,29 @@
+.container {
+  margin: 1.5rem 0;
+  border: 1px solid var(--sk-border, #d1d5db);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--sk-card-bg, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.title {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--sk-border, #d1d5db);
+  background: var(--sk-card-bg, #ffffff);
+  color: var(--sk-text, #111827);
+}
+
+/* Dark mode support */
+[data-theme='dark'] .container {
+  border-color: #334155;
+  background: #1e293b;
+}
+
+[data-theme='dark'] .title {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
