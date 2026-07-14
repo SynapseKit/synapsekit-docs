@@ -9,7 +9,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Getting Started',
       link: { type: 'doc', id: 'getting-started/installation' },
-      items: ['getting-started/installation', 'getting-started/quickstart'],
+      items: ['getting-started/installation', 'getting-started/quickstart', 'getting-started/migration-2.0'],
     },
     {
       type: 'category',
@@ -142,8 +142,11 @@ const sidebars: SidebarsConfig = {
         'rag/prompts',
         'rag/prompt-hub',
         'rag/knowledge-graph',
+        'rag/property-graph',
+        'rag/world-model',
       ],
     },
+    { type: 'doc', id: 'mesh/index', label: 'Knowledge Mesh' },
     {
       type: 'category',
       label: 'LLMs',
@@ -188,6 +191,7 @@ const sidebars: SidebarsConfig = {
         'llms/cost-router',
       ],
     },
+    { type: 'doc', id: 'edge/index', label: 'Edge Runtime' },
     {
       type: 'category',
       label: 'Agents',
@@ -204,6 +208,10 @@ const sidebars: SidebarsConfig = {
         'agents/streaming-steps',
         'agents/reasoning-agent',
         'agents/federation',
+        'agents/swarm',
+        'agents/self-improving',
+        'agents/computer-use',
+        'agents/neuro-symbolic',
       ],
     },
     {
@@ -230,6 +238,7 @@ const sidebars: SidebarsConfig = {
       link: { type: 'doc', id: 'observability/index' },
       items: ['observability/overview', 'observability/cost-tracker', 'observability/audit-log'],
     },
+    { type: 'doc', id: 'audit/index', label: 'Verifiable Agents' },
     {
       type: 'category',
       label: 'Multimodal',
@@ -262,7 +271,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Memory & Tracing',
       link: { type: 'doc', id: 'memory/index' },
-      items: ['memory/conversation', 'memory/token-tracer'],
+      items: ['memory/conversation', 'memory/living-memory', 'memory/token-tracer'],
     },
     {
       type: 'category',
