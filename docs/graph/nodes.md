@@ -114,7 +114,7 @@ With `stream=True`, the node emits token-level streaming events. See [Token Stre
 node_fn = llm_node(llm, stream=True)
 ```
 
-### `subgraph_node(compiled_graph, input_mapping, output_mapping, *, on_error, max_retries, fallback)`
+### `subgraph_node(compiled_graph, input_mapping, output_mapping, *, on_error, max_retries, fallback)` {#subgraph_node}
 
 Wrap a `CompiledGraph` as a node for nesting graphs. This lets you compose complex workflows from smaller, independently testable graphs.
 
