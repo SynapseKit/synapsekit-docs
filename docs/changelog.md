@@ -8,6 +8,33 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v2.0.0 — Verifiable Agents, Living Memory & production hardening
+
+**Released:** 2026-07-15
+
+Major release: the v2.0/v2.1 paradigm feature set plus a repo-wide production hardening pass.
+
+### Breaking changes
+
+- **`from synapsekit import AgentMemory` now returns the persistent memory class** (was the deprecated `AgentScratchpad` alias). Use `AgentScratchpad` for the old behavior; `PersistentAgentMemory` remains a working alias.
+- **Audit `verify()` without `trusted_keys` now returns `UNVERIFIABLE` instead of `MATCH`** — a self-signed bundle proves only internal consistency, not signer authenticity. Pass `trusted_keys` for a real `MATCH`.
+- **Audit bundle schema is now 1.2**; bundles from earlier schema versions are not compatible with this verifier.
+- **LLM `max_retries` now defaults to 2** (was 0), scoped to timeouts, connection errors, and 429/5xx.
+
+### Added
+
+- **`VerifiableAgent`** — cryptographically signed, hash-chained audit trails with RFC 6962 Merkle batch signing (Ed25519 default, pluggable KMS/BYOK), portable signed bundles, a standalone verifier with `MATCH`/`DRIFT`/`UNVERIFIABLE` verdicts, replay, and PII redaction. `synapsekit audit verify|replay` CLI.
+- **`LivingMemory`** — file-routed agent memory that proposes signed, diffable patches with PII filtering and occurrence tracking. `synapsekit memory` CLI.
+- **`GraphVectorStore`** — property graph RAG fusing vector search with graph traversal; NetworkX and Neo4j backends; `KnowledgeGraphExtractor` and `GraphAgentMemory`.
+- **`KnowledgeMesh`** — local-first personal knowledge mesh with SQLite incremental indexing, offline embeddings, privacy filtering, and a `synapsekit mesh` CLI plus MCP tools.
+- **`SelfImprovingAgent`, `AgentSwarm`, `ComputerUseAgent`, `NeuroSymbolicAgent`, `WorldModelRAG`, `EdgeRuntime`** — the v2.0 paradigm agents.
+
+### Hardening
+
+42 audited fixes: security (SSRF guards on web/sitemap/browser tooling, `CalculatorTool` sandboxing, Cypher/CQL injection hardening), reliability (default retries/timeouts, status-based retry classification, federation failover), performance (batched embeddings, vectorized memory recall, non-blocking mesh I/O), and correctness. Each shipped with a regression test.
+
+---
+
 ## v1.9.1 — Bug fixes
 
 **Released:** 2026-05-27

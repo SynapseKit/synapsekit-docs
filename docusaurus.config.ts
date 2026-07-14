@@ -192,8 +192,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v191',
-      content: '🔧 <strong>v1.9.1 released</strong> — patch release with bug fixes: Ollama async stream, voice lazy imports, <code>__version__</code> mismatch, uv.lock drift. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      id: 'v200',
+      content: '🚀 <strong>v2.0.0 released</strong> — Verifiable Agents, Living Memory, property graph RAG, personal knowledge mesh, plus 42 audited security, reliability, and performance fixes. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
@@ -222,7 +222,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v1.9.1</span>',
+          value: '<span class="navbar__version">v2.0.0</span>',
         },
         {
           href: 'https://discord.gg/PSuAXHRywJ',

@@ -19,7 +19,7 @@ Looking for internals, execution flow, and extension points? Read the Architectu
 ## Core abstractions
 
 ### `BaseLLM`
-All 33 LLM providers implement `BaseLLM` (v1.9.0). The interface is:
+All 33 LLM providers implement `BaseLLM` (v2.0.0). The interface is:
 ```python
 class BaseLLM:
     async def generate(self, prompt: str, **kwargs) -> str: ...
