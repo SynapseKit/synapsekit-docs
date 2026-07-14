@@ -487,10 +487,27 @@ def setup_tracing():
 
 ## 8. Production checklist
 
+### Configuration & resilience
+
 - [ ] Set `OPENAI_API_KEY` (and other secrets) via environment variables — never hard-code
-- [ ] Configure `LLMConfig` with retries and timeouts
+- [ ] Configure `LLMConfig` with a `timeout` and `max_retries` (retries default to 2 and are now scoped to timeouts, connection errors, and 429/5xx, with jitter and `Retry-After` support)
+- [ ] Rely on `LLMConfig` construction-time validation to catch bad `temperature`/`top_p`/`max_tokens`/`timeout` before your first request
 - [ ] Add `BudgetGuard` with a monthly budget limit
 - [ ] Use Redis memory for stateful sessions across multiple workers
+
+### Security & isolation
+
+- [ ] Restrict `ShellTool` with an `allowed_commands` allowlist (chained/shell-metacharacter commands are rejected)
+- [ ] Set `allowed_domains` on `BrowserTool`; private, loopback, and link-local addresses are blocked by default (SSRF guard) — keep `allow_private_ips=False` in production
+- [ ] Trust only vetted inputs for `WebLoader`/`SitemapLoader` — both fail closed on private/metadata addresses and re-validate on redirects
+- [ ] Prefer `CalculatorTool` (AST-validated) over ad-hoc `eval`; keep code-execution tools (`PythonREPLTool`, `CodeInterpreter`) off untrusted input
+- [ ] Enable PII redaction (`PIIRedactor` / `MemoryPIIFilter`) on any user content that reaches memory or logs
+- [ ] For audit bundles, always pass `trusted_keys` to `verify()` — an unpinned verify returns `UNVERIFIABLE`, not `MATCH`, since it cannot authenticate the signer
+- [ ] Store secrets in GitHub Actions secrets, not in code
+- [ ] Run containers as non-root user
+
+### Serving & observability
+
 - [ ] Set `HEALTHCHECK` in Dockerfile
 - [ ] Add `/health` and `/ready` endpoints
 - [ ] Enable structured JSON logging
@@ -499,5 +516,3 @@ def setup_tracing():
 - [ ] Use `preload_app=True` for memory efficiency
 - [ ] Add rate limiting (e.g., with `slowapi` or a reverse proxy)
 - [ ] Pin dependency versions in `requirements.txt`
-- [ ] Run containers as non-root user
-- [ ] Store secrets in GitHub Actions secrets, not in code
