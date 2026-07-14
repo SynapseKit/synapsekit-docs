@@ -212,7 +212,9 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        { to: '/docs/guides', label: 'Guides', position: 'left' },
+                  { to: '/docs/guides', label: 'Guides', position: 'left' },
+          { to: '/docs/changelog', label: 'Changelog', position: 'left' },
+          { to: '/blog', label: 'Blog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
           to: '/docs/evalci/overview',

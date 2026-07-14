@@ -393,3 +393,219 @@ tr:hover td { background: var(--sk-surface-1); }
 .sk-section-label    { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sk-accent); margin-bottom: 0.75rem; }
 .sk-section-title    { font-size: 1.75rem; font-weight: 700; color: var(--ifm-color-content); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
 .sk-section-subtitle { color: var(--sk-muted); font-size: 15px; margin-bottom: 2.5rem; }
+
+/* --- Changelog Timeline (Issue #14) ----------------------------- */
+.changelog-timeline {
+  position: relative;
+  max-width: 980px;
+  margin: 2rem auto;
+  padding-left: 3rem;
+}
+
+.changelog-timeline::before {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--sk-accent), #4ade80);
+  border-radius: 3px;
+}
+
+.changelog-timeline > h3 {
+  position: relative;
+  margin: 3rem 0 1rem;
+  padding-left: 0.5rem;
+  font-size: 1.35rem;
+  color: var(--sk-text);
+}
+
+.changelog-timeline > h3::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 0.45rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--sk-accent);
+  border: 3px solid var(--ifm-background-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+
+.changelog-timeline section {
+  background: var(--sk-card-bg);
+  border: 1px solid var(--sk-border);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.changelog-timeline section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.changelog-timeline .badge {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.changelog-timeline .badge--success { background: #dcfce7; color: #166534; }
+.changelog-timeline .badge--primary  { background: #dbeafe; color: #1e40af; }
+.changelog-timeline .badge--secondary { background: #f1f5f9; color: #475569; }
+
+[data-theme='dark'] .changelog-timeline .badge--success { background: #14532d; color: #4ade80; }
+[data-theme='dark'] .changelog-timeline .badge--primary  { background: #1e3a8a; color: #60a5fa; }
+[data-theme='dark'] .changelog-timeline .badge--secondary { background: #334155; color: #94a3b8; }
+
+.changelog-timeline h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.changelog-timeline ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+}
+
+.changelog-timeline li {
+  margin-bottom: 0.35rem;
+  color: var(--sk-text);
+}
+
+/* --- Improved Changelog Timeline (Issue #14) ------------------- */
+.changelog-timeline {
+  position: relative;
+  max-width: 1000px;
+  margin: 2.5rem auto;
+  padding-left: 4rem;
+}
+
+.changelog-timeline::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    #16a34a 0%,
+    #4ade80 50%,
+    #86efac 100%
+  );
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(22, 163, 74, 0.3);
+}
+
+.changelog-timeline > h3 {
+  position: relative;
+  margin: 3.5rem 0 1.25rem;
+  padding-left: 0.75rem;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--sk-text);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.changelog-timeline > h3::before {
+  content: '';
+  position: absolute;
+  left: -2.65rem;
+  top: 0.55rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  background: #16a34a;
+  border: 4px solid var(--ifm-background-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+  z-index: 2;
+}
+
+.changelog-timeline section {
+  background: var(--sk-card-bg);
+  border: 1px solid var(--sk-border);
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2.25rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.changelog-timeline section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+  border-color: #4ade80;
+}
+
+.changelog-timeline .version-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.changelog-timeline .version-number {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--sk-text);
+}
+
+.changelog-timeline .version-date {
+  font-size: 0.9rem;
+  color: var(--sk-muted);
+  font-weight: 500;
+}
+
+.changelog-timeline .badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.changelog-timeline .highlights {
+  margin: 1.25rem 0;
+}
+
+.changelog-timeline ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.4rem;
+  line-height: 1.7;
+}
+
+.changelog-timeline li {
+  margin-bottom: 0.4rem;
+  color: var(--sk-text);
+}
+
+.changelog-timeline .breaking {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .changelog-timeline section {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='dark'] .changelog-timeline section:hover {
+  border-color: #4ade80;
+}
