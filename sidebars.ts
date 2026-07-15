@@ -306,6 +306,9 @@ const sidebars: SidebarsConfig = {
         'api/observability',
         'api/structured-output',
         'api/continuous-trainer',
+        'api/self-healing-rag',
+        'api/cost-quality-router',
+        'api/voice',
       ],
     },
     {
