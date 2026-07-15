@@ -36,7 +36,7 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'description',
-        content: 'Official documentation for SynapseKit — async-native Python LLM framework. RAG pipelines, ReAct agents, graph workflows, 33 LLM providers, 53 loaders, 11 vector stores. Apache 2.0.',
+        content: 'Official documentation for SynapseKit — async-native Python LLM framework. RAG pipelines, ReAct agents, graph workflows, 35 LLM providers, 66 loaders, 22 vector stores. Apache 2.0.',
       },
     },
     // Keywords
@@ -57,7 +57,7 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         property: 'og:description',
-        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 33 providers. 2 dependencies. Open source.',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 35 providers. 2 dependencies. Open source.',
       },
     },
     { tagName: 'meta', attributes: { property: 'og:url', content: 'https://synapsekit.github.io/synapsekit-docs/' } },
@@ -74,7 +74,7 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'twitter:description',
-        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 33 providers. 2 dependencies. Open source.',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 35 providers. 2 dependencies. Open source.',
       },
     },
     { tagName: 'meta', attributes: { name: 'twitter:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg' } },
@@ -111,9 +111,9 @@ const config: Config = {
         license: 'https://opensource.org/licenses/Apache-2.0',
         url: 'https://synapse-kit.com',
         downloadUrl: 'https://pypi.org/project/synapsekit/',
-        softwareVersion: '1.9.1',
-        description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 33 LLM providers. No lock-in.',
-        featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '53 Document Loaders', '33 LLM Providers', '11 Vector Stores', '47+ Built-in Tools', 'Async-native', 'EvalCI GitHub Action'],
+        softwareVersion: '2.0.0',
+        description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 35 LLM providers. No lock-in.',
+        featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '66 Document Loaders', '35 LLM Providers', '22 Vector Stores', '50 Built-in Tools', 'Async-native', 'EvalCI GitHub Action'],
         releaseNotes: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md',
         author: { '@type': 'Organization', name: 'SynapseKit Contributors', url: 'https://github.com/SynapseKit' },
         sameAs: ['https://github.com/SynapseKit/SynapseKit', 'https://pypi.org/project/synapsekit/'],
