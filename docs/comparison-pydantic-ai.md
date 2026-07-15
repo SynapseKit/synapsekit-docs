@@ -14,17 +14,17 @@ A practical comparison of SynapseKit and PydanticAI, the agent framework from th
 | | SynapseKit | PydanticAI |
 |---|---|---|
 | **Core philosophy** | Full-stack LLM framework (RAG, agents, graphs, eval, fine-tuning, deploy) | Lightweight, type-safe agent framework |
-| **LLM providers** | **33** unified | ~15 (OpenAI, Anthropic, Gemini, Groq, Mistral, Cohere, + OpenAI-compatible) |
+| **LLM providers** | **35** unified | ~15 (OpenAI, Anthropic, Gemini, Groq, Mistral, Cohere, + OpenAI-compatible) |
 | **Structured output** | ✅ `StructuredOutput` — provider-agnostic Pydantic validation + retries | ✅ **Native** — Pydantic models are the core return-type mechanism |
 | **Type safety** | ✅ Strict dataclasses | ✅ **Very strong** — generics-based, IDE autocomplete on agent I/O by design |
 | **Dependency injection** | ⚠️ Not a first-class concept | ✅ **Built-in** — `deps_type` system for injecting clients/config into tools |
 | **Graph workflows** | ✅ Built-in | ✅ `pydantic-graph` (separate companion package) |
 | **Observability** | ✅ Prometheus + Grafana + CostTracker (self-hosted) | ✅ Pydantic Logfire (polished, pushes toward SaaS) |
-| **RAG (loaders + vector stores)** | ✅ Built-in (53 loaders, 11 vector stores) | ❌ None — bring your own |
+| **RAG (loaders + vector stores)** | ✅ Built-in (66 loaders, 22 vector stores) | ❌ None — bring your own |
 | **Agent federation / registry** | ✅ Built-in (in-memory + Redis) | ⚠️ Agent delegation pattern, no distributed registry |
 | **Reasoning LLMs** | ✅ Unified adapter (o1, Claude thinking, Gemini, R1, QwQ) | ⚠️ Manual |
 | **Fine-tuning / continuous training** | ✅ `ContinuousTrainer` pipeline | ❌ No |
-| **Built-in tools** | 47+ | Community-driven, fewer built-in |
+| **Built-in tools** | 50 | Community-driven, fewer built-in |
 | **Deployment** | ✅ `synapsekit serve` | ❌ No built-in deployment story |
 | **Evaluation** | ✅ `@eval_case` + `synapsekit test` | ✅ `pydantic-evals` (separate companion package) |
 | **License** | Apache 2.0 | MIT |
@@ -73,13 +73,13 @@ SynapseKit ships self-hosted observability (Prometheus + Grafana + `CostTracker`
 
 ## RAG and data ingestion
 
-PydanticAI has no retrieval or document-loading primitives — you wire in your own vector store and chunking. SynapseKit includes 53 loaders and 11 vector stores natively, so RAG pipelines don't require a second framework.
+PydanticAI has no retrieval or document-loading primitives — you wire in your own vector store and chunking. SynapseKit includes 66 loaders and 22 vector stores natively, so RAG pipelines don't require a second framework.
 
 ## When to choose SynapseKit
 
 - You want RAG, agents, graphs, evaluation, and fine-tuning in one package
 - You want cost tracking and self-hosted observability without a SaaS dependency
-- You need the broadest provider coverage (33 providers) or distributed agent federation
+- You need the broadest provider coverage (35 providers) or distributed agent federation
 - You're building a production system that needs a deployment story (`synapsekit serve`)
 
 ## When PydanticAI might be better

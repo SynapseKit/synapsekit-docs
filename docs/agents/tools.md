@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 title: "Agent Tools — Function Calling | SynapseKit Python"
-description: "47+ built-in tools for Python AI agents. Use @tool decorator, function calling, or custom tools. Web search, code execution, file I/O, and more."
+description: "50 built-in tools for Python AI agents. Use @tool decorator, function calling, or custom tools. Web search, code execution, file I/O, and more."
 keywords: [llm tools python, function calling python, ai agent tools python, langchain tools alternative, custom tool python llm]
 ---
 

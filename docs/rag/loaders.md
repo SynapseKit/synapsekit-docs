@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: "Document Loaders — SynapseKit RAG Python"
-description: "53 document loaders for RAG in Python: PDF, Word, CSV, YouTube, S3, Notion, HubSpot, and more. Drop-in LangChain document loader alternative."
+description: "66 document loaders for RAG in Python: PDF, Word, CSV, YouTube, S3, Notion, HubSpot, and more. Drop-in LangChain document loader alternative."
 keywords: [python document loaders llm, pdf loader python, langchain document loader alternative, rag document ingestion python, synapsekit loaders]
 ---
 

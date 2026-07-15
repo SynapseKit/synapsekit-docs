@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 title: "Vector Stores — SynapseKit Python RAG Framework"
-description: "11 vector store backends for Python RAG: Chroma, Pinecone, Weaviate, Qdrant, Redis, FAISS, and more. Unified async interface, MMR support."
+description: "22 vector store backends for Python RAG: Chroma, Pinecone, Weaviate, Qdrant, Redis, FAISS, and more. Unified async interface, MMR support."
 keywords: [python vector store, chroma pinecone weaviate python, vector database python llm, rag vector store python, synapsekit vector stores]
 ---
 
