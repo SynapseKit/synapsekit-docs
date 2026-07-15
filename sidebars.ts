@@ -346,6 +346,7 @@ const sidebars: SidebarsConfig = {
     'faq',
     'benchmarks',
     'comparison',
+    'comparison-pydantic-ai',
     'changelog',
   ],
 };
