@@ -24,6 +24,10 @@ No extra dependency beyond the LLM providers and the training/evaluation modules
 
 ## Quickstart
 
+:::tip Runnable notebook
+Prefer to see it end to end? The offline, deterministic [`examples/self_evolving_agent.ipynb`](https://github.com/SynapseKit/SynapseKit/blob/main/examples/self_evolving_agent.ipynb) walks a real agent through the full loop — held-out accuracy climbing 40% → 100% over three cycles, every bad "decoy" patch blocked by the eval gate, and a live `agent.rollback(patch_id)`. No API keys required.
+:::
+
 ```python
 import asyncio
 from synapsekit import AgentExecutor, AgentConfig, CalculatorTool

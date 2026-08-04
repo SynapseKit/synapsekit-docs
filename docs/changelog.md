@@ -8,6 +8,34 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## v2.0.1 — Security hardening & paradigm-feature close-out
+
+**Released:** 2026-08-04
+
+A security and close-out patch. No public API changed — upgrade with `pip install --upgrade synapsekit`.
+
+### Security
+
+- **8 dependencies bumped off known-vulnerable versions.** An OSV audit of the full resolved dependency graph (all extras + groups, 534 packages) flagged 8 packages carrying active advisories. Their floors are now pinned to patched releases, and the lockfile re-resolves to **0 known vulnerabilities**:
+  - `cryptography` → `>=50.0.0` (PYSEC-2026-3552)
+  - `pillow` → `>=12.3.0`
+  - `pyasn1` → `>=0.6.4`
+  - `aiohttp` → `>=3.14.3` (`http` extra)
+  - `gitpython` → `>=3.1.57` (`git` extra)
+  - `mcp` → `>=1.28.1` (`mcp` extra)
+  - `httplib2` → `>=0.32.0` (added to the `gdrive`/`gsheets`/`gcal-tool` extras and `all`; also a `[tool.uv]` constraint)
+  - `setuptools` → `>=83.0.0` (build-time; `[tool.uv]` constraint)
+
+### Added
+
+- **Self-evolving agent example notebook** — `examples/self_evolving_agent.ipynb`, a fully offline, deterministic walkthrough of the governed self-improvement loop (held-out accuracy 40% → 100% over three `observe → propose → validate → canary` cycles, decoys blocked by the eval gate, and a live `agent.rollback(patch_id)`). CI-tested in-process so it can't rot. Closes the last open acceptance criteria on **Self-Evolving Agents (#732)**; the **Neuro-Symbolic layer (#733)** is verified feature-complete.
+
+### Testing
+
+- The symbolic test suite now runs under `--extra symbolic` in CI; a z3 test that hard-failed on a broken native library now skips explicitly when `libz3` can't load (and runs for real wherever it can).
+
+---
+
 ## v2.0.0 — Verifiable Agents, Living Memory & production hardening
 
 **Released:** 2026-07-15

@@ -111,7 +111,7 @@ const config: Config = {
         license: 'https://opensource.org/licenses/Apache-2.0',
         url: 'https://synapse-kit.com',
         downloadUrl: 'https://pypi.org/project/synapsekit/',
-        softwareVersion: '2.0.0',
+        softwareVersion: '2.0.1',
         description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 35 LLM providers. No lock-in.',
         featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '66 Document Loaders', '35 LLM Providers', '22 Vector Stores', '50 Built-in Tools', 'Async-native', 'EvalCI GitHub Action'],
         releaseNotes: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md',
@@ -192,8 +192,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v200',
-      content: '🚀 <strong>v2.0.0 released</strong> — Verifiable Agents, Living Memory, property graph RAG, personal knowledge mesh, plus 42 audited security, reliability, and performance fixes. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      id: 'v201',
+      content: '🔒 <strong>v2.0.1 released</strong> — security hardening (8 dependencies patched to 0 known vulnerabilities), plus Self-Evolving Agents and the Neuro-Symbolic layer fully closed out. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
@@ -222,7 +222,7 @@ const config: Config = {
         {
           type: 'html',
           position: 'left',
-          value: '<span class="navbar__version">v2.0.0</span>',
+          value: '<span class="navbar__version">v2.0.1</span>',
         },
         {
           href: 'https://discord.gg/PSuAXHRywJ',
