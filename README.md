@@ -27,7 +27,7 @@ Official documentation site for [SynapseKit](https://github.com/SynapseKit/Synap
 | [RAG Pipelines](https://synapsekit.github.io/synapsekit-docs/docs/rag/pipeline) | Loaders, chunking, embeddings, retrieval, vector stores, memory |
 | [Agents](https://synapsekit.github.io/synapsekit-docs/docs/agents/overview) | ReAct, function calling, built-in tools, custom tools, executor |
 | [Graph Workflows](https://synapsekit.github.io/synapsekit-docs/docs/graph/overview) | StateGraph, parallel execution, conditional routing, Mermaid export |
-| [LLM Providers](https://synapsekit.github.io/synapsekit-docs/docs/llms/overview) | All 34 providers with configuration examples |
+| [LLM Providers](https://synapsekit.github.io/synapsekit-docs/docs/llms/overview) | All 35 providers with configuration examples |
 | [Verifiable Agents](https://synapsekit.github.io/synapsekit-docs/docs/audit/) | Signed, hash-chained audit trails, bundles, and the standalone verifier |
 | [Knowledge Mesh](https://synapsekit.github.io/synapsekit-docs/docs/mesh/) | Local-first personal knowledge mesh, CLI, and MCP tools |
 | [Edge Runtime](https://synapsekit.github.io/synapsekit-docs/docs/edge/) | Local-first inference with policy-gated cloud fallback |
