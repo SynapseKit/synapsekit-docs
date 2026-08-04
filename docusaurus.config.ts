@@ -193,7 +193,7 @@ const config: Config = {
     },
     announcementBar: {
       id: 'v201',
-      content: '🔒 <strong>v2.0.1 released</strong> — security hardening (8 dependencies patched to 0 known vulnerabilities), plus Self-Evolving Agents and the Neuro-Symbolic layer fully closed out. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      content: '🚀 <strong>v2.0.1 released</strong> — SynapseKit Live dashboard, official Docker images, OKF support, Universal Memory Protocol, Digital Twin & Time-Travel agents, a signed agent marketplace — plus a security pass to 0 known vulnerabilities. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,
