@@ -80,7 +80,7 @@ If Ollama is running on a different host (e.g. a GPU server on your LAN):
 ```python
 llm = OllamaLLM(
     LLMConfig(model="llama3.2", api_key="", provider="ollama"),
-    base_url="http://192.168.1.50:11434",
+    host="http://192.168.1.50:11434",   # defaults to http://localhost:11434
 )
 ```
 

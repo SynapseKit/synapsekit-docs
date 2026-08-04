@@ -1090,6 +1090,17 @@ docs = loader.load()
 
 Supports text files directly and PDF / DOCX / XLSX / PPTX / CSV / JSON / HTML via the corresponding loaders. Falls back to raw binary read for unknown types. Uses ambient IAM role if no explicit credentials are given.
 
+**S3-compatible endpoints** — pass `endpoint_url` (with automatic path-style addressing) to load from MinIO, Cloudflare R2, DigitalOcean Spaces, or LocalStack instead of AWS S3:
+
+```python
+loader = S3Loader(
+    bucket="my-bucket",
+    endpoint_url="https://minio.example.com",   # or http://localhost:9000 for local MinIO
+    aws_access_key_id="minioadmin",
+    aws_secret_access_key="minioadmin",
+)
+```
+
 ---
 
 ## AzureBlobLoader
@@ -1363,6 +1374,16 @@ docs = loader.load()
 ```
 
 Automatically paginates using `LastEvaluatedKey`. Deserialises typed DynamoDB attribute values (S, N, BOOL, L, M, etc.).
+
+**DynamoDB-compatible endpoints** — pass `endpoint_url` to load from DynamoDB Local or LocalStack instead of AWS:
+
+```python
+loader = DynamoDBLoader(
+    table_name="my-table",
+    text_fields=["body"],
+    endpoint_url="http://localhost:8000",   # DynamoDB Local / LocalStack
+)
+```
 
 ---
 
