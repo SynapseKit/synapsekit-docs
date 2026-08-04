@@ -8,11 +8,11 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
-## v2.0.1 — Security hardening & paradigm-feature close-out
+## v2.0.1 — Live observability, new paradigm agents & security hardening
 
 **Released:** 2026-08-04
 
-A security and close-out patch. No public API changed — upgrade with `pip install --upgrade synapsekit`.
+A feature + security release. **Additive only — no breaking changes** — upgrade with `pip install --upgrade synapsekit`.
 
 ### Security
 
@@ -28,11 +28,33 @@ A security and close-out patch. No public API changed — upgrade with `pip inst
 
 ### Added
 
-- **Self-evolving agent example notebook** — `examples/self_evolving_agent.ipynb`, a fully offline, deterministic walkthrough of the governed self-improvement loop (held-out accuracy 40% → 100% over three `observe → propose → validate → canary` cycles, decoys blocked by the eval gate, and a live `agent.rollback(patch_id)`). CI-tested in-process so it can't rot. Closes the last open acceptance criteria on **Self-Evolving Agents (#732)**; the **Neuro-Symbolic layer (#733)** is verified feature-complete.
+- **[SynapseKit Live](/docs/observability/live)** — a zero-dependency, real-time localhost dashboard (stdlib `http.server` + Server-Sent Events, no FastAPI/uvicorn/websockets). Everything a run does — LLM calls, retrieval, tools/MCP, memory/DB, knowledge graphs, mesh, loaders, embeddings, cost/tokens — auto-streams to a single self-contained `dashboard.html`. Enable with `SYNAPSEKIT_LIVE=1`, `synapsekit ui --live`, or `synapsekit.live.enable()`. Bound to `127.0.0.1` and token-gated; a no-op (zero overhead) when disabled. Includes flame graphs, a knowledge/run-graph canvas, a daily-budget gauge, run history, and **human-in-the-loop approvals** (`request_approval`). The [self-evolving loop](/docs/agents/self-improving) now streams too, as `agent.evolve` / `agent.rollback` events.
+- **[Official Docker images on GHCR](/docs/getting-started/docker)** (#874) — `docker pull ghcr.io/synapsekit/synapsekit`. Core (`:latest` / `:<version>`, multi-arch amd64+arm64) and all-extras (`:all` / `:<version>-all`) variants, published on every release and smoke-tested before push. The core image imports with no extras.
+- **[Open Knowledge Format (OKF) support](/docs/rag/okf)** (#824, #825) — `OpenKnowledgeFormatLoader` (alias `OKFLoader`) turns a Google OKF bundle into one `Document` per concept with cross-links resolved into metadata; `okf_to_world_model` ingests the same bundle as an extraction-free **knowledge graph** (concept → `WorldModelNode`, link → `WorldModelEdge`, deterministic ids, idempotent), and `KnowledgeMesh.ingest_okf(path)` does it end to end. New `okf` extra.
+- **[`GroundedSignal` / `SignalSource` provenance primitive](/docs/concepts/grounded-signal)** (#822) — a stateless value type that tags any learning signal (reward/quality/cost) as externally grounded (`EXTERNAL_OVERRIDE`) or `SELF_REPORTED`. `AgentSwarm` emits a replayable auction receipt; opt-in strict enforcement via `MarketPolicy(require_grounded_reward=True)`.
+- **[Universal Memory Protocol (UMP)](/docs/memory/universal-protocol)** (#742) — a provider-agnostic memory-document standard: `UMPDocument`/`UMPReader`/`UMPWriter` (async, YAML frontmatter, `[[wikilink]]` extraction), `UMPValidator`, and adapters for `CLAUDE.md`, Cursor, Aider, and Continue.
+- **[Digital Twin Agent](/docs/agents/digital-twin)** (#745) — `DigitalTwinAgent` learns a versioned `StyleProfile` and drafts commits/PRs/reviews in your voice; a `VoiceMatcher` scores drafts and an enforced `DelegationPolicy` gates auto-sending.
+- **[Time-Travel Codebase](/docs/agents/time-travel)** (#746) — `TimeTravelAgent` reasons across a repo's evolution: `GitBackend.as_of(date)`, an AST-based `EvolutionIndex`, a `DriftDetector`, and a `DiffNarrativeGenerator`.
+- **[Signed portable agent marketplace](/docs/agents/marketplace)** (#751) — a deterministic Ed25519-signed `.agent` bundle format with per-file SHA-256 verification and a hardened install flow (rejects path traversal, symlinks, device names, duplicates, case collisions; size/count limits; sandbox-required to run), a `synapsekit agent` CLI, and a self-hostable file-backed registry with signed reviews and eval-based ranking.
+- **`WorldModelRAG` Neo4j / Memgraph backend** (#735) — `Neo4jWorldGraphBackend` (Bolt) with write-through persistence and bounded-hop Cypher reads; selectable via `graph_backend="neo4j"`/`"memgraph"` or `WorldModelRAG.neo4j(...)`. Contributed by [@Abhay-Mmmm](https://github.com/Abhay-Mmmm).
+- **Release-validation harness (`release_check`)** — a reusable no-mock check that a release build works end to end (`make release-check`): core-import (no extras), export-surface, and functional smoke, each reporting into one markdown/JSON report.
+- **Self-evolving example notebook + Live instrumentation** (#732, #896) — offline, CI-tested `examples/self_evolving_agent.ipynb` (40% → 100% held-out accuracy over three cycles, decoys blocked, live rollback); closes the last acceptance criteria on **#732**. The **Neuro-Symbolic layer (#733)** is verified feature-complete.
+- **S3-/DynamoDB-compatible endpoints** (#851, #855) — `S3Loader(endpoint_url=…)` (MinIO/R2/Spaces/LocalStack) and `DynamoDBLoader(endpoint_url=…)` (DynamoDB Local/LocalStack). **`OllamaLLM(host=…)`** (#858) targets a remote Ollama server.
 
 ### Testing
 
-- The symbolic test suite now runs under `--extra symbolic` in CI; a z3 test that hard-failed on a broken native library now skips explicitly when `libz3` can't load (and runs for real wherever it can).
+- **Acceptance gates** for the paradigm features, each a CI job: **self-evolving** (#732, 37.5% → 100%, decoys blocked), **neuro-symbolic** (#733, 100% vs ~60% LLM-only), **AgentSwarm market routing** (#734, ≥15% quality / ≥25% cost cut), and **ComputerUse** end-to-end + replay (#737).
+- **Real testcontainers integration tests replace `MagicMock` across every external backend** (#829) — vector stores, memory/graph checkpointers, loaders, and LLMs now do real inserts + queries + reconnect reads in CI. The conversion surfaced and fixed ~39 hidden production bugs (see Fixed).
+- The symbolic suite now runs under `--extra symbolic` in CI; a z3 test that hard-failed on a broken native library now skips explicitly when `libz3` can't load (and runs for real wherever it can).
+
+### Fixed
+
+- **~39 real backend bugs surfaced by the testcontainers conversion** (#829) — end-to-end fixes to `PGVectorStore`, `RedisVectorStore`, `ElasticsearchVectorStore`, `QdrantVectorStore`, `WeaviateVectorStore`, `MilvusVectorStore`, `CassandraVectorStore`, `ClickHouseVectorStore` (incl. a SQL-injection hardening), `OpenSearchVectorStore`, and the Postgres/Redis memory backends — event-loop blocking, missing vectors on reconnect, dropped metadata, deprecated client APIs, and wrong index/opclass config.
+- **`requires-python` corrected to `>=3.11`** (#884) — several modules use `from datetime import UTC` (3.11+), so `import synapsekit` actually failed on 3.10 despite the metadata.
+- **`import synapsekit` no longer requires the `httpx` or `PyYAML` extras** — eager optional-dependency imports (`NotionTool`, the UMP parser/adapters) made a bare install fail to import; now lazy, guarded by a fresh-interpreter core-import test.
+- **`from synapsekit import SupabaseLoader` now works** — it was in `__all__` but missing from the lazy-import map; a new API-surface guard asserts every exported name resolves.
+- **`VoiceAgent`, `TextToSpeechTool`, and the Prolog backend no longer block the event loop** — sync filesystem writes inside `async def` are offloaded via `asyncio.to_thread`, enforced by a new `async-blocking-gate` CI job.
+- **`pip install synapsekit[edge]` no longer pulls in `llama-cpp-python`** (#736) — it transitively reintroduced a `diskcache` with an unpatched CVE; the `edge` extra now ships only `onnxruntime` + `sqlite-vec`.
 
 ---
 
