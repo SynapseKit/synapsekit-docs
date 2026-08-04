@@ -9,7 +9,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Getting Started',
       link: { type: 'doc', id: 'getting-started/installation' },
-      items: ['getting-started/installation', 'getting-started/quickstart', 'getting-started/migration-2.0'],
+      items: ['getting-started/installation', 'getting-started/docker', 'getting-started/quickstart', 'getting-started/migration-2.0'],
     },
     {
       type: 'category',
@@ -126,6 +126,7 @@ const sidebars: SidebarsConfig = {
         'concepts/agents',
         'concepts/graphs',
         'concepts/embeddings',
+        'concepts/grounded-signal',
       ],
     },
     {
@@ -144,6 +145,7 @@ const sidebars: SidebarsConfig = {
         'rag/knowledge-graph',
         'rag/property-graph',
         'rag/world-model',
+        'rag/okf',
       ],
     },
     { type: 'doc', id: 'mesh/index', label: 'Knowledge Mesh' },
@@ -212,6 +214,9 @@ const sidebars: SidebarsConfig = {
         'agents/self-improving',
         'agents/computer-use',
         'agents/neuro-symbolic',
+        'agents/digital-twin',
+        'agents/time-travel',
+        'agents/marketplace',
       ],
     },
     {
@@ -236,7 +241,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Observability',
       link: { type: 'doc', id: 'observability/index' },
-      items: ['observability/overview', 'observability/cost-tracker', 'observability/audit-log'],
+      items: ['observability/overview', 'observability/live', 'observability/cost-tracker', 'observability/audit-log'],
     },
     { type: 'doc', id: 'audit/index', label: 'Verifiable Agents' },
     {
@@ -271,7 +276,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Memory & Tracing',
       link: { type: 'doc', id: 'memory/index' },
-      items: ['memory/conversation', 'memory/living-memory', 'memory/token-tracer'],
+      items: ['memory/conversation', 'memory/living-memory', 'memory/universal-protocol', 'memory/token-tracer'],
     },
     {
       type: 'category',
