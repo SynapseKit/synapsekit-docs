@@ -8,6 +8,18 @@ All notable changes to SynapseKit are documented here.
 
 ---
 
+## Unreleased
+
+Additive only — no breaking changes.
+
+### Added
+
+- **9 new vector stores** (#888) — async-first adapters for **Turbopuffer**, **Azure AI Search**, **Vertex AI Vector Search**, **SingleStore**, **TiDB Vector**, **Couchbase**, **SurrealDB**, **Deep Lake**, and **MyScale**, each behind its own extra and lazily imported. All implement the full [`VectorStore`](/docs/rag/vector-stores) contract (`add`/`search`/`search_mmr`/`save`/`load`) via a shared mixin (document normalization, metadata round-trip, MMR over provider candidates, portable JSON snapshots, and sync-client offloading through `asyncio.to_thread`). SQL-backed adapters parameterize queries, validate identifiers, and cast `top_k`; Vertex persists a local datapoint→document map since its response returns IDs only. Brings the total to **31 vector-store backends**. Contributed by [@DhruvGarg111](https://github.com/DhruvGarg111).
+- **Sandboxed PC Twin** (#747) — a local-first, auditable way to let an agent work against a copy-on-write clone of a chosen host root, review the exact filesystem changes, gate them behind an explicit evaluation, and apply them back transactionally. Materializes a deterministic overlay (secret-bearing dotfiles like `.env`/`.ssh`/`.aws` excluded by default; symlinks never followed outside the base), runs work in a hardened backend (Docker/OrbStack with `--read-only`, `--cap-drop ALL`, `no-new-privileges`, `--network none` default, pids/memory/cpu caps; Lima and Firecracker fail closed; a `fake` backend for tests), and produces a reviewable, digest-verified diff bundle. Applying requires a passing evaluation receipt bound to that exact diff and is fully transactional (pre-apply conflict detection, backup journal, post-apply verification, ordered rollback); all host paths are normalized so a bundle can never write outside the target root. New `synapsekit sandbox spawn|diff|apply|discard` CLI and a `ComputerUseAgent(env=…)` integration whose audit records action/observation metadata only (never typed text or screen contents). Contributed by [@DhruvGarg111](https://github.com/DhruvGarg111).
+- **CAG/RAG router with a llama.cpp KV-cache backend** (#1000) — a provider-independent `CAGRouter` that wraps a standard retriever and, for a stable corpus that fits the context window, uses Cache-Augmented Generation (a precomputed, persisted llama.cpp KV-cache state) instead of retrieval — transparently falling back to RAG when the backend is unsupported, the corpus is unstable/too large, or the cache misses. Ships a pickle-free `KVCacheStore` (atomic writes, format-version gated) and a `LlamaCppCAGBackend` behind the `llamacpp` extra; other providers route to RAG. Contributed by [@Premvkmishra](https://github.com/Premvkmishra).
+
+---
+
 ## v2.0.1 — Live observability, new paradigm agents & security hardening
 
 **Released:** 2026-08-04

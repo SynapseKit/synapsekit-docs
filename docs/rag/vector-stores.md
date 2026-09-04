@@ -1,13 +1,13 @@
 ---
 sidebar_position: 4
 title: "Vector Stores — SynapseKit Python RAG Framework"
-description: "22 vector store backends for Python RAG: Chroma, Pinecone, Weaviate, Qdrant, Redis, FAISS, and more. Unified async interface, MMR support."
+description: "31 vector store backends for Python RAG: Chroma, Pinecone, Weaviate, Qdrant, Redis, FAISS, Turbopuffer, Azure AI Search, and more. Unified async interface, MMR support."
 keywords: [python vector store, chroma pinecone weaviate python, vector database python llm, rag vector store python, synapsekit vector stores]
 ---
 
 # Vector Store Backends
 
-22 backends available. All implement the `VectorStore` ABC and share the same interface.
+31 backends available. All implement the `VectorStore` ABC and share the same interface.
 
 ```python
 from synapsekit.retrieval.base import VectorStore
@@ -722,6 +722,34 @@ store = CassandraVectorStore(
 await store.add(["doc text..."])
 results = await store.search("query", top_k=5)
 ```
+
+---
+
+## More backends (issue #888)
+
+Nine additional async-first backends share the same `VectorStore` interface (`add`/`search`/`search_mmr`/`save`/`load`, metadata round-trip, MMR, sync-client offloading). Each is lazily imported behind its own extra:
+
+| Backend | Class | Install |
+|---|---|---|
+| Turbopuffer | `TurbopufferVectorStore` | `pip install synapsekit[turbopuffer]` |
+| Azure AI Search | `AzureAISearchVectorStore` | `pip install synapsekit[azure-ai-search]` |
+| Vertex AI Vector Search | `VertexAIVectorStore` | `pip install synapsekit[vertex-vector]` |
+| SingleStore | `SingleStoreVectorStore` | `pip install synapsekit[singlestore]` |
+| TiDB Vector | `TiDBVectorStore` | `pip install synapsekit[tidb]` |
+| Couchbase | `CouchbaseVectorStore` | `pip install synapsekit[couchbase]` |
+| SurrealDB | `SurrealDBVectorStore` | `pip install synapsekit[surrealdb]` |
+| Deep Lake | `DeepLakeVectorStore` | `pip install synapsekit[deeplake]` |
+| MyScale | `MyScaleVectorStore` | `pip install synapsekit[myscale]` |
+
+```python
+from synapsekit import TiDBVectorStore, SynapsekitEmbeddings
+
+store = TiDBVectorStore(SynapsekitEmbeddings(), connection_string="mysql://user:pass@host:4000/db")
+await store.add(["chunk one", "chunk two"], metadata=[{"src": "doc1"}, {"src": "doc2"}])
+results = await store.search("my query", top_k=3, metadata_filter={"src": "doc1"})
+```
+
+SDK-backed services (Turbopuffer, Azure AI Search, Vertex AI, Couchbase, Deep Lake) accept a pre-built client via a constructor argument; the SQL backends (SingleStore, TiDB, MyScale) accept a `connection_string` or an existing `connection`. Live provider setup is documented in the repository README.
 
 ---
 
