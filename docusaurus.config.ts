@@ -36,7 +36,7 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'description',
-        content: 'Official documentation for SynapseKit — async-native Python LLM framework. RAG pipelines, ReAct agents, graph workflows, 35 LLM providers, 66 loaders, 22 vector stores. Apache 2.0.',
+        content: 'Official documentation for SynapseKit: async-native Python LLM framework. RAG pipelines, ReAct agents, graph workflows, 46 LLM providers, 83 loaders, 32 vector stores. Apache 2.0.',
       },
     },
     // Keywords
@@ -57,11 +57,11 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         property: 'og:description',
-        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 35 providers. 2 dependencies. Open source.',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 46 providers. 2 dependencies. Open source.',
       },
     },
     { tagName: 'meta', attributes: { property: 'og:url', content: 'https://synapsekit.github.io/synapsekit-docs/' } },
-    { tagName: 'meta', attributes: { property: 'og:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg' } },
+    { tagName: 'meta', attributes: { property: 'og:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/og-image.png' } },
     { tagName: 'meta', attributes: { property: 'og:image:width', content: '1200' } },
     { tagName: 'meta', attributes: { property: 'og:image:height', content: '630' } },
     { tagName: 'meta', attributes: { property: 'og:locale', content: 'en_US' } },
@@ -74,10 +74,10 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'twitter:description',
-        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 35 providers. 2 dependencies. Open source.',
+        content: 'Official docs for SynapseKit. RAG pipelines, agents, graph workflows. 46 providers. 2 dependencies. Open source.',
       },
     },
-    { tagName: 'meta', attributes: { name: 'twitter:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/banner.svg' } },
+    { tagName: 'meta', attributes: { name: 'twitter:image', content: 'https://synapsekit.github.io/synapsekit-docs/img/og-image.png' } },
     // Robots
     { tagName: 'meta', attributes: { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' } },
     // JSON-LD: TechArticle/Documentation site
@@ -112,8 +112,8 @@ const config: Config = {
         url: 'https://synapse-kit.com',
         downloadUrl: 'https://pypi.org/project/synapsekit/',
         softwareVersion: '2.0.1',
-        description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 35 LLM providers. No lock-in.',
-        featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '66 Document Loaders', '35 LLM Providers', '22 Vector Stores', '50 Built-in Tools', 'Async-native', 'EvalCI GitHub Action'],
+        description: 'Async-native Python framework for RAG pipelines, ReAct agents, and graph workflows. 2 dependencies. 46 LLM providers. No lock-in.',
+        featureList: ['RAG Pipelines', 'ReAct Agents', 'Graph Workflows', 'AgentFederation', '83 Document Loaders', '46 LLM Providers', '32 Vector Stores', '56 Built-in Tools', 'Guardrails Middleware', 'Verifiable Audit Trails', 'Async-native', 'EvalCI GitHub Action'],
         releaseNotes: 'https://github.com/SynapseKit/SynapseKit/blob/main/CHANGELOG.md',
         author: { '@type': 'Organization', name: 'SynapseKit Contributors', url: 'https://github.com/SynapseKit' },
         sameAs: ['https://github.com/SynapseKit/SynapseKit', 'https://pypi.org/project/synapsekit/'],
@@ -192,8 +192,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     announcementBar: {
-      id: 'v201',
-      content: '🚀 <strong>v2.0.1 released</strong> — SynapseKit Live dashboard, official Docker images, OKF support, Universal Memory Protocol, Digital Twin & Time-Travel agents, a signed agent marketplace — plus a security pass to 0 known vulnerabilities. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
+      id: 'v201-plus',
+      content: '🚀 <strong>New since v2.0.1:</strong> Guardrails, orchestration eval, the embeddings/reranker layer, Dream Mode, Ambient daemon, Hive Mode, Agent OS Shell, and a Code Archaeology agent. <a href="/synapsekit-docs/docs/changelog">Changelog →</a>',
       backgroundColor: '#0d1117',
       textColor: '#e6edf3',
       isCloseable: true,

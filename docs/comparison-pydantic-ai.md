@@ -20,7 +20,7 @@ A practical comparison of SynapseKit and PydanticAI, the agent framework from th
 | **Dependency injection** | ⚠️ Not a first-class concept | ✅ **Built-in** — `deps_type` system for injecting clients/config into tools |
 | **Graph workflows** | ✅ Built-in | ✅ `pydantic-graph` (separate companion package) |
 | **Observability** | ✅ Prometheus + Grafana + CostTracker (self-hosted) | ✅ Pydantic Logfire (polished, pushes toward SaaS) |
-| **RAG (loaders + vector stores)** | ✅ Built-in (66 loaders, 22 vector stores) | ❌ None — bring your own |
+| **RAG (loaders + vector stores)** | ✅ Built-in (83 loaders, 32 vector stores) | ❌ None — bring your own |
 | **Agent federation / registry** | ✅ Built-in (in-memory + Redis) | ⚠️ Agent delegation pattern, no distributed registry |
 | **Reasoning LLMs** | ✅ Unified adapter (o1, Claude thinking, Gemini, R1, QwQ) | ⚠️ Manual |
 | **Fine-tuning / continuous training** | ✅ `ContinuousTrainer` pipeline | ❌ No |
@@ -73,13 +73,13 @@ SynapseKit ships self-hosted observability (Prometheus + Grafana + `CostTracker`
 
 ## RAG and data ingestion
 
-PydanticAI has no retrieval or document-loading primitives — you wire in your own vector store and chunking. SynapseKit includes 66 loaders and 22 vector stores natively, so RAG pipelines don't require a second framework.
+PydanticAI has no retrieval or document-loading primitives — you wire in your own vector store and chunking. SynapseKit includes 83 loaders and 32 vector stores natively, so RAG pipelines don't require a second framework.
 
 ## When to choose SynapseKit
 
 - You want RAG, agents, graphs, evaluation, and fine-tuning in one package
 - You want cost tracking and self-hosted observability without a SaaS dependency
-- You need the broadest provider coverage (35 providers) or distributed agent federation
+- You need the broadest provider coverage (46 providers) or distributed agent federation
 - You're building a production system that needs a deployment story (`synapsekit serve`)
 
 ## When PydanticAI might be better

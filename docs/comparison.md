@@ -1,8 +1,8 @@
 ---
 sidebar_position: 97
-title: "SynapseKit vs LangChain vs LlamaIndex — 2025 Comparison"
-description: "Detailed comparison of SynapseKit, LangChain, and LlamaIndex. Async, dependencies, providers, RAG, agents, and performance benchmarks for Python LLM frameworks."
-keywords: [langchain alternative python, llamaindex alternative, best python llm framework 2025, synapsekit vs langchain, python llm framework comparison]
+title: "SynapseKit vs LangChain vs LlamaIndex Comparison"
+description: "Detailed comparison of SynapseKit, LangChain, and LlamaIndex. Async, dependencies, providers, RAG, agents, guardrails, and performance for Python LLM frameworks."
+keywords: [langchain alternative python, llamaindex alternative, best python llm framework, synapsekit vs langchain, python llm framework comparison]
 ---
 
 # SynapseKit vs LangChain vs LlamaIndex
@@ -17,17 +17,21 @@ A practical comparison of the three most popular Python LLM frameworks.
 | **Install size** | ~5 MB | ~200 MB+ | ~100 MB+ |
 | **Async-native** | ✅ Yes (default) | ⚠️ Partial | ⚠️ Partial |
 | **Streaming** | ✅ Token-level, all providers | ✅ Yes | ✅ Yes |
-| **LLM providers** | **35** | 38+ | 20+ |
+| **LLM providers** | **46** | 38+ | 20+ |
+| **Vector stores** | **32** | 15+ | 15+ |
+| **Document loaders** | **83** | 100+ | 50+ |
 | **RAG pipelines** | ✅ Built-in | ✅ Built-in | ✅ Built-in (focus) |
 | **Agent frameworks** | ✅ ReAct, FuncCall, Swarm, Multi-agent | ✅ LangGraph | ⚠️ Limited |
 | **Graph workflows** | ✅ Built-in | ✅ LangGraph (separate) | ❌ No |
 | **Agent federation** | ✅ Built-in (in-memory + Redis) | ❌ No | ❌ No |
-| **Agent memory backends** | ✅ 4 built-in (SQLite, Redis, Postgres, memory) | ⚠️ Community plugins | ⚠️ Community plugins |
+| **Agent memory backends** | ✅ 10 built-in (SQLite, Redis, Postgres, DynamoDB, MongoDB, Firestore, Cosmos DB, Cassandra, Memcached, in-memory) | ⚠️ Community plugins | ⚠️ Community plugins |
 | **Reasoning LLMs** | ✅ Unified adapter (o1, Claude thinking, Gemini, R1) | ⚠️ Manual | ⚠️ Manual |
 | **Structured output** | ✅ Provider-agnostic Pydantic + retries | ⚠️ Provider-specific | ⚠️ Provider-specific |
-| **Built-in tools** | 50 | 50+ | 15+ |
+| **Built-in tools** | 56 | 50+ | 15+ |
 | **Observability** | ✅ Prometheus + Grafana + CostTracker | ✅ LangSmith (SaaS) | ⚠️ Limited |
 | **Cost tracking** | ✅ CostTracker + BudgetGuard | ❌ Requires LangSmith | ❌ No |
+| **Guardrails** | ✅ Built-in policy middleware | ❌ No | ❌ No |
+| **Verifiable audit trails** | ✅ Signed, hash-chained | ❌ No | ❌ No |
 | **Type safety** | ✅ Strict dataclasses | ⚠️ Partial | ⚠️ Partial |
 | **Deployment** | ✅ `synapsekit serve` | ✅ LangServe (deprecated) | ❌ No |
 | **Evaluation** | ✅ `@eval_case` + `synapsekit test` | ✅ LangSmith (SaaS) | ✅ Built-in |
