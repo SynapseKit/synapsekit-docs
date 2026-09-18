@@ -194,6 +194,10 @@ const sidebars: SidebarsConfig = {
       ],
     },
     { type: 'doc', id: 'edge/index', label: 'Edge Runtime' },
+    { type: 'doc', id: 'hive/index', label: 'Hive Mode' },
+    { type: 'doc', id: 'shell/index', label: 'Agent OS Shell' },
+    { type: 'doc', id: 'dream/index', label: 'Dream Mode' },
+    { type: 'doc', id: 'ambient/index', label: 'Ambient Daemon' },
     {
       type: 'category',
       label: 'Agents',
@@ -216,6 +220,7 @@ const sidebars: SidebarsConfig = {
         'agents/neuro-symbolic',
         'agents/digital-twin',
         'agents/time-travel',
+        'agents/code-archaeology',
         'agents/marketplace',
       ],
     },
