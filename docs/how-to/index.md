@@ -16,4 +16,5 @@ Task-focused guides for common SynapseKit patterns.
 | [Error handling](./error-handling) | Retries, fallbacks, budget errors |
 | [Testing](./testing) | Unit, integration, and eval testing |
 | [Production deployment](./production) | Docker, gunicorn, CI/CD |
+| [Performance tuning](./performance-tuning) | Concurrency, caching, batching, profiling |
 | [Migrate from LangChain](./migrate-from-langchain) | Side-by-side code comparison |
