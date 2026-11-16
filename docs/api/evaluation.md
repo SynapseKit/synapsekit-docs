@@ -226,6 +226,12 @@ sk eval --tag rag --threshold 0.8
 
 ---
 
+## Evaluation helpers
+
+The API also exports `RulerGroup`, `RulerTrajectory`, `RulerScorer`, and `LLMRulerJudge` for relative scoring of same-task rollout groups; see [Relative trajectory rewards](../evaluation/ruler-rewards). Calibration utilities include the diagnostic `calibrate()` report and the opt-in `fit_calibration()` isotonic model. A scorer test fixture is not evidence of real-model performance.
+
+For provider-free multi-turn testing, `SimulationHarness`, `BookingEnvironment`, `BookingAction`, and `Reward` are exported here. See [Seeded user simulation](../evaluation/simulation) for shared-state episodes and policy-based rewards.
+
 ## See also
 
 - [Evaluation overview](../evaluation/overview)

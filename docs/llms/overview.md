@@ -156,5 +156,6 @@ The `TokenTracer` in `RAGPipeline` aggregates this across all calls.
 - [vLLM](./vllm) — high-throughput self-hosted inference via vLLM's OpenAI-compatible API
 - [Replicate](./replicate) — hosted open models (Llama, Mistral, SDXL, etc.) via the Replicate REST API
 - [Caching & Retries](./caching-retries) — LRU caching, exponential backoff, rate limiting
+- [Parallel deliberation](./deliberation) — bounded parallel-N answer aggregation with model confidence and early exit
 - [CostRouter & FallbackChain](./cost-router) — route to cheapest model or cascade on failure
 - [Cost Tracker](../observability/cost-tracker) — attribute and budget LLM spending

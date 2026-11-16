@@ -326,25 +326,37 @@ print(result.output)
 Connect your agent to an external tool server using the Model Context Protocol.
 
 ```python
+import asyncio
+import os
+
 from synapsekit.agents import FunctionCallingAgent
-from synapsekit.agents.mcp import MCPClient
-from synapsekit.llms.anthropic import AnthropicLLM
+from synapsekit.llm.openai import OpenAILLM
+from synapsekit.llm.base import LLMConfig
+from synapsekit.mcp import MCPClient
 
-# Connect to a local or remote MCP server
-mcp = MCPClient(server_url="http://localhost:3000/mcp")
-await mcp.connect()
 
-tools = await mcp.list_tools()  # discover available tools
+async def main():
+    llm = OpenAILLM(
+        LLMConfig(
+            model="gpt-5.4-mini",
+            api_key=os.environ["OPENAI_API_KEY"],
+            provider="openai",
+        )
+    )
 
-agent = FunctionCallingAgent(
-    llm=AnthropicLLM(model="claude-3-5-sonnet-20241022"),
-    tools=tools,
-    max_steps=10,
-)
+    # Start an SSE MCP server at this address.
+    async with MCPClient() as mcp:
+        tools = await mcp.connect_sse("http://localhost:8080/sse")
+        agent = FunctionCallingAgent(
+            llm=llm,
+            tools=tools,
+            max_iterations=10,
+        )
+        result = await agent.run("List all open GitHub issues labeled 'bug'")
+        print(result)
 
-result = await agent.run("List all open GitHub issues labeled 'bug'")
-print(result.output)
-await mcp.disconnect()
+
+asyncio.run(main())
 ```
 
 ---

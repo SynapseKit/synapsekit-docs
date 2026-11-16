@@ -145,6 +145,78 @@ federation = AgentFederation(
 - `discover(*, tools=None, tags=None, min_capacity=None, healthy_only=True) -> list[AgentMetadata]` — list agents matching filters
 - `select_agent(*, strategy=None, tags=None, tools=None, min_capacity=None, healthy_only=True) -> AgentMetadata` — select one agent using the routing strategy
 - `async run(prompt: str, *, agent_id=None, strategy=None, tags=None, tools=None, min_capacity=None, healthy_only=True, **kwargs) -> Any` — select an agent and dispatch the prompt
+- `async negotiate(initial: NegotiationMessage, *, max_rounds=10, deliver_terminal=True) -> Negotiation` — exchange bounded price/SLA offers between two registered clients
+
+## Price and SLA negotiation
+
+Negotiation is an explicit operation; accepted agreements can optionally be supplied to sealed-bid market routing as described below. Both agents must already be registered, healthy, and provide a client implementing `negotiate(message)`. `BoundedNegotiationPolicy` makes deterministic decisions against each participant's own reservation bounds:
+
+```python
+import asyncio
+from decimal import Decimal
+from synapsekit.agents import (
+    AgentFederation, AgentMetadata, BoundedNegotiationPolicy,
+    NegotiationMessage, NegotiationMessageKind, NegotiationRole, NegotiationTerms,
+)
+
+def terms(price, latency_ms, availability):
+    return NegotiationTerms(
+        Decimal(price), "USD", Decimal(latency_ms), Decimal(availability), Decimal("3600")
+    )
+
+buyer_policy = BoundedNegotiationPolicy(
+    NegotiationRole.BUYER, terms("15", "200", "99.9")
+)
+seller_policy = BoundedNegotiationPolicy(
+    NegotiationRole.SELLER, terms("12", "150", "99.95")
+)
+
+class Participant:
+    def __init__(self, policy, role):
+        self.policy = policy
+        self.role = role
+        self.terminal = None
+
+    async def run(self, prompt, **kwargs):
+        return prompt  # Normal execution is separate from negotiation.
+
+    async def negotiate(self, message):
+        can_counter = self.role == NegotiationRole.SELLER
+        return self.policy.respond(
+            message,
+            message_id=f"{message.message_id}-response",
+            can_counter=can_counter,
+        )
+
+    async def receive_negotiation(self, message):
+        self.terminal = message
+
+async def main():
+    buyer = Participant(buyer_policy, NegotiationRole.BUYER)
+    seller = Participant(seller_policy, NegotiationRole.SELLER)
+    federation = AgentFederation(clients={"buyer": buyer, "seller": seller})
+    federation.register_agent(AgentMetadata(id="buyer", model="local"))
+    federation.register_agent(AgentMetadata(id="seller", model="local"))
+    initial = NegotiationMessage(
+        "neg-1", "offer-1", "buyer", "seller", NegotiationMessageKind.OFFER,
+        terms("10", "200", "99.9"),
+    )
+    session = await federation.negotiate(initial, max_rounds=4, deliver_terminal=True)
+    assert session.agreement == seller_policy.reservation
+    assert seller.terminal.kind == NegotiationMessageKind.ACCEPT
+
+asyncio.run(main())
+```
+
+By default, both clients must implement `receive_negotiation(message)`; the final ACCEPT or REJECT is delivered to its recipient, and delivery errors propagate. Explicit `deliver_terminal=False` selects transcript-only mode, which does not deliver the terminal response. Delivery is in-memory, not durable or exactly-once.
+
+`NegotiationTerms` uses finite `Decimal` values: nonnegative price per task with a three-letter uppercase currency code; maximum latency in milliseconds; and availability percentage over a window in seconds. The bounded policy checks the receiving party's price/SLA bounds, counters with its reservation if permitted, or rejects. The caller must ensure its first offer meets its own limits. These terms record agreement only—no authentication, payment, measurement, SLA enforcement, or dispute resolution is provided.
+
+### Opt-in market routing
+
+Pass `negotiated_agreements={seller_id: accepted_session}`, `negotiation_buyer=buyer_id`, and `negotiation_requirements=buyer_terms` to `federation.run(..., strategy="market")` or `AgentSwarm.execute(...)`. In this mode only sellers with matching accepted agreements within the buyer's price/SLA bounds and market budget compete; accepted prices influence bid scoring and sealed-bid settlement estimates. Other auction types are rejected. Ordinary market routing remains unchanged when no agreements are supplied.
+
+The caller must verify transcript authenticity, delivery, freshness, task scope and replay policy. Agreements do not prove identity or enforce payment or SLA fulfillment; the market's float estimates may be rounded, and reported actual cost may differ from the estimate.
 
 ---
 
